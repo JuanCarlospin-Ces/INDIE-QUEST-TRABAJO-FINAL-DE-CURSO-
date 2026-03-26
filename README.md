@@ -11,7 +11,7 @@ En esté repositorio, estaré gestionando tanto  el proyecto, como todas las pru
 
 ### PRUEBA
 * **OpenLibrary**
-    * Proyecto inicial realizado durante las prácticas, sirviendo de introducción a C#, APIs en .NET y REACT.
+    * Proyecto inicial realizado durante las prácticas, sirviendo de introducción a C#, APIs en .NET y REACT. **Importante:** recordar dar un npm ci dentro de la interfaz para instalar los paquetes necesarios.
 * **Testing1** 
     * Pequeña práctica de Implementación de SWAGGER y desarollo de API en .net básica.
 * **Testeando_MiProyecto**
