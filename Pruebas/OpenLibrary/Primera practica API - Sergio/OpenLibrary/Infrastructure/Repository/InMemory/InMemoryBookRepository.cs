@@ -8,8 +8,8 @@ namespace OpenLibrary.Infrastructure.Repository.InMemory;
 
 public class InMemoryBookRepository : IBookRepository
 {  
-    private List<Book> _books = new List<Book>([
-        new Book{
+    private List<Book> _books = new List<Book> {
+        new Book {
             ISBN = new ISBN("978-3-16-148410-0"),
             Title = "The Great Gatsby",
             Author = "F. Scott Fitzgerald",
@@ -45,7 +45,7 @@ public class InMemoryBookRepository : IBookRepository
             Sales = 80
         },
         new Book{
-            ISBN = new ISBN("978-0-316-76948-0"),
+            ISBN = new ISBN("978-0-316-76948-8"),
             Title = "The Catcher in the Rye",
             Author = "J.D. Salinger",
             PublicationYear = 1951,
@@ -66,7 +66,7 @@ public class InMemoryBookRepository : IBookRepository
             Sales = 50
         }
 
-    ]);
+    };
 
     public Task<List<Book>> GetAllBooksAsync()
     {
