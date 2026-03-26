@@ -1,0 +1,280 @@
+/* Estilo "de locos" para la interfaz de libros
+   - Fondo con gradiente y blobs animados
+   - Tabla tipo glassmorphism con borde de gradiente animado
+   - Encabezados neón y filas con hover interactivo
+   - Scroll personalizado
+*/
+
+:root{
+	--bg-1: #0f172a;
+	--bg-2: #0b1221;
+	--accent1: #7c3aed; /* purple */
+	--accent2: #06b6d4; /* cyan */
+	--glow: 0 0 30px rgba(124,58,237,0.35);
+	--glass: rgba(255,255,255,0.04);
+}
+
+html,body,#root{
+	height:100%;
+}
+body{
+	margin:0;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	background: radial-gradient(1200px 600px at 10% 20%, #061026 0%, transparent 20%),
+				radial-gradient(1000px 500px at 90% 80%, rgba(12,30,60,0.25) 0%, transparent 25%),
+				linear-gradient(135deg, var(--bg-1), var(--bg-2));
+	color:#e6eef8;
+	display:flex;
+	justify-content:center;
+	padding:48px 24px;
+	overflow:auto;
+}
+
+/* floating color blobs */
+body::before, body::after{
+	content:"";
+	position:fixed;
+	width:420px;
+	height:420px;
+	filter:blur(80px) saturate(120%);
+	opacity:0.55;
+	pointer-events:none;
+	z-index:0;
+}
+body::before{
+	left:-120px;
+	top:-80px;
+	background: conic-gradient(from 120deg at 50% 50%, rgba(124,58,237,0.9), rgba(6,182,212,0.7), rgba(236,72,153,0.6));
+	animation: floatA 9s ease-in-out infinite;
+}
+body::after{
+	right:-80px;
+	bottom:-120px;
+	background: conic-gradient(from 220deg at 50% 50%, rgba(16,185,129,0.7), rgba(99,102,241,0.7), rgba(59,130,246,0.6));
+	animation: floatB 11s ease-in-out infinite;
+}
+
+@keyframes floatA{ 0%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(24px) rotate(6deg)} 100%{transform:translateY(0) rotate(0deg)} }
+@keyframes floatB{ 0%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-28px) rotate(-6deg)} 100%{transform:translateY(0) rotate(0deg)} }
+
+/* Tabla principal - se aplica a cualquier <table> en la vista de libros */
+table{
+	position:relative;
+	z-index:1;
+	/* Occupy more of the screen width */
+	width:96vw;
+	max-width:none;
+	margin:14px auto;
+	border-collapse:separate;
+	border-spacing:0;
+	background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+	box-shadow: 0 10px 40px rgba(2,6,23,0.6), var(--glow);
+	border-radius:16px;
+	overflow:hidden;
+	backdrop-filter: blur(8px) saturate(120%);
+	-webkit-backdrop-filter: blur(8px) saturate(120%);
+}
+
+/* animated neon gradient border */
+table::before{
+	content:'';
+	position:absolute;
+	inset:0;
+	padding:2px; /* border thickness */
+	background:linear-gradient(90deg, rgba(124,58,237,0.85), rgba(6,182,212,0.85), rgba(236,72,153,0.85));
+	-webkit-mask-composite: xor;
+	mask-composite: exclude;
+	pointer-events:none;
+	animation: borderShift 6s linear infinite;
+}
+@keyframes borderShift{ 0%{filter:hue-rotate(0deg)} 50%{filter:hue-rotate(180deg)} 100%{filter:hue-rotate(360deg)} }
+
+thead th{
+	position:relative;
+	padding:18px 20px;
+	text-align:left;
+	font-weight:700;
+	font-size:14px;
+	letter-spacing:0.06em;
+	color: #eaf6ff;
+	text-transform:uppercase;
+	background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+	border-bottom:1px solid rgba(255,255,255,0.04);
+}
+
+thead th::after{
+	/* quitar el cuadradito decorativo */
+	content: none;
+}
+
+tbody tr{
+	transition: transform 260ms cubic-bezier(.2,.9,.3,1), background-color 260ms;
+	cursor:default;
+}
+tbody tr:hover{
+	transform: translateY(-6px) scale(1.01);
+	background: linear-gradient(90deg, rgba(124,58,237,0.06), rgba(6,182,212,0.04));
+}
+
+/* When not hovered, reduce text prominence; restore on row hover */
+
+td{
+	padding:16px 20px;
+	border-bottom:1px solid rgba(255,255,255,0.03);
+	font-size:15px;
+	color: rgba(223,244,255,0.72);
+	transition: color 180ms ease;
+}
+
+tbody tr:hover td{ color: #dff4ff }
+
+.actions{ width:auto; text-align:center; display:flex; justify-content:center; align-items:center; gap:6px }
+.delete-btn{
+	transition: opacity 180ms ease, transform 180ms ease;
+	background: linear-gradient(90deg,#ff6b6b,#ff3b3b);
+	border: none;
+	color: white;
+	padding:8px 10px;
+	border-radius:8px;
+	cursor:pointer;
+	transform: translateY(0);
+	font-size:14px;
+}
+
+.edit-btn{
+	transition: opacity 180ms ease, transform 180ms ease;
+	background: linear-gradient(90deg,#6ee7b7,#2dd4bf);
+	border: none;
+	color: white;
+	padding:8px 10px;
+	border-radius:8px;
+	cursor:pointer;
+	transform: translateY(0);
+	font-size:14px;
+}
+
+/* Sales cell + floating actions overlay */
+.sales{ position:relative }
+.sales .sales-wrapper{ position:relative; display:flex; align-items:center; gap:8px; justify-content:flex-start }
+.floating-actions{ position:absolute; right:12px; top:50%; transform:translateY(-50%); display:flex; gap:6px; opacity:0; transition:opacity 180ms ease, transform 180ms ease; pointer-events:none }
+tbody tr:hover .floating-actions{ opacity:1; pointer-events:auto }
+
+/* edit row form */
+.edit-row td{ background: rgba(0,0,0,0.35); }
+.edit-form{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; padding:12px }
+.edit-form label{ display:flex; gap:8px; align-items:center; color:#eaf6ff }
+.edit-form input{ padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:inherit }
+.edit-actions{ margin-left:auto; display:flex; gap:8px }
+.edit-actions button{ padding:8px 12px; border-radius:8px; border:none; cursor:pointer }
+.edit-actions button:first-child{ background: linear-gradient(90deg,#7c3aed,#06b6d4); color:white }
+.edit-actions button:last-child{ background: transparent; color:#eaf6ff; border:1px solid rgba(255,255,255,0.04) }
+
+tbody tr:nth-child(odd) td{
+	background: linear-gradient(90deg, rgba(255,255,255,0.01), transparent);
+}
+
+/* small badges for numeric fields */
+.badge{
+	display:inline-block;
+	padding:6px 10px;
+	border-radius:999px;
+	background: linear-gradient(90deg,var(--accent2),var(--accent1));
+	color:#021025;font-weight:700;font-size:13px;
+	box-shadow: 0 6px 18px rgba(6,182,212,0.12);
+}
+
+/* header glow animation for table title if you add one */
+.section-title{
+	text-align:center;
+	font-size:28px;
+	margin:6px 0 18px 0;
+	letter-spacing:0.02em;
+	color:#ffffff;
+	text-shadow: 0 6px 18px rgba(6,182,212,0.07);
+	animation: titlePop 2.6s ease-in-out infinite;
+}
+@keyframes titlePop{ 0%{transform:translateY(0)} 50%{transform:translateY(-6px)} 100%{transform:translateY(0)} }
+
+/* hover effect for cells with numbers -> give them badge */
+td.numeric{
+	text-align:right;
+}
+td.numeric .val{ display:inline-block; transition:transform 180ms; }
+td.numeric .val:hover{ transform:translateY(-3px) scale(1.06); }
+
+/* Ensure sales cells keep the numeric value left-aligned while actions stay floating right */
+.sales.numeric{ text-align:left }
+
+/* custom scrollbar (modern browsers) */
+*::-webkit-scrollbar{ height:10px; width:10px }
+*::-webkit-scrollbar-thumb{ background: linear-gradient(180deg,var(--accent1),var(--accent2)); border-radius:999px }
+*::-webkit-scrollbar-track{ background:transparent }
+
+/* small responsive tweaks */
+@media (max-width:720px){
+	table{ width:100%; margin:12px; border-radius:12px }
+	thead th{ padding:12px }
+	td{ padding:12px }
+}
+
+/* Utility: make any element stand out with a neon pulse */
+.neon-pulse{ box-shadow: 0 0 30px rgba(124,58,237,0.18); animation: neon 3s ease-in-out infinite }
+@keyframes neon{ 0%{filter:brightness(1)}50%{filter:brightness(1.12) saturate(1.06)}100%{filter:brightness(1)} }
+
+/* End of file */
+
+/* Add form collapsible panel */
+.add-form{ width:96vw; max-width:none; margin:8px auto; position:relative; z-index:2 }
+.add-actions{ display:flex; gap:8px; justify-content:flex-end; padding:8px 18px }
+.add-panel{ max-height:0; overflow:hidden; transition: max-height 320ms ease, opacity 220ms ease; opacity:0 }
+.add-panel.open{ max-height:560px; opacity:1 }
+.add-panel-inner{ padding:12px 18px; background: rgba(255,255,255,0.02); border-radius:10px; margin:8px 18px; display:flex; gap:12px; align-items:center; flex-wrap:wrap }
+.isbn-error{ color:#ffb4b4; font-size:13px; width:100% }
+
+/* Dedicated Add Book page layout */
+.add-page{ display:flex; justify-content:center; align-items:center; padding:48px 24px; min-height:calc(100vh - 96px); }
+.add-page .add-panel{ position:relative; width:92vw; max-width:1100px; margin:0; max-height:none; opacity:1; border-radius:6px }
+.add-page .add-panel::before{ content:''; position:absolute; inset:-2px; border-radius:8px; background: linear-gradient(180deg, rgba(0,0,0,1), rgba(36,36,36,1)); z-index:-1 }
+/* animated lava-layer overlay */
+.add-page .add-panel::after{
+	content:'';
+	position:absolute;
+	inset:6px; /* inset to sit inside the border */
+	border-radius:6px;
+	z-index:-1;
+	pointer-events:none;
+	background:
+		radial-gradient(380px 140px at 10% 20%, rgba(124,58,237,0.06), transparent 20%),
+		radial-gradient(320px 120px at 80% 80%, rgba(6,182,212,0.05), transparent 18%),
+		radial-gradient(240px 90px at 50% 60%, rgba(236,72,153,0.04), transparent 22%),
+		linear-gradient(180deg, rgba(0,0,0,0.9), rgba(20,20,20,0.95));
+	mix-blend-mode: screen;
+	filter: blur(18px) saturate(1.05) contrast(1.02);
+	opacity:0.9;
+	animation: lavaFlow 10s ease-in-out infinite;
+}
+.add-page .add-panel-inner{ display:flex; flex-direction:column; gap:14px; align-items:stretch; padding:46px; background: linear-gradient(180deg,#000000,#141414); border-radius:6px; box-shadow: 0 20px 64px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.03) }
+.add-page h3{ margin:0; color:#eaf6ff; text-align:center }
+.add-page label.field{ display:flex; flex-direction:column; gap:8px; color:#eaf6ff; font-weight:600 }
+.add-page input{ padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:inherit; outline:none }
+.add-page input:focus{ box-shadow: 0 6px 18px rgba(6,182,212,0.06); border-color: rgba(6,182,212,0.25) }
+.add-page .add-actions{ justify-content:flex-end; margin-top:6px }
+
+/* Buttons styling for add page */
+.add-btn{ background: linear-gradient(90deg,#6ee7b7,#2dd4bf); border:none; color:white; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:700 }
+.add-btn:disabled{ opacity:0.45; cursor:not-allowed }
+.cancel-btn{ background: linear-gradient(90deg,#ff6b6b,#ff3b3b); border:none; color:white; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:700 }
+
+/* Ensure cancel button visually matches delete button sizing */
+.cancel-btn{ box-shadow: none }
+
+@keyframes lavaFlow{
+	0%{ transform: translateY(0) scale(1); filter: hue-rotate(0deg) blur(16px) }
+	25%{ transform: translateY(-8px) scale(1.02); filter: hue-rotate(30deg) blur(18px) }
+	50%{ transform: translateY(-4px) scale(1.01); filter: hue-rotate(60deg) blur(16px) }
+	75%{ transform: translateY(6px) scale(1.03); filter: hue-rotate(30deg) blur(19px) }
+	100%{ transform: translateY(0) scale(1); filter: hue-rotate(0deg) blur(16px) }
+}
+
+
+
