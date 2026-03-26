@@ -11,7 +11,12 @@ En esté repositorio, estaré gestionando tanto  el proyecto, como todas las pru
 
 ### PRUEBA
 * **OpenLibrary**
-    * Proyecto inicial realizado durante las prácticas, sirviendo de introducción a C#, APIs en .NET y REACT. **Importante:** recordar dar un npm ci dentro de la interfaz para instalar los paquetes necesarios.
+    * Proyecto inicial realizado durante las prácticas, sirviendo de introducción a C#, APIs en .NET y REACT, junto a la arquitectura Hexagonal.
+    * En este proyecto, también se ha trabajado el desarollo de tests de Aceptación, End to End y Unitarios.
+    * **EJECUCIÓN:**
+        * 1- Inicializar la API. Abrir proyecto open library y ejecutar **donet run**
+        * 2- Inicializar la interfaz grafica, ejecutar **npm run dev** dentro del proyecto.
+    * **IMPORTANTE:** recordar ejecutar el comando **npm ci** dentro de la interfaz para instalar los paquetes necesarios de REACT. Puede ser posible que también se tenga que cambiar la url de los endpoints en las llamadas a la API.
 * **Testing1** 
     * Pequeña práctica de Implementación de SWAGGER y desarollo de API en .net básica.
 * **Testeando_MiProyecto**
