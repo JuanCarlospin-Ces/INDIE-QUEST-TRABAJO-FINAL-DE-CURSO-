@@ -11,7 +11,7 @@ En esté repositorio, estaré gestionando tanto  el proyecto, como todas las pru
 
 ### PRUEBA
 * **OpenLibrary**
-    * Proyecto inicial realizado durante las prácticas, sirviendo de introducción a C#, APIs en .NET y REACT, junto a la arquitectura Hexagonal.
+    * Proyecto inicial realizado durante las prácticas, sirviendo de introducción a C#, APIs en .NET y REACT, junto a la arquitectura Hexagonal. También se ha aplicado base64 para gestión de imagenes.
     * En este proyecto, también se ha trabajado el desarollo de tests de Aceptación, End to End y Unitarios.
     * **EJECUCIÓN:**
         * 1- Inicializar la API. Abrir proyecto open library y ejecutar **donet run**

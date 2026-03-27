@@ -27,6 +27,7 @@ public class UpdateBookCommandHandler
         existingBook.Author = command.Author;
         existingBook.PublicationYear = command.PublicationYear;
         existingBook.Sales = command.Sales;
+        existingBook.CoverImageBase64 = command.CoverImageBase64;
 
         await _bookRepository.UpdateBook(existingBook);
     }
