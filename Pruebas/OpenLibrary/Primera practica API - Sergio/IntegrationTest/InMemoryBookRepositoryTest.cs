@@ -54,7 +54,7 @@ namespace IntegrationTest
             var result = await _repository.GetMostSoldBookAsync();
                 Assert.That(result.Title, Is.EqualTo("The Great Gatsby"));
                 Assert.That(result.Author, Is.EqualTo("F. Scott Fitzgerald"));
-                Assert.That(result.ISBN.Value, Is.EqualTo("9783161484100"));
+                Assert.That(result.ISBN.Value, Is.EqualTo("978-3-16-148410-0"));
                 Assert.That(result.PublicationYear, Is.EqualTo(1925));
         }
 
@@ -75,7 +75,7 @@ namespace IntegrationTest
             var result = await _repository.GetAllBooksAsync();
             Assert.That(result.Count, Is.EqualTo(5));
 
-            var insertedBook = result.FirstOrDefault(b => b.ISBN.Value == "9781566199094");
+            var insertedBook = result.FirstOrDefault(b => b.ISBN.Value == "978-1-56619-909-4");
             Assert.That(insertedBook, Is.Not.Null);
 
             Assert.That(insertedBook.Title, Is.EqualTo(newBook.Title));

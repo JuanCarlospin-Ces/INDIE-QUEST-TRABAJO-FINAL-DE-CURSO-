@@ -35,7 +35,7 @@ public class GetMostSoldBookQueryHandlerTest
         var result = await _handler.Handle();
         Assert.That(result.Title, Is.EqualTo("Most Sold Book"));
         Assert.That(result.Author, Is.EqualTo("Famous Author"));
-        Assert.That(result.ISBN.ToString(), Is.EqualTo("0306406152"));
+        Assert.That(result.ISBN.ToString(), Is.EqualTo("0-306-40615-2"));
         Assert.That(result.PublicationYear, Is.EqualTo(2020));
     }
 
