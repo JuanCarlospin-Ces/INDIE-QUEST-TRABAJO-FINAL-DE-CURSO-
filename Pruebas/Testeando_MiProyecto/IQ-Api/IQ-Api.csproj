@@ -8,16 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Application\Command\" />
+    <Folder Include="Application\Exceptions\" />
     <Folder Include="Application\Queries\GetAllPosts\" />
     <Folder Include="Application\Queries\GetAllUsers\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Domain\" />
+    <Folder Include="Domain\Exceptions\" />
     <Folder Include="Domain\Model\" />
     <Folder Include="Domain\Repository\" />
     <Folder Include="Domain\Service\" />
     <Folder Include="Infrastructure\" />
     <Folder Include="Infrastructure\Repository\" />
     <Folder Include="Infrastructure\Repository\InMemory\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
   </ItemGroup>
 
 </Project>

@@ -182,3 +182,14 @@ C:\Users\JPINAR\OneDrive - Unit4\Desktop\Primera practica API - Sergio\EndToEndT
 C:\Users\JPINAR\OneDrive - Unit4\Desktop\Primera practica API - Sergio\EndToEndTest\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\JPINAR\OneDrive - Unit4\Desktop\Primera practica API - Sergio\EndToEndTest\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\JPINAR\OneDrive - Unit4\Desktop\Primera practica API - Sergio\EndToEndTest\bin\Debug\net10.0\YamlDotNet.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\OpenLibrary\Primera practica API - Sergio\EndToEndTest\bin\Debug\net10.0\.msCoverageSourceRootsMapping_EndToEndTest
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\OpenLibrary\Primera practica API - Sergio\EndToEndTest\bin\Debug\net10.0\CoverletSourceRootsMapping_EndToEndTest
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\OpenLibrary\Primera practica API - Sergio\EndToEndTest\obj\Debug\net10.0\EndToEndTest.csproj.AssemblyReference.cache
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\OpenLibrary\Primera practica API - Sergio\EndToEndTest\obj\Debug\net10.0\EndToEndTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\OpenLibrary\Primera practica API - Sergio\EndToEndTest\obj\Debug\net10.0\EndToEndTest.AssemblyInfoInputs.cache
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\OpenLibrary\Primera practica API - Sergio\EndToEndTest\obj\Debug\net10.0\EndToEndTest.AssemblyInfo.cs
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\OpenLibrary\Primera practica API - Sergio\EndToEndTest\obj\Debug\net10.0\EndToEndTest.csproj.CoreCompileInputs.cache
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\OpenLibrary\Primera practica API - Sergio\EndToEndTest\obj\Debug\net10.0\EndToEndTest.sourcelink.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\OpenLibrary\Primera practica API - Sergio\EndToEndTest\obj\Debug\net10.0\EndToEndTest.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\OpenLibrary\Primera practica API - Sergio\EndToEndTest\obj\Debug\net10.0\refint\EndToEndTest.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\OpenLibrary\Primera practica API - Sergio\EndToEndTest\obj\Debug\net10.0\EndToEndTest.pdb

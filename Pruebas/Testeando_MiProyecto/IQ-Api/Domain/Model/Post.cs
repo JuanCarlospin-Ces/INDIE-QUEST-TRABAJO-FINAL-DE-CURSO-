@@ -1,12 +1,17 @@
 using System;
+using IQ_Api.Domain.ValueObject;
 
 namespace IQ_Api.Domain.Model;
 
 public class Post
 {
-    public Guid PostId { get; set; }
-    public Guid UserId { get; set; }
+    public string PostId { get; set; }
+    public string PostUserId { get; set; }
     public string Title { get; set; }
-    public string Content { get; set; }
+    public string MediaContent { get; set; }
     
+    public string? Description { get; set; }
+    public DateTime CreationDate { get; set; }
+    public Tag[]? Tags { get; set; }
+
 }
