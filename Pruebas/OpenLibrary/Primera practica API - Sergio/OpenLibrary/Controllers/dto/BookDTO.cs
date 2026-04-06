@@ -9,4 +9,5 @@ public class BookDTO
     public string Author { get; set; }
     public int PublicationYear { get; set; }
     public int Sales { get; set; }
+    public string? CoverImageBase64 { get; set; }
 }

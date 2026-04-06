@@ -226,7 +226,7 @@ namespace EndToEndTest
             }); 
 
             _controller = new BookController(bookRepository);
-            var result = await _controller.DeleteBook(new ISBN("978-3-16-148410-0")) as NoContentResult;
+            var result = await _controller.DeleteBook("978-3-16-148410-0") as NoContentResult;
             Assert.That(result.StatusCode, Is.EqualTo(StatusCodes.Status204NoContent));
 
         }
@@ -273,7 +273,7 @@ namespace EndToEndTest
             });
 
             _controller = new BookController(bookRepository);
-            var result = await _controller.DeleteBook(new ISBN("978-1-56619-909-4")) as NotFoundObjectResult;
+            var result = await _controller.DeleteBook("978-1-56619-909-4") as NotFoundObjectResult;
             Assert.That(result.StatusCode, Is.EqualTo(StatusCodes.Status404NotFound));
         }
 
@@ -327,7 +327,7 @@ namespace EndToEndTest
                 Sales = 30000000
             };
 
-            var result = await _controller.UpdateBook(new ISBN("978-3-16-148410-0"), updatedBookDTO) as NoContentResult;
+            var result = await _controller.UpdateBook(updatedBookDTO) as NoContentResult;
             Assert.That(result.StatusCode, Is.EqualTo(StatusCodes.Status204NoContent));
         }
         
@@ -381,7 +381,7 @@ namespace EndToEndTest
                 Sales = 0
             };
 
-            var result = await _controller.UpdateBook(new ISBN("978-1-56619-909-4"), updatedBookDTO) as NotFoundObjectResult;
+            var result = await _controller.UpdateBook(updatedBookDTO) as NotFoundObjectResult;
             Assert.That(result.StatusCode, Is.EqualTo(StatusCodes.Status404NotFound));
         }
     }

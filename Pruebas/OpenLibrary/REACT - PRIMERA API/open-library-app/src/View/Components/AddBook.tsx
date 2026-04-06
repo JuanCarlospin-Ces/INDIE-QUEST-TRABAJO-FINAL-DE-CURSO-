@@ -12,7 +12,23 @@ function AddBook() {
     const [newBook, setNewBook] = useState({ ISBN: '', title: '', author: '', publishDate: '', salesCounter: 0 });
     const [isbnValid, setIsbnValid] = useState<boolean>(false);
     const [isbnTouched, setIsbnTouched] = useState<boolean>(false);
+    const [coverBase64, setCoverBase64] = useState<string | undefined>(undefined);
+    const [coverPreview, setCoverPreview] = useState<string | null>(null);
     const navigate = useNavigate();
+
+    const handleCoverFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) { setCoverBase64(undefined); setCoverPreview(null); return; }
+        const reader = new FileReader();
+        reader.onload = () => {
+            const dataUrl = reader.result as string;
+            setCoverPreview(dataUrl);
+            // Extract raw base64 without the data:...;base64, prefix
+            const base64 = dataUrl.split(',')[1];
+            setCoverBase64(base64);
+        };
+        reader.readAsDataURL(file);
+    };
 
     const onNewIsbnChange = (v: string) => {
         setNewBook(b => ({ ...b, ISBN: v }));
@@ -29,9 +45,11 @@ function AddBook() {
         try {
             const bookRepository: IBookRepository = new HttpBookRepository();
             const createHandler = new CreateBookCommandHandler(bookRepository);
-            const created = new Book(newBook.ISBN, newBook.title, newBook.author, newBook.publishDate, Number(newBook.salesCounter));
+            const created = new Book(newBook.ISBN, newBook.title, newBook.author, newBook.publishDate, Number(newBook.salesCounter), coverBase64);
             await createHandler.Handle(created);
             setNewBook({ ISBN: '', title: '', author: '', publishDate: '', salesCounter: 0 });
+            setCoverBase64(undefined);
+            setCoverPreview(null);
             setIsbnTouched(false);
             setIsbnValid(false);
             // Navigate back to the books list so it can refresh
@@ -63,6 +81,10 @@ function AddBook() {
                     <label className="field">Sales Counter:
                         <input type="number" value={newBook.salesCounter} onChange={e => setNewBook(b => ({ ...b, salesCounter: Number(e.target.value) }))} />
                     </label>
+                    <label className="field">Cover Image:
+                        <input type="file" accept="image/*" onChange={handleCoverFile} className="file-input" />
+                    </label>
+                    {coverPreview && <img src={coverPreview} alt="Cover preview" className="cover-preview" />}
                     <div className="add-actions">
                         <button className="add-btn" onClick={addNewBook} disabled={!isbnValid || !newBook.title}>Add book</button>
                         <button className="cancel-btn" onClick={() => navigate('/books')}>Cancel</button>

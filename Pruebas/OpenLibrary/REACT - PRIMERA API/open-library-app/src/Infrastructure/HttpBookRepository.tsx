@@ -16,8 +16,9 @@ export class HttpBookRepository implements IBookRepository {
                 ? String(book.publicationYear)
                 : (book?.publishDate ?? '');
             const salesCounter = book?.sales ?? book?.salesCounter ?? 0;
+            const coverBase64 = book?.coverImageBase64 ?? book?.coverBase64 ?? book?.CoverBase64 ?? undefined;
 
-            return new Book(isbn, title, author, publishDate, salesCounter);
+            return new Book(isbn, title, author, publishDate, salesCounter, coverBase64);
         });
     }
 
@@ -26,7 +27,8 @@ export class HttpBookRepository implements IBookRepository {
         const data = await response.json();
         
 
-        return new Book(data.isbn.value, data.title, data.author, data.publicationYear, data.sales);
+        const coverBase64 = data?.coverImageBase64 ?? data?.coverBase64 ?? data?.CoverBase64 ?? undefined;
+        return new Book(data.isbn.value, data.title, data.author, data.publicationYear, data.sales, coverBase64);
 
     }
 
@@ -51,7 +53,8 @@ export class HttpBookRepository implements IBookRepository {
                 title: book.title,
                 author: book.author,
                 publicationYear: book.publishDate,
-                sales: book.salesCounter
+                sales: book.salesCounter,
+                coverImageBase64: book.coverBase64 ?? null
             })
         });
         if (!resp.ok) {
@@ -70,7 +73,8 @@ export class HttpBookRepository implements IBookRepository {
                 title: book.title,
                 author: book.author,
                 publicationYear: book.publishDate,
-                sales: book.salesCounter
+                sales: book.salesCounter,
+                coverImageBase64: book.coverBase64 ?? null
             })
         });
         if (!resp.ok) {

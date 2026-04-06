@@ -61,7 +61,8 @@ namespace OpenLibrary.Controllers
                         Title = BookDTO.Title,
                         Author = BookDTO.Author,
                         PublicationYear = BookDTO.PublicationYear,
-                        Sales = BookDTO.Sales
+                        Sales = BookDTO.Sales,
+                        CoverImageBase64 = BookDTO.CoverImageBase64
                     }
                 );
 
@@ -107,7 +108,8 @@ namespace OpenLibrary.Controllers
 						Title = bookDTO.Title,
 						Author = bookDTO.Author,
 						PublicationYear = bookDTO.PublicationYear,
-						Sales = bookDTO.Sales
+						Sales = bookDTO.Sales,
+						CoverImageBase64 = bookDTO.CoverImageBase64
 					}
 					
 				);

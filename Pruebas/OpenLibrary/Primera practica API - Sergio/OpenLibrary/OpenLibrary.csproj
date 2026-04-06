@@ -20,6 +20,7 @@
     <Folder Include="Application\Queries\Books\GetAllBooks\" />
     <Folder Include="Application\Queries\Books\GetMostSoldBook\" />
     <Folder Include="Controllers\dto\" />
+    <Folder Include="data\" />
     <Folder Include="Domain\Exceptions\" />
     <Folder Include="Domain\Model\" />
     <Folder Include="Domain\Service\" />

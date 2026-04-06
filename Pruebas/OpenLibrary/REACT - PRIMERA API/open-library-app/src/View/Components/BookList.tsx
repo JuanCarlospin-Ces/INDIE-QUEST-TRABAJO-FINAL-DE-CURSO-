@@ -13,6 +13,7 @@ import './book.css'
 function BookList() {
 
     const [books, setBooks] = useState<Book[]>([])
+    const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
 
     const fetchBooks = async () => {
         const bookRepository: IBookRepository = new HttpBookRepository();
@@ -58,7 +59,8 @@ function BookList() {
 
     const applyUpdate = async (isbn: string) => {
         try {
-            const updated = new Book(isbn, editValues.title, editValues.author, editValues.publishDate, Number(editValues.salesCounter))
+            const original = books.find(b => b.ISBN === isbn);
+            const updated = new Book(isbn, editValues.title, editValues.author, editValues.publishDate, Number(editValues.salesCounter), original?.coverBase64)
             const bookRepository: IBookRepository = new HttpBookRepository();
             const updateHandler = new UpdateBookCommandHandler(bookRepository);
             await updateHandler.Handle(updated);
@@ -94,6 +96,7 @@ function BookList() {
             <table>
             <thead>
                 <tr>
+                    <th>Cover</th>
                     <th>ISBN</th>
                     <th>Title</th>
                     <th>Author</th>
@@ -106,6 +109,18 @@ function BookList() {
                 {books.map((book) => (
                     <>
                         <tr key={book.ISBN}>
+                            <td className="cover-cell">
+                                {book.coverBase64 ? (
+                                    <img
+                                        src={book.coverBase64.startsWith('data:') ? book.coverBase64 : `data:image/jpeg;base64,${book.coverBase64}`}
+                                        alt={`Cover of ${book.title}`}
+                                        className="cover-thumb cover-clickable"
+                                        onClick={() => setLightboxSrc(book.coverBase64!.startsWith('data:') ? book.coverBase64! : `data:image/jpeg;base64,${book.coverBase64}`)}
+                                    />
+                                ) : (
+                                    <div className="cover-placeholder">Cover Image Not Found</div>
+                                )}
+                            </td>
                             <td>{book.ISBN}</td>
                             <td>{book.title}</td>
                             <td>{book.author}</td>
@@ -150,7 +165,7 @@ function BookList() {
 
                         {editingISBN === book.ISBN && (
                             <tr className="edit-row" key={`${book.ISBN}-edit`}>
-                                <td colSpan={6}>
+                                <td colSpan={7}>
                                     <div className="edit-form">
                                         <label>ISBN: <input value={book.ISBN} disabled /></label>
                                         <label>TITLE: <input value={editValues.title} onChange={e => setEditValues(v => ({ ...v, title: e.target.value }))} /></label>
@@ -176,6 +191,7 @@ function BookList() {
             <table>
             <thead>
                 <tr>
+                    <th>Cover</th>
                     <th>ISBN</th>
                     <th>Title</th>
                     <th>Author</th>
@@ -187,6 +203,18 @@ function BookList() {
             <tbody>
                 {mostSoldBook && (
                     <tr key={mostSoldBook.ISBN}>
+                        <td className="cover-cell">
+                            {mostSoldBook.coverBase64 ? (
+                                <img
+                                    src={mostSoldBook.coverBase64.startsWith('data:') ? mostSoldBook.coverBase64 : `data:image/jpeg;base64,${mostSoldBook.coverBase64}`}
+                                    alt={`Cover of ${mostSoldBook.title}`}
+                                    className="cover-thumb cover-clickable"
+                                    onClick={() => setLightboxSrc(mostSoldBook.coverBase64!.startsWith('data:') ? mostSoldBook.coverBase64! : `data:image/jpeg;base64,${mostSoldBook.coverBase64}`)}
+                                />
+                            ) : (
+                                <div className="cover-placeholder">Cover Image Not Found</div>
+                            )}
+                        </td>
                         <td>{mostSoldBook.ISBN}</td>
                         <td>{mostSoldBook.title}</td>
                         <td>{mostSoldBook.author}</td>
@@ -197,6 +225,13 @@ function BookList() {
             </tbody>
 
             </table>
+
+            {/* Lightbox modal */}
+            {lightboxSrc && (
+                <div className="lightbox-overlay" onClick={() => setLightboxSrc(null)}>
+                    <img src={lightboxSrc} alt="Cover enlarged" className="lightbox-img" />
+                </div>
+            )}
         </>
     )
 

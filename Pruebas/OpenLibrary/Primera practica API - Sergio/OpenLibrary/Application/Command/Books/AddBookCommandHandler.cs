@@ -28,7 +28,8 @@ public class AddBookCommandHandler
             Title = command.Title,
             Author = command.Author,
             PublicationYear = command.PublicationYear,
-            Sales = command.Sales
+            Sales = command.Sales,
+            CoverImageBase64 = command.CoverImageBase64
         };
 
         await _bookRepository.InsertBook(book);
