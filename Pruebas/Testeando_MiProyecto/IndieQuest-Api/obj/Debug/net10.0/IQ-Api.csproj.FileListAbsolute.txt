@@ -1,0 +1,72 @@
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\appsettings.Development.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\appsettings.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\IQ-Api.staticwebassets.endpoints.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\IQ-Api.exe
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\IQ-Api.deps.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\IQ-Api.runtimeconfig.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\IQ-Api.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\IQ-Api.pdb
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\Microsoft.OpenApi.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.csproj.AssemblyReference.cache
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.AssemblyInfoInputs.cache
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.AssemblyInfo.cs
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.csproj.CoreCompileInputs.cache
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.sourcelink.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\rjimswa.dswa.cache.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\scopedcss\bundle\IQ-Api.styles.css
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\staticwebassets.build.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\staticwebassets.build.json.cache
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\staticwebassets.development.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.csproj.Up2Date
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\refint\IQ-Api.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.pdb
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\IQ-Api.genruntimeconfig.cache
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IQ-Api\obj\Debug\net10.0\ref\IQ-Api.dll
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\appsettings.Development.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\appsettings.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\IQ-Api.staticwebassets.endpoints.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\IQ-Api.exe
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\IQ-Api.deps.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\IQ-Api.runtimeconfig.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\IQ-Api.dll
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\IQ-Api.pdb
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\Microsoft.OpenApi.dll
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.csproj.AssemblyReference.cache
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.AssemblyInfoInputs.cache
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.AssemblyInfo.cs
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.csproj.CoreCompileInputs.cache
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.sourcelink.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\rjimswa.dswa.cache.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\scopedcss\bundle\IQ-Api.styles.css
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\staticwebassets.build.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\staticwebassets.build.json.cache
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\staticwebassets.development.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.csproj.Up2Date
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.dll
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\refint\IQ-Api.dll
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.pdb
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\IQ-Api.genruntimeconfig.cache
+C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\Pruebas\Testeando_MiProyecto\IndieQuest.Api\obj\Debug\net10.0\ref\IQ-Api.dll

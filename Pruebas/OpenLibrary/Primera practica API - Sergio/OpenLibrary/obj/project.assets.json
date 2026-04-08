@@ -980,23 +980,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\juanc\\.nuget\\packages\\": {},
+    "C:\\Users\\JPINAR\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\juanc\\Desktop\\INDIE QUEST\\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\\Pruebas\\OpenLibrary\\Primera practica API - Sergio\\OpenLibrary\\OpenLibrary.csproj",
+      "projectUniqueName": "C:\\Users\\JPINAR\\OneDrive - Unit4\\Desktop\\CRISTOREY-GIT\\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\\Pruebas\\OpenLibrary\\Primera practica API - Sergio\\OpenLibrary\\OpenLibrary.csproj",
       "projectName": "OpenLibrary",
-      "projectPath": "C:\\Users\\juanc\\Desktop\\INDIE QUEST\\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\\Pruebas\\OpenLibrary\\Primera practica API - Sergio\\OpenLibrary\\OpenLibrary.csproj",
-      "packagesPath": "C:\\Users\\juanc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\juanc\\Desktop\\INDIE QUEST\\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\\Pruebas\\OpenLibrary\\Primera practica API - Sergio\\OpenLibrary\\obj\\",
+      "projectPath": "C:\\Users\\JPINAR\\OneDrive - Unit4\\Desktop\\CRISTOREY-GIT\\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\\Pruebas\\OpenLibrary\\Primera practica API - Sergio\\OpenLibrary\\OpenLibrary.csproj",
+      "packagesPath": "C:\\Users\\JPINAR\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\JPINAR\\OneDrive - Unit4\\Desktop\\CRISTOREY-GIT\\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\\Pruebas\\OpenLibrary\\Primera practica API - Sergio\\OpenLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\juanc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\JPINAR\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1023,7 +1023,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net10.0": {
@@ -1061,7 +1061,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
