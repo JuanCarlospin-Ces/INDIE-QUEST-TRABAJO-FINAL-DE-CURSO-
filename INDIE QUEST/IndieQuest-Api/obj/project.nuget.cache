@@ -1,15 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "gvu4IuLgt74=",
+  "dgSpecHash": "XFF5ozcn+p0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\JPINAR\\OneDrive - Unit4\\Desktop\\CRISTOREY-GIT\\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\\INDIE QUEST\\IndieQuest-Api\\IQ-Api.csproj",
+  "projectFilePath": "C:\\Users\\juanc\\Desktop\\INDIE QUEST\\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\\INDIE QUEST\\IndieQuest-Api\\IQ-Api.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\JPINAR\\.nuget\\packages\\microsoft.extensions.apidescription.server\\10.0.0\\microsoft.extensions.apidescription.server.10.0.0.nupkg.sha512",
-    "C:\\Users\\JPINAR\\.nuget\\packages\\microsoft.openapi\\2.4.1\\microsoft.openapi.2.4.1.nupkg.sha512",
-    "C:\\Users\\JPINAR\\.nuget\\packages\\swashbuckle.aspnetcore\\10.1.7\\swashbuckle.aspnetcore.10.1.7.nupkg.sha512",
-    "C:\\Users\\JPINAR\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\10.1.7\\swashbuckle.aspnetcore.swagger.10.1.7.nupkg.sha512",
-    "C:\\Users\\JPINAR\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\10.1.7\\swashbuckle.aspnetcore.swaggergen.10.1.7.nupkg.sha512",
-    "C:\\Users\\JPINAR\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\10.1.7\\swashbuckle.aspnetcore.swaggerui.10.1.7.nupkg.sha512"
+    "C:\\Users\\juanc\\.nuget\\packages\\microsoft.extensions.apidescription.server\\10.0.0\\microsoft.extensions.apidescription.server.10.0.0.nupkg.sha512",
+    "C:\\Users\\juanc\\.nuget\\packages\\microsoft.openapi\\2.4.1\\microsoft.openapi.2.4.1.nupkg.sha512",
+    "C:\\Users\\juanc\\.nuget\\packages\\swashbuckle.aspnetcore\\10.1.7\\swashbuckle.aspnetcore.10.1.7.nupkg.sha512",
+    "C:\\Users\\juanc\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\10.1.7\\swashbuckle.aspnetcore.swagger.10.1.7.nupkg.sha512",
+    "C:\\Users\\juanc\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\10.1.7\\swashbuckle.aspnetcore.swaggergen.10.1.7.nupkg.sha512",
+    "C:\\Users\\juanc\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\10.1.7\\swashbuckle.aspnetcore.swaggerui.10.1.7.nupkg.sha512"
   ],
   "logs": []
 }
