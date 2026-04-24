@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IndieQuest.Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+82419ae6636c60ac59838d146f237aa2f696a6e6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0efeab05e56302148d13cadc23376890d1510b79")]
 [assembly: System.Reflection.AssemblyProductAttribute("IndieQuest.Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IndieQuest.Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
