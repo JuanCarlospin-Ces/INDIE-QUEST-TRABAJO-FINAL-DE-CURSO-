@@ -10,6 +10,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IQ-Api", "IndieQuest-Api\IQ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndieQuest.Test", "IndieQuest-Test\IndieQuest.Test.csproj", "{CC7CFB76-3287-DF16-E345-6A882A9487FD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IndieQuest-Api_with_PosGre", "IndieQuest-Api_with_PosGre", "{A1B2C3D4-E5F6-4890-ABCD-EF1234567801}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IQ-Api-PosGre", "IndieQuest-Api_with_PosGre\IQ-Api.csproj", "{B2C3D4E5-F6A7-4901-BCDE-F12345678901}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IndieQuest-Test-PosGre", "IndieQuest-Test-PosGre", "{C3D4E5F6-A7B8-4012-CDEF-012345678902}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndieQuest.Test.PosGre", "IndieQuest-Test-PosGre\IndieQuest.Test.PosGre.csproj", "{D4E5F6A7-B8C9-4123-DEF0-123456789003}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +32,14 @@ Global
 		{CC7CFB76-3287-DF16-E345-6A882A9487FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC7CFB76-3287-DF16-E345-6A882A9487FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC7CFB76-3287-DF16-E345-6A882A9487FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2C3D4E5-F6A7-4901-BCDE-F12345678901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C3D4E5-F6A7-4901-BCDE-F12345678901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C3D4E5-F6A7-4901-BCDE-F12345678901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C3D4E5-F6A7-4901-BCDE-F12345678901}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4E5F6A7-B8C9-4123-DEF0-123456789003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4E5F6A7-B8C9-4123-DEF0-123456789003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4E5F6A7-B8C9-4123-DEF0-123456789003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E5F6A7-B8C9-4123-DEF0-123456789003}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -31,6 +47,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D56EA81A-2C7C-2847-F128-2E2AEED84E97} = {FD7669EF-CD6C-A153-4A13-52268F5C070A}
 		{CC7CFB76-3287-DF16-E345-6A882A9487FD} = {7036DE4A-8C78-D3E1-FD39-42E3281F0160}
+		{B2C3D4E5-F6A7-4901-BCDE-F12345678901} = {A1B2C3D4-E5F6-4890-ABCD-EF1234567801}
+		{D4E5F6A7-B8C9-4123-DEF0-123456789003} = {C3D4E5F6-A7B8-4012-CDEF-012345678902}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC091336-9EBA-48B7-8AE5-A76BDC4CA485}

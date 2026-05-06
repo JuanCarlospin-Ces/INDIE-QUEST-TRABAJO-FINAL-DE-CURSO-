@@ -27,10 +27,10 @@ public class IndieQuestDbContext : DbContext
             entity.ToTable("User");
             entity.HasKey(e => e.UserId);
             entity.Property(e => e.UserId)
-                .HasColumnName("idUser")
+                .HasColumnName("iduser")
                 .ValueGeneratedOnAdd();
             entity.Property(e => e.Username)
-                .HasColumnName("userName")
+                .HasColumnName("username")
                 .IsRequired()
                 .HasMaxLength(255);
             entity.Property(e => e.Email)
@@ -42,16 +42,16 @@ public class IndieQuestDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(255);
             entity.Property(e => e.UserBio)
-                .HasColumnName("userBio")
+                .HasColumnName("userbio")
                 .HasMaxLength(1000);
             entity.Property(e => e.UserProfilePicture)
-                .HasColumnName("ProfilePicture")
+                .HasColumnName("profilepicture")
                 .HasMaxLength(500);
             entity.Property(e => e.AvailableForWork)
-                .HasColumnName("availableForWork")
+                .HasColumnName("availableforwork")
                 .HasDefaultValue(false);
             entity.Property(e => e.dateOfRegistration)
-                .HasColumnName("dateOfRegistration")
+                .HasColumnName("dateofregistration")
                 .HasDefaultValueSql("CURRENT_DATE");
             
             // Configurar relación con UserPost
@@ -67,20 +67,20 @@ public class IndieQuestDbContext : DbContext
             entity.ToTable("Post");
             entity.HasKey(e => e.PostId);
             entity.Property(e => e.PostId)
-                .HasColumnName("idPost")
+                .HasColumnName("idpost")
                 .ValueGeneratedOnAdd();
             entity.Property(e => e.Title)
-                .HasColumnName("postTitle")
+                .HasColumnName("posttitle")
                 .IsRequired()
                 .HasMaxLength(255);
             entity.Property(e => e.MediaContent)
-                .HasColumnName("mediaContent")
+                .HasColumnName("mediacontent")
                 .HasMaxLength(500);
             entity.Property(e => e.Description)
-                .HasColumnName("Description")
+                .HasColumnName("description")
                 .HasMaxLength(2000);
             entity.Property(e => e.CreationDate)
-                .HasColumnName("CreationDate")
+                .HasColumnName("creationdate")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
             
             // Configurar relaciones
@@ -101,10 +101,10 @@ public class IndieQuestDbContext : DbContext
             entity.ToTable("Tag");
             entity.HasKey(e => e.tagId);
             entity.Property(e => e.tagId)
-                .HasColumnName("idTag")
+                .HasColumnName("idtag")
                 .ValueGeneratedOnAdd();
             entity.Property(e => e.tagName)
-                .HasColumnName("tagName")
+                .HasColumnName("tagname")
                 .IsRequired()
                 .HasMaxLength(100);
             
@@ -121,9 +121,9 @@ public class IndieQuestDbContext : DbContext
             entity.ToTable("Makes_MadeBy");
             entity.HasKey(up => new { up.UserId, up.PostId });
             entity.Property(e => e.UserId)
-                .HasColumnName("idUser");
+                .HasColumnName("iduser");
             entity.Property(e => e.PostId)
-                .HasColumnName("idPost");
+                .HasColumnName("idpost");
         });
 
         // Configuración de la tabla de relación Has_Tag
@@ -132,9 +132,9 @@ public class IndieQuestDbContext : DbContext
             entity.ToTable("Has_Tag");
             entity.HasKey(pt => new { pt.PostId, pt.TagId });
             entity.Property(e => e.PostId)
-                .HasColumnName("idPost");
+                .HasColumnName("idpost");
             entity.Property(e => e.TagId)
-                .HasColumnName("idTag");
+                .HasColumnName("idtag");
         });
     }
 }

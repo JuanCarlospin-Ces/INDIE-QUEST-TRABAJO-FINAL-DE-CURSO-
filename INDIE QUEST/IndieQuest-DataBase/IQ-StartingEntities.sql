@@ -6,14 +6,14 @@ VALUES
 ('alice_wonder', 'alice.wonder@example.com', 'alicepassword', 'IndieQuest-LocalData/user/3/profile_alice_wonder.jpg', 'Content creator and social media manager with a love for storytelling.', TRUE);
 
 -- 2. Inserción de Publicaciones (Basado en InMemoryPostRepository.cs)
-INSERT INTO Post (postTitle, mediaContent, Description)
+INSERT INTO "Post" (postTitle, mediaContent, Description)
 VALUES 
 ('First Post', 'IndieQuest-LocalData/postdata/1/media_post1.jpg', 'This is the first post.'),
 ('Second Post', 'IndieQuest-LocalData/postdata/2/media_post2.jpg', 'This is the second post.'),
 ('Third Post', 'IndieQuest-LocalData/postdata/3/media_post3.jpg', 'This is the third post.');
 
 -- 3. Inserción de Etiquetas (Ejemplos basados en el modelo de dominio)
-INSERT INTO Tag (tagName)
+INSERT INTO "Tag" (tagName)
 VALUES 
 ('Software'),
 ('Design'),
@@ -23,14 +23,14 @@ VALUES
 -- John Doe (id 1) -> First Post (id 1)
 -- Jane Smith (id 2) -> Second Post (id 2)
 -- Alice Wonder (id 3) -> Third Post (id 3)
-INSERT INTO Makes_MadeBy (idUser, idPost)
+INSERT INTO "Makes_MadeBy" (idUser, idPost)
 VALUES 
 (1, 1),
 (2, 2),
 (3, 3);
 
 -- 5. Relación Has_Tag (Asocia Publicaciones con Etiquetas)
-INSERT INTO Has_Tag (idPost, idTag)
+INSERT INTO "Has_Tag" (idPost, idTag)
 VALUES 
 (1, 1), -- First Post tiene etiqueta Software
 (2, 2), -- Second Post tiene etiqueta Design

@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: Indie_Quest_DB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: jc123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./IndieQuest-DataBase/IQ-DB.sql:/docker-entrypoint-initdb.d/01-IQ-DB.sql
+      - ./IndieQuest-DataBase/IQ-StartingEntities.sql:/docker-entrypoint-initdb.d/02-IQ-StartingEntities.sql
+
+  api:
+    build:
+      context: ./IndieQuest-Api_with_PosGre
+    ports:
+      - "7058:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=Indie_Quest_DB;Username=postgres;Password=jc123
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
