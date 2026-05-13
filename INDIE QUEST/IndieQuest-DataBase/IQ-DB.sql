@@ -1,5 +1,8 @@
 -- Reset de la base de datos
 
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
 DROP TABLE IF EXISTS "Has_Tag" CASCADE;
 DROP TABLE IF EXISTS "Makes_MadeBy" CASCADE;
 DROP TABLE IF EXISTS "Tag" CASCADE;
