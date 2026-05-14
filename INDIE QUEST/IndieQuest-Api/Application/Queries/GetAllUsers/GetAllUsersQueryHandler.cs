@@ -1,4 +1,5 @@
 using System;
+using IndieQuest_Api.Application;
 using IndieQuest_Api.Domain.Model;
 using IndieQuest_Api.Domain.Repository;
 
@@ -16,6 +17,18 @@ public class GetAllUsersQueryHandler
     public async Task<List<User>> Handle()
     {
         return await _userRepository.GetAllUsersAsync();
+    }
+
+    public async Task<PagedResult<User>> Handle(int pageNumber, int pageSize)
+    {
+        var (items, totalCount) = await _userRepository.GetAllUsersPagedAsync(pageNumber, pageSize);
+        return new PagedResult<User>
+        {
+            Data       = items,
+            PageNumber = pageNumber,
+            PageSize   = pageSize,
+            TotalCount = totalCount
+        };
     }
 }
 

@@ -18,7 +18,7 @@ public class CreatePostCommandHandler
         _context = context;
     }
 
-    public async Task Handle(CreatePostCommand command)
+    public async Task<Post> Handle(CreatePostCommand command)
     {
         var post = new Post
         {
@@ -30,6 +30,15 @@ public class CreatePostCommandHandler
 
         // Crear el post primero
         await _postRepository.CreatePostAsync(post);
+
+        // Si el post tiene contenido multimedia, crear su carpeta y actualizar la ruta
+        if (!string.IsNullOrEmpty(post.MediaContent))
+        {
+            var postFolder = $"IndieQuest-LocalData/postdata/{post.PostId}";
+            Directory.CreateDirectory(postFolder);
+            post.MediaContent = $"{postFolder}/{post.MediaContent}";
+            _context.Posts.Update(post);
+        }
 
         // Crear la relación UserPost (Makes_MadeBy)
         var userPost = new UserPost
@@ -54,5 +63,7 @@ public class CreatePostCommandHandler
         }
 
         await _context.SaveChangesAsync();
+
+        return post;
     }
 }

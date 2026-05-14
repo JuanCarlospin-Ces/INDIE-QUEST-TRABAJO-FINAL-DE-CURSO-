@@ -1,16 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createPost, getAllUsers } from '../api/client.js';
+import { createPost, getAllUsers, uploadPostMedia } from '../api/client.js';
 import PageHeader from '../components/PageHeader.jsx';
 import ErrorBox from '../components/ErrorBox.jsx';
 import FileDropzone from '../components/FileDropzone.jsx';
 import { pickField } from '../utils/format.js';
-
-function randomId() {
-  return (
-    Date.now().toString(36) + Math.random().toString(36).slice(2, 8)
-  ).toUpperCase();
-}
 
 export default function ComposePostPage() {
   const navigate = useNavigate();
@@ -52,20 +46,15 @@ export default function ComposePostPage() {
     setError(null);
     setSubmitting(true);
     try {
-      const tags = form.tags
-        .split(',')
-        .map((t) => t.trim())
-        .filter(Boolean)
-        .map((name) => ({ tagId: randomId(), tagName: name }));
-
-      await createPost({
-        postId: randomId(),
-        postUserId: form.postUserId,
-        title: form.title,
-        description: form.description || null,
-        mediaContent: mediaFile ? `file://${mediaFile.name}` : '',
-        tags: tags.length > 0 ? tags : null,
+      const { postId } = await createPost({
+        userId:       parseInt(form.postUserId, 10),
+        title:        form.title,
+        description:  form.description || null,
+        mediaContent: mediaFile ? mediaFile.name : form.mediaContent || '',
       });
+      if (mediaFile && postId) {
+        await uploadPostMedia(postId, mediaFile);
+      }
       navigate('/feed');
     } catch (err) {
       setError(err);
@@ -118,10 +107,10 @@ export default function ComposePostPage() {
           />
         </label>
 
-        <label>
+        <div className="form-field">
           <span>Media (file)</span>
           <FileDropzone value={mediaFile} onChange={setMediaFile} />
-        </label>
+        </div>
 
         <label>
           <span>Tags (comma separated)</span>

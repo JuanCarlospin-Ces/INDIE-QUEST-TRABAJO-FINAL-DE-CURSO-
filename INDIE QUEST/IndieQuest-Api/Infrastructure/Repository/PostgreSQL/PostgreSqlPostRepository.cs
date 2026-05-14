@@ -22,6 +22,19 @@ public class PostgreSqlPostRepository : IPostRepository
             .ToListAsync();
     }
 
+    public async Task<(List<Post> Items, int TotalCount)> GetAllPostsPagedAsync(int pageNumber, int pageSize)
+    {
+        var totalCount = await _context.Posts.CountAsync();
+        var items = await _context.Posts
+            .Include(p => p.UserPosts)
+            .Include(p => p.PostTags)
+            .OrderByDescending(p => p.CreationDate)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        return (items, totalCount);
+    }
+
     public async Task<Post?> GetPostByIdAsync(int postId)
     {
         return await _context.Posts
@@ -36,6 +49,7 @@ public class PostgreSqlPostRepository : IPostRepository
             .Where(p => p.UserPosts.Any(up => up.UserId == userId))
             .Include(p => p.UserPosts)
             .Include(p => p.PostTags)
+            .OrderByDescending(p => p.CreationDate)
             .ToListAsync();
     }
 

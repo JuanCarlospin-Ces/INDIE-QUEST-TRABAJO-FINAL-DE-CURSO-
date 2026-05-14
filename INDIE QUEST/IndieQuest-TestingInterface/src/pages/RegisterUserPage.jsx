@@ -1,14 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createUser } from '../api/client.js';
+import { createUser, uploadProfilePicture } from '../api/client.js';
 import PageHeader from '../components/PageHeader.jsx';
 import ErrorBox from '../components/ErrorBox.jsx';
-
-function randomId() {
-  return (
-    Date.now().toString(36) + Math.random().toString(36).slice(2, 8)
-  ).toUpperCase();
-}
 
 export default function RegisterUserPage() {
   const navigate = useNavigate();
@@ -19,6 +13,7 @@ export default function RegisterUserPage() {
     userBio: '',
     availableForWork: false,
   });
+  const [profileFile, setProfileFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -32,15 +27,17 @@ export default function RegisterUserPage() {
     setError(null);
     setSubmitting(true);
     try {
-      await createUser({
-        userId: randomId(),
-        username: form.username,
-        email: form.email,
-        password: form.password,
-        userBio: form.userBio || null,
-        availableForWork: form.availableForWork,
-        userProfilePicture: null,
+      const { userId } = await createUser({
+        username:           form.username,
+        email:              form.email,
+        password:           form.password,
+        userBio:            form.userBio || null,
+        availableForWork:   form.availableForWork,
+        userProfilePicture: profileFile ? profileFile.name : null,
       });
+      if (profileFile && userId) {
+        await uploadProfilePicture(userId, profileFile);
+      }
       navigate('/users');
     } catch (err) {
       setError(err);
@@ -99,6 +96,20 @@ export default function RegisterUserPage() {
             onChange={update('availableForWork')}
           />
           <span>Available for work</span>
+        </label>
+
+        <label>
+          <span>Profile picture</span>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setProfileFile(e.target.files?.[0] ?? null)}
+          />
+          {profileFile && (
+            <span className="muted" style={{ fontSize: '0.85rem' }}>
+              Selected: {profileFile.name}
+            </span>
+          )}
         </label>
 
         <div className="form-actions">

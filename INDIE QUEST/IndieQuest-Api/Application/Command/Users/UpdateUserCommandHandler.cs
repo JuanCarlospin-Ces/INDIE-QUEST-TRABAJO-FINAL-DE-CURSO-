@@ -22,19 +22,16 @@ public class UpdateUserCommandHandler
             return null;
         }
 
-        var user = new User
-        {
-            UserId = command.UserId,
-            Username = command.Username,
-            Password = command.Password,
-            AvailableForWork = command.AvailableForWork,
-            UserBio = command.UserBio,
-            UserProfilePicture = command.UserProfilePicture,
-            Email = command.Email,
-            dateOfRegistration = existingUser.dateOfRegistration
-        };
+        // Modificar la entidad rastreada en lugar de crear una nueva instancia
+        // (crear una instancia nueva con el mismo ID produce un conflicto de tracking en EF Core)
+        existingUser.Username          = command.Username;
+        existingUser.Password          = command.Password;
+        existingUser.AvailableForWork  = command.AvailableForWork;
+        existingUser.UserBio           = command.UserBio;
+        existingUser.UserProfilePicture = command.UserProfilePicture;
+        existingUser.Email             = command.Email;
 
-        await _userRepository.UpdateUserAsync(user);
-        return user;
+        await _userRepository.UpdateUserAsync(existingUser);
+        return existingUser;
     }
 }

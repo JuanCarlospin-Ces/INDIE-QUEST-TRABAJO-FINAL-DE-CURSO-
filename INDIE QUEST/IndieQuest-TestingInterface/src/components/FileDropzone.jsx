@@ -15,12 +15,8 @@ export default function FileDropzone({
 
   const pickFile = (file) => {
     if (!file) return;
-    onChange &&
-      onChange({
-        name: file.name,
-        size: file.size,
-        type: file.type,
-      });
+    // Pasamos el File real (tiene .name, .size, .type) para poder usarlo en FormData
+    onChange && onChange(file);
   };
 
   const handleDrop = (e) => {

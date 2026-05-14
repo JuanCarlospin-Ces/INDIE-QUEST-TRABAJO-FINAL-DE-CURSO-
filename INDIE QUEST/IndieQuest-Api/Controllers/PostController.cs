@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using IndieQuest_Api.Application.Command.Posts;
 using IndieQuest_Api.Application.Queries.GetAllPosts;
 using IndieQuest_Api.Application.Queries.GetPostById;
@@ -35,10 +36,10 @@ public class PostController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllPosts()
+    public async Task<IActionResult> GetAllPosts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        var posts = await _getAllPostsQueryHandler.Handle();
-        return Ok(posts);
+        var result = await _getAllPostsQueryHandler.Handle(pageNumber, pageSize);
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
@@ -62,8 +63,39 @@ public class PostController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreatePost([FromBody] CreatePostCommand command)
     {
-        await _createPostCommandHandler.Handle(command);
-        return Ok();
+        var post = await _createPostCommandHandler.Handle(command);
+        return Ok(new { postId = post.PostId });
+    }
+
+    [HttpPost("{id}/media")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadPostMedia(int id, IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest("No file provided");
+
+        var post = await _getPostByIdQueryHandler.Handle(id);
+        if (post == null) return NotFound();
+
+        var postFolder = $"IndieQuest-LocalData/postdata/{id}";
+        Directory.CreateDirectory(postFolder);
+
+        var safeFileName = Path.GetFileName(file.FileName);
+        var filePath = $"{postFolder}/{safeFileName}";
+
+        using (var stream = System.IO.File.Create(filePath))
+            await file.CopyToAsync(stream);
+
+        var updateCommand = new UpdatePostCommand
+        {
+            PostId       = post.PostId,
+            Title        = post.Title,
+            MediaContent = filePath,
+            Description  = post.Description,
+        };
+        await _updatePostCommandHandler.Handle(updateCommand);
+
+        return Ok(new { path = filePath });
     }
 
     [HttpPut("{id}")]

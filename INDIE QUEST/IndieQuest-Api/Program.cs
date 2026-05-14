@@ -10,6 +10,10 @@ using IndieQuest_Api.Application.Command.Users;
 using IndieQuest_Api.Application.Command.Posts;
 using Microsoft.EntityFrameworkCore;
 
+// Npgsql 6+ requiere DateTimeKind.Utc para timestamptz.
+// Esta opción permite enviar fechas con Kind=Unspecified como si fueran UTC (comportamiento heredado).
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Swagger implementation

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getUserById, getPostsByUserId } from '../api/client.js';
+import { getUserById, getPostsByUserId, updateUser, uploadProfilePicture } from '../api/client.js';
 import Avatar from '../components/Avatar.jsx';
 import PostCard from '../components/PostCard.jsx';
 import Spinner from '../components/Spinner.jsx';
@@ -12,6 +12,8 @@ export default function UserProfilePage() {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [toggling, setToggling] = useState(false);
+  const [uploadingPic, setUploadingPic] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -33,6 +35,42 @@ export default function UserProfilePage() {
     })();
   }, [id]);
 
+  const handlePictureUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+    setUploadingPic(true);
+    try {
+      const userId = pickField(user, 'userId', 'UserId');
+      const { path } = await uploadProfilePicture(userId, file);
+      setUser((prev) => ({ ...prev, userProfilePicture: path }));
+    } catch (e) {
+      alert(e.message);
+    } finally {
+      setUploadingPic(false);
+    }
+  };
+
+  const handleToggleAvailability = async () => {
+    if (!user || toggling) return;
+    setToggling(true);
+    try {
+      const currentAvailable = pickField(user, 'availableForWork', 'AvailableForWork');
+      await updateUser(pickField(user, 'userId', 'UserId'), {
+        username:           pickField(user, 'username', 'Username'),
+        password:           pickField(user, 'password', 'Password'),
+        email:              pickField(user, 'email', 'Email'),
+        userBio:            pickField(user, 'userBio', 'UserBio') ?? null,
+        userProfilePicture: pickField(user, 'userProfilePicture', 'UserProfilePicture') ?? null,
+        availableForWork:   !currentAvailable,
+      });
+      setUser((prev) => ({ ...prev, availableForWork: !currentAvailable }));
+    } catch (e) {
+      alert(e.message);
+    } finally {
+      setToggling(false);
+    }
+  };
+
   if (loading) return <Spinner />;
   if (error) return <ErrorBox error={error} />;
   if (!user) return <div className="empty">User not found</div>;
@@ -53,6 +91,27 @@ export default function UserProfilePage() {
           {email && <p className="muted">{email}</p>}
           <div className="profile-actions">
             <Link to="/users" className="btn">← Back to users</Link>
+            <button
+              className={`btn ${available ? 'btn-danger' : 'btn-primary'}`}
+              onClick={handleToggleAvailability}
+              disabled={toggling}
+            >
+              {toggling
+                ? 'Updating...'
+                : available
+                  ? 'Set unavailable'
+                  : 'Set available for work'}
+            </button>
+            <label className="btn" style={{ cursor: 'pointer' }}>
+              {uploadingPic ? 'Uploading...' : '📷 Change photo'}
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handlePictureUpload}
+                disabled={uploadingPic}
+              />
+            </label>
           </div>
         </div>
       </div>

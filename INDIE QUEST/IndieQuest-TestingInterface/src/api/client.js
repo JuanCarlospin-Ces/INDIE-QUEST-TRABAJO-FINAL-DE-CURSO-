@@ -19,21 +19,42 @@ async function request(path, options = {}) {
 }
 
 // Posts
-export const getAllPosts = () => request('/Post');
+// getAllPosts fetches all items (used by Search, Compose dropdowns, etc.)
+export const getAllPosts = () =>
+  request('/Post?pageNumber=1&pageSize=999').then((r) => r?.data ?? []);
+// getPostsPaged returns the full PagedResult { data, pageNumber, pageSize, totalCount, totalPages }
+export const getPostsPaged = (pageNumber = 1, pageSize = 10) =>
+  request(`/Post?pageNumber=${pageNumber}&pageSize=${pageSize}`);
 export const getPostById = (id) => request(`/Post/${id}`);
 export const getPostsByUserId = (userId) => request(`/Post/user/${userId}`);
 export const createPost = (post) =>
   request('/Post', { method: 'POST', body: JSON.stringify(post) });
+export const uploadPostMedia = (id, file) => {
+  const form = new FormData();
+  form.append('file', file);
+  return request(`/Post/${id}/media`, { method: 'POST', body: form, headers: {} });
+};
 export const updatePost = (id, post) =>
   request(`/Post/${id}`, { method: 'PUT', body: JSON.stringify(post) });
 export const deletePost = (id) =>
   request(`/Post/${id}`, { method: 'DELETE' });
 
 // Users
-export const getAllUsers = () => request('/User');
+// getAllUsers fetches all items (used by Search, author lookups, etc.)
+export const getAllUsers = () =>
+  request('/User?pageNumber=1&pageSize=999').then((r) => r?.data ?? []);
+// getUsersPaged returns the full PagedResult { data, pageNumber, pageSize, totalCount, totalPages }
+export const getUsersPaged = (pageNumber = 1, pageSize = 10) =>
+  request(`/User?pageNumber=${pageNumber}&pageSize=${pageSize}`);
 export const getUserById = (id) => request(`/User/${id}`);
 export const createUser = (user) =>
   request('/User', { method: 'POST', body: JSON.stringify(user) });
+// headers: {} anula Content-Type para que el browser lo ponga con boundary multipart
+export const uploadProfilePicture = (id, file) => {
+  const form = new FormData();
+  form.append('file', file);
+  return request(`/User/${id}/picture`, { method: 'POST', body: form, headers: {} });
+};
 export const updateUser = (id, user) =>
   request(`/User/${id}`, { method: 'PUT', body: JSON.stringify(user) });
 export const deleteUser = (id) =>

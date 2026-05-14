@@ -6,6 +6,7 @@ namespace IndieQuest_Api.Domain.Repository;
 public interface IPostRepository
 {
     Task<List<Post>> GetAllPostsAsync();
+    Task<(List<Post> Items, int TotalCount)> GetAllPostsPagedAsync(int pageNumber, int pageSize);
     Task<Post?> GetPostByIdAsync(int postId);
     Task<List<Post>> GetPostsByUserIdAsync(int userId);
     Task CreatePostAsync(Post post);

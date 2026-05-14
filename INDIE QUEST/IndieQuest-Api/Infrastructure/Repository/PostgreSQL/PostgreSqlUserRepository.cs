@@ -18,6 +18,17 @@ public class PostgreSqlUserRepository : IUserRepository
         return await _context.Users.ToListAsync();
     }
 
+    public async Task<(List<User> Items, int TotalCount)> GetAllUsersPagedAsync(int pageNumber, int pageSize)
+    {
+        var totalCount = await _context.Users.CountAsync();
+        var items = await _context.Users
+            .OrderBy(u => u.UserId)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        return (items, totalCount);
+    }
+
     public async Task<User?> GetUserByIdAsync(int userId)
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);

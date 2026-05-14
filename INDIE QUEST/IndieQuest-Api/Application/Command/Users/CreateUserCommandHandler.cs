@@ -14,7 +14,7 @@ public class CreateUserCommandHandler
         _userRepository = userRepository;
     }
 
-    public async Task Handle(CreateUserCommand command)
+    public async Task<User> Handle(CreateUserCommand command)
     {
         var user = new User
         {
@@ -22,11 +22,24 @@ public class CreateUserCommandHandler
             Password = command.Password,
             AvailableForWork = command.AvailableForWork,
             UserBio = command.UserBio,
-            UserProfilePicture = command.UserProfilePicture,
+            UserProfilePicture = null, // se actualiza tras obtener el UserId
             Email = command.Email,
             dateOfRegistration = DateTime.UtcNow
         };
 
         await _userRepository.CreateUserAsync(user);
+
+        // Siempre crear la carpeta del usuario (necesaria para la foto de perfil)
+        var userFolder = $"IndieQuest-LocalData/user/{user.UserId}";
+        Directory.CreateDirectory(userFolder);
+
+        // Si se proporcionó un nombre de archivo, actualizar la ruta completa
+        if (!string.IsNullOrEmpty(command.UserProfilePicture))
+        {
+            user.UserProfilePicture = $"{userFolder}/{command.UserProfilePicture}";
+            await _userRepository.UpdateUserAsync(user);
+        }
+
+        return user;
     }
 }
