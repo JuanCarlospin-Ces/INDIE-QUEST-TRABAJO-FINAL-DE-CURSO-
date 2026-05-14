@@ -6,8 +6,8 @@ namespace IndieQuest_Api.Domain.Repository;
 public interface IUserRepository
 {
     Task<List<User>> GetAllUsersAsync();
-    Task<User?> GetUserByIdAsync(string userId);
+    Task<User?> GetUserByIdAsync(int userId);
     Task CreateUserAsync(User user);
     Task UpdateUserAsync(User user);
-    Task DeleteUserAsync(string userId);
+    Task DeleteUserAsync(int userId);
 }

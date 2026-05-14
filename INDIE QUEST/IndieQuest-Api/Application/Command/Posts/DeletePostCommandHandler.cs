@@ -12,7 +12,7 @@ public class DeletePostCommandHandler
         _postRepository = postRepository;
     }
 
-    public async Task Handle(string postId)
+    public async Task Handle(int postId)
     {
         await _postRepository.DeletePostAsync(postId);
     }

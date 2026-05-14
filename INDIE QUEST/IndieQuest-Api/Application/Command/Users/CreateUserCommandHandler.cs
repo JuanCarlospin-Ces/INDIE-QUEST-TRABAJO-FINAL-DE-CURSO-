@@ -18,7 +18,6 @@ public class CreateUserCommandHandler
     {
         var user = new User
         {
-            UserId = command.UserId,
             Username = command.Username,
             Password = command.Password,
             AvailableForWork = command.AvailableForWork,

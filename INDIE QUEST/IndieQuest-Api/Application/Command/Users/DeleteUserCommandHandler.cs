@@ -12,7 +12,7 @@ public class DeleteUserCommandHandler
         _userRepository = userRepository;
     }
 
-    public async Task Handle(string userId)
+    public async Task Handle(int userId)
     {
         await _userRepository.DeleteUserAsync(userId);
     }

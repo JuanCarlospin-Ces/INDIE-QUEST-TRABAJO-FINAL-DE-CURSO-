@@ -13,7 +13,7 @@ public class GetUserByIdQueryHandler
         _userRepository = userRepository;
     }
 
-    public async Task<User?> Handle(string userId)
+    public async Task<User?> Handle(int userId)
     {
         return await _userRepository.GetUserByIdAsync(userId);
     }

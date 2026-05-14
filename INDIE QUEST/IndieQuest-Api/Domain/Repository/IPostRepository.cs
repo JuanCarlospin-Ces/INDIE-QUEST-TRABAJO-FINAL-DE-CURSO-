@@ -6,9 +6,9 @@ namespace IndieQuest_Api.Domain.Repository;
 public interface IPostRepository
 {
     Task<List<Post>> GetAllPostsAsync();
-    Task<Post?> GetPostByIdAsync(string postId);
-    Task<List<Post>> GetPostsByUserIdAsync(string userId);
+    Task<Post?> GetPostByIdAsync(int postId);
+    Task<List<Post>> GetPostsByUserIdAsync(int userId);
     Task CreatePostAsync(Post post);
     Task UpdatePostAsync(Post post);
-    Task DeletePostAsync(string postId);
+    Task DeletePostAsync(int postId);
 }

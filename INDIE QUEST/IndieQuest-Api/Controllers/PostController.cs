@@ -42,7 +42,7 @@ public class PostController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetPostById(string id)
+    public async Task<IActionResult> GetPostById(int id)
     {
         var post = await _getPostByIdQueryHandler.Handle(id);
         if (post == null)
@@ -53,7 +53,7 @@ public class PostController : ControllerBase
     }
 
     [HttpGet("user/{userId}")]
-    public async Task<IActionResult> GetPostsByUserId(string userId)
+    public async Task<IActionResult> GetPostsByUserId(int userId)
     {
         var posts = await _getPostsByUserIdQueryHandler.Handle(userId);
         return Ok(posts);
@@ -67,7 +67,7 @@ public class PostController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdatePost(string id, [FromBody] UpdatePostCommand command)
+    public async Task<IActionResult> UpdatePost(int id, [FromBody] UpdatePostCommand command)
     {
         command.PostId = id;
         var updatedPost = await _updatePostCommandHandler.Handle(command);
@@ -79,7 +79,7 @@ public class PostController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeletePost(string id)
+    public async Task<IActionResult> DeletePost(int id)
     {
         await _deletePostCommandHandler.Handle(id);
         return Ok(new { message = "Post deleted successfully" });

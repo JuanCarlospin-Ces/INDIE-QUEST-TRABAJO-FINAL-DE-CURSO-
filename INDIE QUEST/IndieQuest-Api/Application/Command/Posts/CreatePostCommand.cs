@@ -5,10 +5,9 @@ namespace IndieQuest_Api.Application.Command.Posts;
 
 public class CreatePostCommand
 {
-    public string PostId { get; set; }
-    public string PostUserId { get; set; }
-    public string Title { get; set; }
-    public string MediaContent { get; set; }
+    public int UserId { get; set; }
+    public required string Title { get; set; }
+    public required string MediaContent { get; set; }
     public string? Description { get; set; }
-    public Tag[]? Tags { get; set; }
+    public int[]? TagIds { get; set; }
 }

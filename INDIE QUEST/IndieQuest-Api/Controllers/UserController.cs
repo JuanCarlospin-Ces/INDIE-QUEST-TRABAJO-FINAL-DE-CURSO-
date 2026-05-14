@@ -38,7 +38,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetUserById(string id)
+    public async Task<IActionResult> GetUserById(int id)
     {
         var user = await _getUserByIdQueryHandler.Handle(id);
         if (user == null)
@@ -56,7 +56,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserCommand command)
+    public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserCommand command)
     {
         command.UserId = id;
         var updatedUser = await _updateUserCommandHandler.Handle(command);
@@ -68,7 +68,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteUser(string id)
+    public async Task<IActionResult> DeleteUser(int id)
     {
         await _deleteUserCommandHandler.Handle(id);
         return Ok(new { message = "User deleted successfully" });

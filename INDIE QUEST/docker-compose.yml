@@ -15,7 +15,7 @@ services:
 
   api:
     build:
-      context: ./IndieQuest-Api_with_PosGre
+      context: ./IndieQuest-Api
     ports:
       - "7058:8080"
     environment:

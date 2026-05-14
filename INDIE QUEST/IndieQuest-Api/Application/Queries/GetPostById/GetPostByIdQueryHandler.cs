@@ -13,7 +13,7 @@ public class GetPostByIdQueryHandler
         _postRepository = postRepository;
     }
 
-    public async Task<Post?> Handle(string postId)
+    public async Task<Post?> Handle(int postId)
     {
         return await _postRepository.GetPostByIdAsync(postId);
     }
