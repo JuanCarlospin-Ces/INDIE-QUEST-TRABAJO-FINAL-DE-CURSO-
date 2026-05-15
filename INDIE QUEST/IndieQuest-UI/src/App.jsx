@@ -1,0 +1,46 @@
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext.jsx';
+import Layout from './components/Layout.jsx';
+import FeedPage from './pages/FeedPage.jsx';
+import UsersPage from './pages/UsersPage.jsx';
+import UserProfilePage from './pages/UserProfilePage.jsx';
+import EditUserPage from './pages/EditUserPage.jsx';
+import PostDetailPage from './pages/PostDetailPage.jsx';
+import ComposePostPage from './pages/ComposePostPage.jsx';
+import RegisterUserPage from './pages/RegisterUserPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import EditPostPage from './pages/EditPostPage.jsx';
+import SearchPage from './pages/SearchPage.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
+
+function ProtectedRoute({ children }) {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  return children;
+}
+
+export default function App() {
+  const { user } = useAuth();
+
+  return (
+    <Routes>
+      {/* Public routes */}
+      <Route path="/login" element={user ? <Navigate to="/feed" replace /> : <LoginPage />} />
+      <Route path="/register" element={user ? <Navigate to="/feed" replace /> : <RegisterUserPage />} />
+
+      {/* Protected routes */}
+      <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+        <Route path="/" element={<Navigate to="/feed" replace />} />
+        <Route path="/feed" element={<FeedPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/users" element={<UsersPage />} />
+        <Route path="/users/:id" element={<UserProfilePage />} />
+        <Route path="/users/:id/edit" element={<EditUserPage />} />
+        <Route path="/posts/:id" element={<PostDetailPage />} />
+        <Route path="/posts/:id/edit" element={<EditPostPage />} />
+        <Route path="/compose" element={<ComposePostPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
+  );
+}

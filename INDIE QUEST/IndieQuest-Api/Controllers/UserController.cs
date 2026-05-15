@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using IndieQuest_Api.Application.Command.Users;
 using IndieQuest_Api.Application.Queries.GetAllUsers;
 using IndieQuest_Api.Application.Queries.GetUserById;
@@ -116,5 +117,40 @@ public class UserController : ControllerBase
         await _deleteUserCommandHandler.Handle(id);
         return Ok(new { message = "User deleted successfully" });
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+    {
+        if (string.IsNullOrWhiteSpace(loginRequest.Username) || string.IsNullOrWhiteSpace(loginRequest.Password))
+        {
+            return BadRequest(new { message = "Username and password are required." });
+        }
+
+        var allUsersResult = await _getAllUsersQueryHandler.Handle(1, 9999);
+        var user = allUsersResult.Data.FirstOrDefault(u =>
+            u.Username.Equals(loginRequest.Username, StringComparison.OrdinalIgnoreCase) &&
+            u.Password == loginRequest.Password);
+
+        if (user == null)
+        {
+            return Unauthorized(new { message = "Invalid username or password." });
+        }
+
+        return Ok(new
+        {
+            userId = user.UserId,
+            username = user.Username,
+            email = user.Email,
+            userBio = user.UserBio,
+            availableForWork = user.AvailableForWork,
+            userProfilePicture = user.UserProfilePicture
+        });
+    }
+}
+
+public class LoginRequest
+{
+    public string Username { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 }
 
