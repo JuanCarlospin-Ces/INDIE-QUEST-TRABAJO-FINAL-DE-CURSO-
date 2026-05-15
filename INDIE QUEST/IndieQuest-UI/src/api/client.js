@@ -100,11 +100,21 @@ export const deletePost = (id) =>
 
 // Users
 // getAllUsers fetches all items (used by Search, author lookups, etc.)
-export const getAllUsers = () =>
-  request('/User?pageNumber=1&pageSize=999').then((r) => r?.data ?? []);
+export const getAllUsers = (availableForWork = null) => {
+  let query = '/User?pageNumber=1&pageSize=999';
+  if (availableForWork !== null) {
+    query += `&availableForWork=${availableForWork}`;
+  }
+  return request(query).then((r) => r?.data ?? []);
+};
 // getUsersPaged returns the full PagedResult { data, pageNumber, pageSize, totalCount, totalPages }
-export const getUsersPaged = (pageNumber = 1, pageSize = 10) =>
-  request(`/User?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+export const getUsersPaged = (pageNumber = 1, pageSize = 10, availableForWork = null) => {
+  let query = `/User?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+  if (availableForWork !== null) {
+    query += `&availableForWork=${availableForWork}`;
+  }
+  return request(query);
+};
 export const getUserById = (id) => request(`/User/${id}`);
 export const createUser = (user) =>
   request('/User', { method: 'POST', body: JSON.stringify(user) });

@@ -33,9 +33,9 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> GetAllUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, [FromQuery] bool? availableForWork = null)
     {
-        var result = await _getAllUsersQueryHandler.Handle(pageNumber, pageSize);
+        var result = await _getAllUsersQueryHandler.Handle(pageNumber, pageSize, availableForWork);
         return Ok(result);
     }
 

@@ -27,6 +27,7 @@ export default function SearchPage() {
 
   const [query, setQuery] = useState(initialQ);
   const [tab, setTab] = useState(initialTab);
+  const [showAvailableOnly, setShowAvailableOnly] = useState(false);
 
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
@@ -38,7 +39,7 @@ export default function SearchPage() {
       setLoading(true);
       setError(null);
       try {
-        const [u, p] = await Promise.all([getAllUsers(), getAllPosts()]);
+        const [u, p] = await Promise.all([getAllUsers(showAvailableOnly ? true : null), getAllPosts()]);
         setUsers(Array.isArray(u) ? u : []);
         setPosts(Array.isArray(p) ? p : []);
       } catch (e) {
@@ -47,7 +48,7 @@ export default function SearchPage() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [showAvailableOnly]);
 
   // Sync URL with state
   useEffect(() => {
@@ -143,6 +144,19 @@ export default function SearchPage() {
           </button>
         ))}
       </div>
+
+      {showUsers || tab === 'all' ? (
+        <div className="filter-bar">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={showAvailableOnly}
+              onChange={(e) => setShowAvailableOnly(e.target.checked)}
+            />
+            <span>Available for work only</span>
+          </label>
+        </div>
+      ) : null}
 
       {loading && <Spinner />}
       <ErrorBox error={error} />

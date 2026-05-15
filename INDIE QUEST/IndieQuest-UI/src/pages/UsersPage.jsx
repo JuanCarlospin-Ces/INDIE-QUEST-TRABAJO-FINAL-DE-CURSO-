@@ -16,13 +16,17 @@ export default function UsersPage() {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
+  const [showAvailableOnly, setShowAvailableOnly] = useState(false);
   const sentinelRef = useRef(null);
 
-  // Initial load: first page
+  // Initial load: first page (resets when filter changes)
   useEffect(() => {
     (async () => {
       try {
-        const paged = await getUsersPaged(1, PAGE_SIZE);
+        setLoading(true);
+        setUsers([]);
+        setPage(1);
+        const paged = await getUsersPaged(1, PAGE_SIZE, showAvailableOnly ? true : null);
         setUsers(paged?.data ?? []);
         setTotalPages(paged?.totalPages ?? 1);
       } catch (e) {
@@ -31,7 +35,7 @@ export default function UsersPage() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [showAvailableOnly]);
 
   // Fetch the next page and append
   const loadMore = useCallback(async () => {
@@ -39,7 +43,7 @@ export default function UsersPage() {
     const nextPage = page + 1;
     setLoadingMore(true);
     try {
-      const paged = await getUsersPaged(nextPage, PAGE_SIZE);
+      const paged = await getUsersPaged(nextPage, PAGE_SIZE, showAvailableOnly ? true : null);
       setUsers((prev) => [...prev, ...(paged?.data ?? [])]);
       setTotalPages(paged?.totalPages ?? totalPages);
       setPage(nextPage);
@@ -48,7 +52,7 @@ export default function UsersPage() {
     } finally {
       setLoadingMore(false);
     }
-  }, [loadingMore, page, totalPages]);
+  }, [loadingMore, page, totalPages, showAvailableOnly]);
 
   // IntersectionObserver: loads next page 300px before hitting the bottom
   useEffect(() => {
@@ -76,6 +80,17 @@ export default function UsersPage() {
       />
       {loading && <Spinner />}
       <ErrorBox error={error} />
+
+      <div className="filter-bar">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={showAvailableOnly}
+            onChange={(e) => setShowAvailableOnly(e.target.checked)}
+          />
+          <span>Available for work only</span>
+        </label>
+      </div>
 
       <div className="users-grid">
         {users.map((u) => {

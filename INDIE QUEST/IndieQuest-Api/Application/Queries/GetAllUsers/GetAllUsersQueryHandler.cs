@@ -19,9 +19,9 @@ public class GetAllUsersQueryHandler
         return await _userRepository.GetAllUsersAsync();
     }
 
-    public async Task<PagedResult<User>> Handle(int pageNumber, int pageSize)
+    public async Task<PagedResult<User>> Handle(int pageNumber, int pageSize, bool? availableForWork = null)
     {
-        var (items, totalCount) = await _userRepository.GetAllUsersPagedAsync(pageNumber, pageSize);
+        var (items, totalCount) = await _userRepository.GetAllUsersPagedAsync(pageNumber, pageSize, availableForWork);
         return new PagedResult<User>
         {
             Data       = items,
