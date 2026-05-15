@@ -66,11 +66,16 @@ public class UserController : ControllerBase
         var user = await _getUserByIdQueryHandler.Handle(id);
         if (user == null) return NotFound();
 
-        var userFolder = $"IndieQuest-LocalData/user/{id}";
+        // Get the parent directory (project root) and create the user folder
+        var projectRoot = Path.Combine(Directory.GetCurrentDirectory(), "..");
+        var userFolder = Path.Combine(projectRoot, "IndieQuest-LocalData", "user", id.ToString());
         Directory.CreateDirectory(userFolder);
 
         var safeFileName = Path.GetFileName(file.FileName);
-        var filePath = $"{userFolder}/{safeFileName}";
+        var filePath = Path.Combine(userFolder, safeFileName);
+        
+        // Store the relative path in the database
+        var dbPath = $"IndieQuest-LocalData/user/{id}/{safeFileName}";
 
         using (var stream = System.IO.File.Create(filePath))
             await file.CopyToAsync(stream);
@@ -83,10 +88,10 @@ public class UserController : ControllerBase
             Email              = user.Email,
             UserBio            = user.UserBio,
             AvailableForWork   = user.AvailableForWork,
-            UserProfilePicture = filePath,
+            UserProfilePicture = dbPath,
         });
 
-        return Ok(new { path = filePath });
+        return Ok(new { path = dbPath });
     }
 
     [HttpPut("{id}")]

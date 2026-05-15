@@ -17,6 +17,7 @@ export default function PostCard({ post, author, onDeleted }) {
 
   const username =
     pickField(author || {}, 'username', 'Username') || `user-${userId || ''}`;
+  const profilePicture = pickField(author || {}, 'userProfilePicture', 'UserProfilePicture');
 
   const handleDelete = async (e) => {
     e.stopPropagation();
@@ -49,7 +50,7 @@ export default function PostCard({ post, author, onDeleted }) {
         onClick={goAuthor}
         title={`Go to @${username}`}
       >
-        <Avatar username={username} />
+        <Avatar username={username} profilePicture={profilePicture} />
       </div>
       <div className="post-body">
         <header className="post-header">

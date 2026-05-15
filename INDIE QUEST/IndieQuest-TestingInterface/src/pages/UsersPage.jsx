@@ -96,9 +96,10 @@ export default function UsersPage() {
           const username = pickField(u, 'username', 'Username');
           const bio = pickField(u, 'userBio', 'UserBio');
           const available = pickField(u, 'availableForWork', 'AvailableForWork');
+          const profilePicture = pickField(u, 'userProfilePicture', 'UserProfilePicture');
           return (
             <div key={id} className="user-card">
-              <Avatar username={username} size={56} />
+              <Avatar username={username} size={56} profilePicture={profilePicture} />
               <div className="user-card-body">
                 <Link to={`/users/${id}`} className="user-name">
                   @{username}

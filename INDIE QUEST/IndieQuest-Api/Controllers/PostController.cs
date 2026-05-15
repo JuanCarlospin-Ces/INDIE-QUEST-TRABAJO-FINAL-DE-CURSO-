@@ -77,11 +77,16 @@ public class PostController : ControllerBase
         var post = await _getPostByIdQueryHandler.Handle(id);
         if (post == null) return NotFound();
 
-        var postFolder = $"IndieQuest-LocalData/postdata/{id}";
+        // Get the parent directory (project root) and create the postdata folder
+        var projectRoot = Path.Combine(Directory.GetCurrentDirectory(), "..");
+        var postFolder = Path.Combine(projectRoot, "IndieQuest-LocalData", "postdata", id.ToString());
         Directory.CreateDirectory(postFolder);
 
         var safeFileName = Path.GetFileName(file.FileName);
-        var filePath = $"{postFolder}/{safeFileName}";
+        var filePath = Path.Combine(postFolder, safeFileName);
+        
+        // Store the relative path in the database
+        var dbPath = $"IndieQuest-LocalData/postdata/{id}/{safeFileName}";
 
         using (var stream = System.IO.File.Create(filePath))
             await file.CopyToAsync(stream);
@@ -90,12 +95,12 @@ public class PostController : ControllerBase
         {
             PostId       = post.PostId,
             Title        = post.Title,
-            MediaContent = filePath,
+            MediaContent = dbPath,
             Description  = post.Description,
         };
         await _updatePostCommandHandler.Handle(updateCommand);
 
-        return Ok(new { path = filePath });
+        return Ok(new { path = dbPath });
     }
 
     [HttpPut("{id}")]

@@ -41,8 +41,10 @@ export default function UserProfilePage() {
     setUploadingPic(true);
     try {
       const userId = pickField(user, 'userId', 'UserId');
-      const { path } = await uploadProfilePicture(userId, file);
-      setUser((prev) => ({ ...prev, userProfilePicture: path }));
+      await uploadProfilePicture(userId, file);
+      // Reload user data from server to reflect the new picture
+      const updatedUser = await getUserById(userId);
+      setUser(updatedUser);
     } catch (e) {
       alert(e.message);
     } finally {
@@ -79,11 +81,12 @@ export default function UserProfilePage() {
   const bio = pickField(user, 'userBio', 'UserBio');
   const email = pickField(user, 'email', 'Email');
   const available = pickField(user, 'availableForWork', 'AvailableForWork');
+  const profilePicture = pickField(user, 'userProfilePicture', 'UserProfilePicture');
 
   return (
     <section>
       <div className="profile-header">
-        <Avatar username={username} size={88} />
+        <Avatar username={username} size={88} profilePicture={profilePicture} />
         <div>
           <h1 className="profile-name">@{username}</h1>
           {available && <span className="badge">Available for work</span>}

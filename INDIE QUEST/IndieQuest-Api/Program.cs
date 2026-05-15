@@ -9,6 +9,7 @@ using IndieQuest_Api.Application.Queries.GetPostsByUserId;
 using IndieQuest_Api.Application.Command.Users;
 using IndieQuest_Api.Application.Command.Posts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 // Npgsql 6+ requiere DateTimeKind.Utc para timestamptz.
 // Esta opción permite enviar fechas con Kind=Unspecified como si fueran UTC (comportamiento heredado).
@@ -82,6 +83,15 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
+
+// Serve static files from the parent directory (IndieQuest-LocalData)
+var staticFileOptions = new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "..", "IndieQuest-LocalData")),
+    RequestPath = "/IndieQuest-LocalData"
+};
+app.UseStaticFiles(staticFileOptions);
 
 app.UseAuthorization();
 

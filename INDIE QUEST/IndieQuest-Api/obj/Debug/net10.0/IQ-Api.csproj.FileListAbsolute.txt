@@ -229,3 +229,8 @@ C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL
 C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\INDIE QUEST\IndieQuest-Api\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\INDIE QUEST\IndieQuest-Api\bin\Debug\net10.0\Npgsql.dll
 C:\Users\JPINAR\OneDrive - Unit4\Desktop\CRISTOREY-GIT\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\INDIE QUEST\IndieQuest-Api\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\INDIE QUEST\IndieQuest-Api\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\INDIE QUEST\IndieQuest-Api\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\INDIE QUEST\IndieQuest-Api\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\INDIE QUEST\IndieQuest-Api\bin\Debug\net10.0\Npgsql.dll
+C:\Users\juanc\Desktop\INDIE QUEST\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\INDIE QUEST\IndieQuest-Api\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
