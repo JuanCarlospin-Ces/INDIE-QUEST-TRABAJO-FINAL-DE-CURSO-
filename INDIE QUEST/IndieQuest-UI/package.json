@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "tunnel:api": "npx localtunnel --port 5063 --subdomain indiequest-api"
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",
