@@ -1,3 +1,8 @@
 **/node_modules/
 **/.vs/
-INDIE QUEST/IndieQuest-LocalData/
+# Keep IndieQuest-LocalData folders but ignore their runtime contents; allow .gitkeep
+!INDIE QUEST/IndieQuest-LocalData/
+INDIE QUEST/IndieQuest-LocalData/postdata/*
+!INDIE QUEST/IndieQuest-LocalData/postdata/.gitkeep
+INDIE QUEST/IndieQuest-LocalData/user/*
+!INDIE QUEST/IndieQuest-LocalData/user/.gitkeep
