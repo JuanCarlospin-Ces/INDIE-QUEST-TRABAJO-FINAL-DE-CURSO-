@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { createUser, uploadProfilePicture } from '../api/client.js';
+import { createUser, uploadProfilePicture, loginUser } from '../api/client.js';
 import ErrorBox from '../components/ErrorBox.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 
 export default function RegisterUserPage() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [form, setForm] = useState({
     username: '',
     email: '',
@@ -37,7 +39,10 @@ export default function RegisterUserPage() {
       if (profileFile && userId) {
         await uploadProfilePicture(userId, profileFile);
       }
-      navigate('/login');
+      // Auto-login after registration
+      const userData = await loginUser(form.username, form.password);
+      login(userData);
+      navigate('/feed');
     } catch (err) {
       setError(err);
     } finally {

@@ -29,11 +29,17 @@ export default function ComposePostPage() {
     let createdPostId = null;
 
     try {
+      const tagNames = form.tags
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean);
+
       const { postId } = await createPost({
         userId:       currentUser.userId,
         title:        form.title,
         description:  form.description || null,
         mediaContent: mediaFile ? 'uploading...' : form.mediaContent || '',
+        tagNames:     tagNames.length > 0 ? tagNames : null,
       });
       createdPostId = postId;
 
@@ -66,11 +72,6 @@ export default function ComposePostPage() {
       <PageHeader title="New Post" subtitle="Share something with the community" />
       <ErrorBox error={error} />
       <form onSubmit={handleSubmit} className="form">
-        <label>
-          <span>Author</span>
-          <input type="text" value={`@${currentUser.username}`} disabled />
-        </label>
-
         <label>
           <span>Title</span>
           <input

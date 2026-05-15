@@ -15,6 +15,7 @@ export default function EditUserPage() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [originalUser, setOriginalUser] = useState(null);
   const [form, setForm] = useState({
     username: '',
@@ -123,13 +124,31 @@ export default function EditUserPage() {
 
         <label>
           <span>Password</span>
-          <input
-            type="password"
-            value={form.password}
-            onChange={update('password')}
-            maxLength={100}
-            required
-          />
+          <div className="input-password-wrapper">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              value={form.password}
+              onChange={update('password')}
+              maxLength={100}
+              required
+            />
+            <button
+              type="button"
+              className="btn-toggle-password"
+              onClick={() => setShowPassword(!showPassword)}
+              title={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              )}
+            </button>
+          </div>
         </label>
 
         <div className="form-actions">

@@ -4,6 +4,7 @@ using IndieQuest_Api.Domain.Model;
 using IndieQuest_Api.Domain.Repository;
 using IndieQuest_Api.Domain.ValueObject;
 using IndieQuest_Api.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace IndieQuest_Api.Application.Command.Posts;
 
@@ -48,7 +49,7 @@ public class CreatePostCommandHandler
         };
         _context.UserPosts.Add(userPost);
 
-        // Agregar tags si es necesario
+        // Agregar tags por ID si se proporcionan
         if (command.TagIds != null && command.TagIds.Length > 0)
         {
             foreach (var tagId in command.TagIds)
@@ -59,6 +60,32 @@ public class CreatePostCommandHandler
                     TagId = tagId
                 };
                 _context.PostTags.Add(postTag);
+            }
+        }
+
+        // Agregar tags por nombre (find-or-create)
+        if (command.TagNames != null && command.TagNames.Length > 0)
+        {
+            foreach (var tagName in command.TagNames)
+            {
+                var trimmed = tagName.Trim();
+                if (string.IsNullOrEmpty(trimmed)) continue;
+
+                var existingTag = await _context.Tags
+                    .FirstOrDefaultAsync(t => t.tagName.ToLower() == trimmed.ToLower());
+
+                if (existingTag == null)
+                {
+                    existingTag = new Tag { tagName = trimmed };
+                    _context.Tags.Add(existingTag);
+                    await _context.SaveChangesAsync();
+                }
+
+                _context.PostTags.Add(new PostTag
+                {
+                    PostId = post.PostId,
+                    TagId = existingTag.tagId
+                });
             }
         }
 

@@ -41,13 +41,7 @@ export default function MediaPreview({ mediaContent }) {
   const info = classifyMedia(mediaContent);
 
   if (info.kind === 'none') {
-    return (
-      <div className="media">
-        <div className="media-fallback">
-          <div className="media-fallback-title">MEDIA NOT AVAILABLE</div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   const filename = info.src
@@ -60,6 +54,7 @@ export default function MediaPreview({ mediaContent }) {
         {imgError ? (
           <div className="media-fallback">
             <div className="media-fallback-title">MEDIA CONTENT NOT VISIBLE</div>
+            <div className="media-fallback-sub">{filename}</div>
           </div>
         ) : (
           <img
@@ -85,12 +80,11 @@ export default function MediaPreview({ mediaContent }) {
 
   // unknown-url, unknown-local, or unknown plain text — file exists but can't preview
   const downloadSrc = info.src || null;
-  const debugPath = info.src || info.value || '(no path)';
   return (
     <div className="media">
       <div className="media-fallback">
         <div className="media-fallback-title">MEDIA CONTENT NOT VISIBLE</div>
-        <div className="media-fallback-sub">{debugPath}</div>
+        <div className="media-fallback-sub">{filename}</div>
       </div>
       <DownloadButton src={downloadSrc} filename={filename} />
     </div>

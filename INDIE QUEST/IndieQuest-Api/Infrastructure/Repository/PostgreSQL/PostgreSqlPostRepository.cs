@@ -19,6 +19,7 @@ public class PostgreSqlPostRepository : IPostRepository
         return await _context.Posts
             .Include(p => p.UserPosts)
             .Include(p => p.PostTags)
+                .ThenInclude(pt => pt.Tag)
             .ToListAsync();
     }
 
@@ -28,6 +29,7 @@ public class PostgreSqlPostRepository : IPostRepository
         var items = await _context.Posts
             .Include(p => p.UserPosts)
             .Include(p => p.PostTags)
+                .ThenInclude(pt => pt.Tag)
             .OrderByDescending(p => p.CreationDate)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
@@ -40,6 +42,7 @@ public class PostgreSqlPostRepository : IPostRepository
         return await _context.Posts
             .Include(p => p.UserPosts)
             .Include(p => p.PostTags)
+                .ThenInclude(pt => pt.Tag)
             .FirstOrDefaultAsync(p => p.PostId == postId);
     }
 
@@ -49,6 +52,7 @@ public class PostgreSqlPostRepository : IPostRepository
             .Where(p => p.UserPosts.Any(up => up.UserId == userId))
             .Include(p => p.UserPosts)
             .Include(p => p.PostTags)
+                .ThenInclude(pt => pt.Tag)
             .OrderByDescending(p => p.CreationDate)
             .ToListAsync();
     }

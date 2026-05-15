@@ -71,10 +71,7 @@ export default function SearchPage() {
   const matchedUsers = useMemo(() => {
     if (!q) return [];
     return users.filter(
-      (u) =>
-        matches(pickField(u, 'username', 'Username'), q) ||
-        matches(pickField(u, 'userBio', 'UserBio'), q) ||
-        matches(pickField(u, 'email', 'Email'), q)
+      (u) => matches(pickField(u, 'username', 'Username'), q)
     );
   }, [users, q]);
 
@@ -89,21 +86,14 @@ export default function SearchPage() {
 
   const matchedTags = useMemo(() => {
     if (!q) return [];
-    const seen = new Map(); // tagName -> { tagName, count, postIds }
-    for (const p of posts) {
-      const tags = pickField(p, 'tags', 'Tags') || [];
-      for (const t of tags) {
-        const name = pickField(t, 'tagName', 'TagName');
-        if (!name) continue;
-        if (!matches(name, q)) continue;
-        const key = name.toLowerCase();
-        const entry = seen.get(key) || { tagName: name, count: 0, postIds: [] };
-        entry.count += 1;
-        entry.postIds.push(pickField(p, 'postId', 'PostId'));
-        seen.set(key, entry);
-      }
-    }
-    return [...seen.values()].sort((a, b) => b.count - a.count);
+    // Return posts that have a tag matching the query
+    return posts.filter((p) => {
+      const rawTags = pickField(p, 'postTags', 'PostTags') || pickField(p, 'tags', 'Tags') || [];
+      return rawTags.some((t) => {
+        const tag = t.tag || t.Tag || t;
+        return matches(pickField(tag, 'tagName', 'TagName'), q);
+      });
+    });
   }, [posts, q]);
 
   const showUsers = tab === 'all' || tab === 'users';
@@ -193,23 +183,28 @@ export default function SearchPage() {
 
       {!loading && q && showTags && matchedTags.length > 0 && (
         <div className="search-section">
-          <h2 className="section-title">Tags</h2>
-          <div className="tag-grid">
-            {matchedTags.map((t) => (
-              <button
-                key={t.tagName}
-                type="button"
-                className="tag-chip"
-                onClick={() => {
-                  setQuery(t.tagName);
-                  setTab('posts');
-                }}
-                title="Search posts with this tag"
-              >
-                <span className="tag-chip-name">#{t.tagName}</span>
-                <span className="tag-chip-count">{t.count}</span>
-              </button>
-            ))}
+          <h2 className="section-title">Posts by Tag</h2>
+          <div className="feed">
+            {matchedTags.map((post) => {
+              const userId = String(
+                pickField(post, 'postUserId', 'PostUserId') || ''
+              );
+              return (
+                <PostCard
+                  key={pickField(post, 'postId', 'PostId')}
+                  post={post}
+                  author={usersById.get(userId)}
+                  onDeleted={(id) =>
+                    setPosts((prev) =>
+                      prev.filter(
+                        (p) =>
+                          String(pickField(p, 'postId', 'PostId')) !== String(id)
+                      )
+                    )
+                  }
+                />
+              );
+            })}
           </div>
         </div>
       )}

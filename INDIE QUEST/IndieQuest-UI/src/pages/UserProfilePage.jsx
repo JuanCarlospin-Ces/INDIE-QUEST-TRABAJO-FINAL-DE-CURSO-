@@ -94,7 +94,6 @@ export default function UserProfilePage() {
           <h1 className="profile-name">@{username}</h1>
           {available && <span className="badge">Available for work</span>}
           {bio && <p>{bio}</p>}
-          {email && <p className="muted">{email}</p>}
           <div className="profile-actions">
             <Link to="/users" className="btn">← Back to users</Link>
             {isOwnProfile && (

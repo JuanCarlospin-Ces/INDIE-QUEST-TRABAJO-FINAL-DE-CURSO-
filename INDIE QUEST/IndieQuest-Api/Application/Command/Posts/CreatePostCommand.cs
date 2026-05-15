@@ -10,4 +10,5 @@ public class CreatePostCommand
     public required string MediaContent { get; set; }
     public string? Description { get; set; }
     public int[]? TagIds { get; set; }
+    public string[]? TagNames { get; set; }
 }

@@ -15,7 +15,12 @@ export default function PostCard({ post, author, onDeleted }) {
   const description = pickField(post, 'description', 'Description');
   const media = pickField(post, 'mediaContent', 'MediaContent');
   const date = pickField(post, 'creationDate', 'CreationDate');
-  const tags = pickField(post, 'tags', 'Tags') || [];
+  const rawTags = pickField(post, 'postTags', 'PostTags') || pickField(post, 'tags', 'Tags') || [];
+  const tags = rawTags.map((t) => {
+    // postTags from API: { tag: { tagName } } or direct { tagName }
+    const tag = t.tag || t.Tag || t;
+    return pickField(tag, 'tagName', 'TagName') || pickField(tag, 'tagId', 'TagId');
+  }).filter(Boolean);
 
   const username =
     pickField(author || {}, 'username', 'Username') || `user-${userId || ''}`;
@@ -91,9 +96,16 @@ export default function PostCard({ post, author, onDeleted }) {
         <MediaPreview mediaContent={media} />
         {tags && tags.length > 0 && (
           <div className="tags">
-            {tags.map((t, i) => (
-              <span key={i} className="tag">
-                #{pickField(t, 'tagName', 'TagName') || pickField(t, 'tagId', 'TagId')}
+            {tags.map((name, i) => (
+              <span
+                key={i}
+                className="tag tag--link"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/search?q=${encodeURIComponent(name)}&tab=tags`);
+                }}
+              >
+                #{name}
               </span>
             ))}
           </div>
