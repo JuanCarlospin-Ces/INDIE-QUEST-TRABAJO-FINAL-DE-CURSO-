@@ -72,7 +72,7 @@ public class PostControllerCreatePostTests
         var result = await controller.CreatePost(command);
 
         // Assert
-        Assert.That(result, Is.InstanceOf<OkResult>());
+        Assert.That(result, Is.InstanceOf<OkObjectResult>());
         mockRepo.Verify(r => r.CreatePostAsync(It.IsAny<Post>()), Times.Once);
     }
 }

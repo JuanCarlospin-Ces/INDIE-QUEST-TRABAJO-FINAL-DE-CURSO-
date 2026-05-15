@@ -483,77 +483,92 @@ IndieQuest-Test/
 ├── IndieQuest.Test.csproj              → NUnit 4.2.2 + Moq 4.20.72 + MVC.Testing
 │
 ├── UnitTest/                           → Pruebas de Query Handlers en aislamiento
-│   ├── GetUserByIdQueryHandlerTests.cs
-│   ├── GetPostByIdQueryHandlerTests.cs
-│   └── GetPostsByUserIdQueryHandlerTests.cs
+│   ├── GetUserByIdQueryHandlerTests.cs        ✅ Existente
+│   ├── GetAllUsersQueryHandlerTests.cs        ✅ Existente
+│   ├── GetPostByIdQueryHandlerTests.cs        ✅ Existente
+│   ├── GetAllPostsQueryHandlerTests.cs        ✅ Existente
+│   └── GetPostsByUserIdQueryHandlerTests.cs   ✅ Existente
 │
 ├── IntegrationTest/                    → Pruebas de repositorios en memoria
-│   ├── InMemoryUserRepositoryCreateUserTests.cs
-│   ├── InMemoryUserRepositoryGetAllUsersTests.cs
-│   ├── InMemoryUserRepositoryUpdateUserTests.cs
-│   ├── InMemoryUserRepositoryDeleteUserTests.cs
-│   ├── InMemoryPostRepositoryCreatePostTests.cs
-│   ├── InMemoryPostRepositoryGetAllPostsTests.cs
-│   ├── InMemoryPostRepositoryUpdatePostTests.cs
-│   └── InMemoryPostRepositoryDeletePostTests.cs
+│   ├── InMemoryUserRepositoryCreateUserTests.cs     ✅ Existente
+│   ├── InMemoryUserRepositoryGetAllUsersTests.cs    ✅ Existente
+│   ├── InMemoryUserRepositoryGetUserByIdTests.cs    ✅ Nuevo
+│   ├── InMemoryUserRepositoryUpdateUserTests.cs     ✅ Existente
+│   ├── InMemoryUserRepositoryDeleteUserTests.cs     ✅ Existente
+│   ├── InMemoryPostRepositoryCreatePostTests.cs     ✅ Existente
+│   ├── InMemoryPostRepositoryGetAllPostsTests.cs    ✅ Existente
+│   ├── InMemoryPostRepositoryGetPostByIdTests.cs    ✅ Nuevo
+│   ├── InMemoryPostRepositoryGetPostsByUserIdTests.cs ✅ Nuevo
+│   ├── InMemoryPostRepositoryUpdatePostTests.cs     ✅ Existente
+│   └── InMemoryPostRepositoryDeletePostTests.cs     ✅ Existente
 │
 ├── AcceptanceTest/                     → Pruebas de Command/Query Handlers con mocks
-│   ├── CreateUserCommandHandlerTests.cs
-│   ├── UpdateUserCommandHandlerTests.cs
-│   ├── DeleteUserCommandHandlerTests.cs
-│   ├── GetAllUsersQueryHandlerTests.cs
-│   ├── CreatePostCommandHandlerTests.cs
-│   ├── UpdatePostCommandHandlerTests.cs
-│   ├── DeletePostCommandHandlerTests.cs
-│   └── GetAllPostsQueryHandlerTests.cs
+│   ├── CreateUserCommandHandlerTests.cs        ✅ Existente
+│   ├── UpdateUserCommandHandlerTests.cs        ✅ Existente
+│   ├── DeleteUserCommandHandlerTests.cs        ✅ Existente
+│   ├── GetAllUsersQueryHandlerTests.cs         ✅ Existente
+│   ├── GetUserByIdQueryHandlerTests.cs         ✅ Nuevo
+│   ├── CreatePostCommandHandlerTests.cs        ✅ Existente
+│   ├── UpdatePostCommandHandlerTests.cs        ✅ Existente
+│   ├── DeletePostCommandHandlerTests.cs        ✅ Existente
+│   ├── GetAllPostsQueryHandlerTests.cs         ✅ Existente
+│   ├── GetPostByIdQueryHandlerTests.cs         ✅ Nuevo
+│   └── GetPostsByUserIdQueryHandlerTests.cs    ✅ Nuevo
 │
 └── EndToEndTest/                       → Pruebas de Controllers vía HTTP
-    ├── UserControllerCreateUserTests.cs
-    ├── UserControllerGetAllUsersTests.cs
-    ├── UserControllerGetUserByIdTests.cs
-    ├── UserControllerUpdateUserTests.cs
-    ├── UserControllerDeleteUserTests.cs
-    ├── PostControllerCreatePostTests.cs
-    ├── PostControllerGetAllPostsTests.cs
-    ├── PostControllerGetPostByIdTests.cs
-    ├── PostControllerGetPostsByUserIdTests.cs
-    ├── PostControllerUpdatePostTests.cs
-    └── PostControllerDeletePostTests.cs
+    ├── UserControllerCreateUserTests.cs        ✅ Existente
+    ├── UserControllerGetAllUsersTests.cs       ✅ Existente
+    ├── UserControllerGetUserByIdTests.cs       ✅ Existente
+    ├── UserControllerUpdateUserTests.cs        ✅ Existente
+    ├── UserControllerDeleteUserTests.cs        ✅ Existente
+    ├── PostControllerCreatePostTests.cs        ✅ Existente
+    ├── PostControllerGetAllPostsTests.cs       ✅ Existente
+    ├── PostControllerGetPostByIdTests.cs       ✅ Existente
+    ├── PostControllerGetPostsByUserIdTests.cs  ✅ Existente
+    ├── PostControllerUpdatePostTests.cs        ✅ Existente
+    └── PostControllerDeletePostTests.cs        ✅ Existente
 ```
 
 ### Niveles de prueba
 
 #### Unit Tests — Aislamiento total
 
-Prueban un único handler de query inyectando un mock del repositorio. No hay dependencias externas.
+Prueban handlers de query inyectando un mock del repositorio. No hay dependencias externas. Validan la lógica pura del handler sin acceder a datos reales.
 
 - Tecnología: **NUnit** + **Moq**
-- Alcance: `GetUserByIdQueryHandler`, `GetPostByIdQueryHandler`, `GetPostsByUserIdQueryHandler`
+- Alcance: 5 Query Handlers (`GetUserByIdQueryHandler`, `GetAllUsersQueryHandler`, `GetPostByIdQueryHandler`, `GetAllPostsQueryHandler`, `GetPostsByUserIdQueryHandler`)
 - Patrón: Arrange (mock) → Act (handler.Handle) → Assert (resultado)
+- Casos cubiertos: resultado válido, resultado nulo, colecciones vacías
 
 #### Integration Tests — Repositorio real en memoria
 
-Prueban la implementación `InMemoryRepository` directamente, sin mocks. Verifican que la lógica de acceso a datos funciona correctamente.
+Prueban las implementaciones `InMemoryRepository` directamente, sin mocks. Verifican que la lógica de acceso a datos en memoria funciona correctamente, incluyendo operaciones CRUD y búsquedas especializadas.
 
 - Tecnología: **NUnit**
-- Alcance: `InMemoryUserRepository`, `InMemoryPostRepository`
-- Cobertura: Create, GetAll, Update, Delete para usuarios y posts
+- Alcance: `InMemoryUserRepository` (5 test files) y `InMemoryPostRepository` (6 test files)
+- Cobertura: Create, GetAll, GetById, GetPostsByUserId, Update, Delete para usuarios y posts
+- Casos cubiertos: operaciones exitosas, ID no existente, actualización parcial, eliminación en cascada
 
 #### Acceptance Tests — Handlers con mocks de repositorio
 
-Prueban los Command Handlers y los Query Handlers de forma aislada, usando Moq para simular el repositorio. Validan la lógica de orquestación de la capa de aplicación.
+Prueban todos los Command Handlers y Query Handlers de forma aislada, usando Moq para simular el repositorio. Validan la lógica de orquestación de la capa de aplicación sin acceder a HTTP.
 
 - Tecnología: **NUnit** + **Moq**
-- Alcance: todos los Command Handlers y Query Handlers de colección
-- Cobertura: operaciones CRUD para usuarios y posts
+- Alcance: 11 test files cubriendo todos los handlers (Commands y Queries)
+- Handlers probados:
+  - **Users**: CreateUserCommandHandler, UpdateUserCommandHandler, DeleteUserCommandHandler, GetAllUsersQueryHandler, GetUserByIdQueryHandler
+  - **Posts**: CreatePostCommandHandler, UpdatePostCommandHandler, DeletePostCommandHandler, GetAllPostsQueryHandler, GetPostByIdQueryHandler, GetPostsByUserIdQueryHandler
+- Cobertura: operaciones exitosas, datos inválidos, repositorio vacío, manejo de excepciones
 
 #### End-to-End Tests — Pila HTTP completa
 
-Prueban los controladores REST usando `WebApplicationFactory`, enviando peticiones HTTP reales y verificando respuestas (status code, cuerpo JSON).
+Prueban los controladores REST usando `WebApplicationFactory`, enviando peticiones HTTP reales y verificando respuestas (status code, cuerpo JSON). Representan la prueba más cercana al comportamiento real del usuario.
 
 - Tecnología: **NUnit** + **Microsoft.AspNetCore.Mvc.Testing**
-- Alcance: `UserController`, `PostController`
-- Cobertura: todos los endpoints (5 para usuarios, 6 para posts)
+- Alcance: `UserController` (5 test files) y `PostController` (6 test files)
+- Endpoints cubiertos: todos los 11 endpoints REST (5 para usuarios, 6 para posts)
+- Cobertura: peticiones válidas, códigos de estado HTTP, formato de respuesta JSON, manejo de errores HTTP
+- Casos: operaciones exitosas (200 OK), recurso no encontrado (404), validación de datos en respuesta
 
 ### Dependencias NuGet
 

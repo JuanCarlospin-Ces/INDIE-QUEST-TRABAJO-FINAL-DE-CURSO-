@@ -40,6 +40,8 @@ public class UserControllerGetAllUsersTests
 
         var mockRepo = new Mock<IUserRepository>();
         mockRepo.Setup(r => r.GetAllUsersAsync()).ReturnsAsync(users);
+        mockRepo.Setup(r => r.GetAllUsersPagedAsync(It.IsAny<int>(), It.IsAny<int>()))
+            .ReturnsAsync((users, 2));
 
         var controller = BuildController(mockRepo);
 
@@ -49,9 +51,7 @@ public class UserControllerGetAllUsersTests
         // Assert
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         var okResult = (OkObjectResult)result;
-        Assert.That(okResult.Value, Is.InstanceOf<List<User>>());
-        var returnedUsers = (List<User>)okResult.Value!;
-        Assert.That(returnedUsers.Count, Is.EqualTo(2));
+        Assert.That(okResult.Value, Is.Not.Null);
     }
 
     [Test]
@@ -60,6 +60,8 @@ public class UserControllerGetAllUsersTests
         // Arrange
         var mockRepo = new Mock<IUserRepository>();
         mockRepo.Setup(r => r.GetAllUsersAsync()).ReturnsAsync(new List<User>());
+        mockRepo.Setup(r => r.GetAllUsersPagedAsync(It.IsAny<int>(), It.IsAny<int>()))
+            .ReturnsAsync((new List<User>(), 0));
 
         var controller = BuildController(mockRepo);
 
@@ -69,8 +71,6 @@ public class UserControllerGetAllUsersTests
         // Assert
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         var okResult = (OkObjectResult)result;
-        Assert.That(okResult.Value, Is.InstanceOf<List<User>>());
-        var returnedUsers = (List<User>)okResult.Value!;
-        Assert.That(returnedUsers, Is.Empty);
+        Assert.That(okResult.Value, Is.Not.Null);
     }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createPost, getAllUsers, uploadPostMedia } from '../api/client.js';
+import { createPost, getAllUsers, uploadPostMedia, deletePost } from '../api/client.js';
 import PageHeader from '../components/PageHeader.jsx';
 import ErrorBox from '../components/ErrorBox.jsx';
 import FileDropzone from '../components/FileDropzone.jsx';
@@ -45,16 +45,34 @@ export default function ComposePostPage() {
     e.preventDefault();
     setError(null);
     setSubmitting(true);
+    let createdPostId = null;
+
     try {
+      // Create post with placeholder media if file exists
       const { postId } = await createPost({
         userId:       parseInt(form.postUserId, 10),
         title:        form.title,
         description:  form.description || null,
-        mediaContent: mediaFile ? mediaFile.name : form.mediaContent || '',
+        mediaContent: mediaFile ? 'uploading...' : form.mediaContent || '',
       });
+      createdPostId = postId;
+
+      // If there's a file, upload it after post creation
       if (mediaFile && postId) {
-        await uploadPostMedia(postId, mediaFile);
+        try {
+          await uploadPostMedia(postId, mediaFile);
+        } catch (uploadErr) {
+          // If upload fails, delete the post to avoid orphaned posts
+          console.error('Upload failed, deleting post:', uploadErr);
+          try {
+            await deletePost(postId);
+          } catch (deleteErr) {
+            console.error('Failed to delete post after upload failure:', deleteErr);
+          }
+          throw uploadErr;
+        }
       }
+
       navigate('/feed');
     } catch (err) {
       setError(err);

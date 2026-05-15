@@ -49,7 +49,7 @@ public class UserControllerCreateUserTests
         var result = await controller.CreateUser(command);
 
         // Assert
-        Assert.That(result, Is.InstanceOf<OkResult>());
+        Assert.That(result, Is.InstanceOf<OkObjectResult>());
         mockRepo.Verify(r => r.CreateUserAsync(It.IsAny<User>()), Times.Once);
     }
 }

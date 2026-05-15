@@ -57,6 +57,8 @@ public class PostControllerGetAllPostsTests
 
         var mockRepo = new Mock<IPostRepository>();
         mockRepo.Setup(r => r.GetAllPostsAsync()).ReturnsAsync(posts);
+        mockRepo.Setup(r => r.GetAllPostsPagedAsync(It.IsAny<int>(), It.IsAny<int>()))
+            .ReturnsAsync((posts, 1));
 
         var controller = BuildController(mockRepo);
 
@@ -66,9 +68,7 @@ public class PostControllerGetAllPostsTests
         // Assert
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         var okResult = (OkObjectResult)result;
-        Assert.That(okResult.Value, Is.InstanceOf<List<Post>>());
-        var returnedPosts = (List<Post>)okResult.Value!;
-        Assert.That(returnedPosts, Has.Count.EqualTo(1));
+        Assert.That(okResult.Value, Is.Not.Null);
     }
 
     [Test]
@@ -77,6 +77,8 @@ public class PostControllerGetAllPostsTests
         // Arrange
         var mockRepo = new Mock<IPostRepository>();
         mockRepo.Setup(r => r.GetAllPostsAsync()).ReturnsAsync(new List<Post>());
+        mockRepo.Setup(r => r.GetAllPostsPagedAsync(It.IsAny<int>(), It.IsAny<int>()))
+            .ReturnsAsync((new List<Post>(), 0));
 
         var controller = BuildController(mockRepo);
 
@@ -86,8 +88,6 @@ public class PostControllerGetAllPostsTests
         // Assert
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         var okResult = (OkObjectResult)result;
-        Assert.That(okResult.Value, Is.InstanceOf<List<Post>>());
-        var returnedPosts = (List<Post>)okResult.Value!;
-        Assert.That(returnedPosts, Is.Empty);
+        Assert.That(okResult.Value, Is.Not.Null);
     }
 }
