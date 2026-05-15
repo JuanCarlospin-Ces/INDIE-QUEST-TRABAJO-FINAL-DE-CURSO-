@@ -44,6 +44,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
+        // Allow all origins for development
+        // In production, restrict to specific origins:
+        // policy.WithOrigins(
+        //     "https://indiequest.vercel.app",
+        //     "https://indiequest-api-xxxx.loca.lt"
+        // )
         policy.AllowAnyOrigin()
                .AllowAnyMethod()
                .AllowAnyHeader();
