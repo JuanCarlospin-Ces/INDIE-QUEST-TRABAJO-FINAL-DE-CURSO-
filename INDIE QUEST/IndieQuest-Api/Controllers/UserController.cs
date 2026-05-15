@@ -71,6 +71,10 @@ public class UserController : ControllerBase
         var userFolder = Path.Combine(projectRoot, "IndieQuest-LocalData", "user", id.ToString());
         Directory.CreateDirectory(userFolder);
 
+        // Delete all existing files in the folder (keep only the new image)
+        foreach (var existingFile in Directory.GetFiles(userFolder))
+            System.IO.File.Delete(existingFile);
+
         var safeFileName = Path.GetFileName(file.FileName);
         var filePath = Path.Combine(userFolder, safeFileName);
         

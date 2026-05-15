@@ -82,6 +82,10 @@ public class PostController : ControllerBase
         var postFolder = Path.Combine(projectRoot, "IndieQuest-LocalData", "postdata", id.ToString());
         Directory.CreateDirectory(postFolder);
 
+        // Delete all existing files in the folder (keep only the new media)
+        foreach (var existingFile in Directory.GetFiles(postFolder))
+            System.IO.File.Delete(existingFile);
+
         var safeFileName = Path.GetFileName(file.FileName);
         var filePath = Path.Combine(postFolder, safeFileName);
         

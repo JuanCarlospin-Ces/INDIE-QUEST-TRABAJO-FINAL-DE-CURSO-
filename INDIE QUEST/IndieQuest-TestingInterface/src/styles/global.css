@@ -353,7 +353,9 @@ code {
   width: 100%;
   display: block;
   max-height: 520px;
+  max-width: 500px;
   object-fit: cover;
+  margin: 0 auto;
 }
 
 .media-fallback {
@@ -384,6 +386,25 @@ code {
   opacity: 0.7;
   word-break: break-all;
   max-width: 80%;
+}
+
+.media-download-btn {
+  display: block;
+  width: 100%;
+  padding: 8px 0;
+  background: #1a1f27;
+  color: var(--accent, #1d9bf0);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  border-top: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.media-download-btn:hover {
+  background: #22303c;
+  color: var(--accent, #1d9bf0);
 }
 
 /* Users */

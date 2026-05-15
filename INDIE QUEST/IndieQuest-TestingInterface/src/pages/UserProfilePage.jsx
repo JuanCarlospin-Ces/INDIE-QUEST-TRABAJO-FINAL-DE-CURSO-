@@ -94,6 +94,9 @@ export default function UserProfilePage() {
           {email && <p className="muted">{email}</p>}
           <div className="profile-actions">
             <Link to="/users" className="btn">← Back to users</Link>
+            <Link to={`/users/${id}/edit`} className="btn btn-primary">
+              ✎ Edit profile
+            </Link>
             <button
               className={`btn ${available ? 'btn-danger' : 'btn-primary'}`}
               onClick={handleToggleAvailability}
