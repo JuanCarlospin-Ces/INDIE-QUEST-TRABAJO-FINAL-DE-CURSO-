@@ -1075,3 +1075,76 @@ code {
 .btn-toggle-password:hover {
   color: var(--text);
 }
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-content {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content h2 {
+  margin: 0 0 16px;
+  font-size: 24px;
+}
+
+.modal-content p {
+  margin: 0 0 24px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.modal-actions .btn {
+  padding: 10px 20px;
+}
+
+/* ===== Danger Zone ===== */
+.danger-zone {
+  background: rgba(244, 33, 46, 0.08);
+  border: 1px solid rgba(244, 33, 46, 0.3);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin: 20px;
+  max-width: 720px;
+}
+
+.danger-zone h3 {
+  margin: 0 0 8px;
+  color: var(--danger);
+  font-size: 16px;
+}
+
+.danger-zone p {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.danger-zone .btn-danger {
+  border-width: 2px;
+  font-weight: 600;
+}

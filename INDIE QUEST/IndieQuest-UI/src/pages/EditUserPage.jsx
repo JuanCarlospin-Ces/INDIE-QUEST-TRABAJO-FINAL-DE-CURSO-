@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link, Navigate } from 'react-router-dom';
-import { getUserById, updateUser } from '../api/client.js';
+import { getUserById, updateUser, deleteUser } from '../api/client.js';
 import PageHeader from '../components/PageHeader.jsx';
 import ErrorBox from '../components/ErrorBox.jsx';
 import Spinner from '../components/Spinner.jsx';
@@ -10,12 +10,14 @@ import { useAuth } from '../context/AuthContext.jsx';
 export default function EditUserPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user: currentUser } = useAuth();
+  const { user: currentUser, logout } = useAuth();
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [originalUser, setOriginalUser] = useState(null);
   const [form, setForm] = useState({
     username: '',
@@ -72,6 +74,19 @@ export default function EditUserPage() {
       setError(err);
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    setError(null);
+    setDeleting(true);
+    try {
+      await deleteUser(id);
+      logout();
+      navigate('/login');
+    } catch (err) {
+      setError(err);
+      setDeleting(false);
     }
   };
 
@@ -157,6 +172,49 @@ export default function EditUserPage() {
           </button>
         </div>
       </form>
+
+      {/* Danger Zone */}
+      <section className="danger-zone">
+        <h3>Delete account</h3>
+        <p>Once you delete your account, there is no going back. Please be certain.</p>
+        <button 
+          type="button" 
+          className="btn btn-danger" 
+          onClick={() => setShowDeleteConfirm(true)}
+          disabled={deleting}
+        >
+          Delete Account
+        </button>
+      </section>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="modal-overlay" onClick={() => setShowDeleteConfirm(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>Delete Account?</h2>
+            <p>
+              This will permanently delete your account, all your posts, and all associated media content. 
+              This action cannot be undone.
+            </p>
+            <div className="modal-actions">
+              <button 
+                className="btn" 
+                onClick={() => setShowDeleteConfirm(false)}
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-danger" 
+                onClick={handleDeleteAccount}
+                disabled={deleting}
+              >
+                {deleting ? 'Deleting...' : 'Yes, delete my account'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

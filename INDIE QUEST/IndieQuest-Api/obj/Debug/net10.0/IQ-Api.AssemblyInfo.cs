@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IQ-Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac5ea1bc0b6900620619fc4a7c525414f94e0599")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+05c05a46b05d72d86d7212e150b37372a922c94d")]
 [assembly: System.Reflection.AssemblyProductAttribute("IQ-Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IQ-Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
