@@ -376,7 +376,7 @@ code {
   width: 100%;
   display: block;
   max-height: 520px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .media-fallback {

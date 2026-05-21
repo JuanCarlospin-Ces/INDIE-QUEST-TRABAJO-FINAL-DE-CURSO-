@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IndieQuest.Test.PosGre")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4557ac4cb48c527e9186821b86e861a86fa3db3b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac5ea1bc0b6900620619fc4a7c525414f94e0599")]
 [assembly: System.Reflection.AssemblyProductAttribute("IndieQuest.Test.PosGre")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IndieQuest.Test.PosGre")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

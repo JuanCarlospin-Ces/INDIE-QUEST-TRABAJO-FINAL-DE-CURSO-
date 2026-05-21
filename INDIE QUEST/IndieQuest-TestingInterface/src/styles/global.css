@@ -354,7 +354,7 @@ code {
   display: block;
   max-height: 520px;
   max-width: 500px;
-  object-fit: cover;
+  object-fit: contain;
   margin: 0 auto;
 }
 
