@@ -5,6 +5,7 @@ import PageHeader from '../components/PageHeader.jsx';
 import ErrorBox from '../components/ErrorBox.jsx';
 import Spinner from '../components/Spinner.jsx';
 import { pickField } from '../utils/format.js';
+import { useAuth } from '../context/AuthContext.jsx';
 
 function randomId() {
   return (
@@ -23,6 +24,7 @@ function tagsToString(tags) {
 export default function EditPostPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user: currentUser } = useAuth();
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -41,6 +43,12 @@ export default function EditPostPage() {
       try {
         const p = await getPostById(id);
         if (!p) throw new Error('Post not found');
+        // Check ownership
+        const postUserId = pickField(p, 'postUserId', 'PostUserId');
+        if (currentUser && String(currentUser.userId) !== String(postUserId)) {
+          navigate(`/posts/${id}`, { replace: true });
+          return;
+        }
         setForm({
           title: pickField(p, 'title', 'Title') || '',
           description: pickField(p, 'description', 'Description') || '',
@@ -53,7 +61,7 @@ export default function EditPostPage() {
         setLoading(false);
       }
     })();
-  }, [id]);
+  }, [id, currentUser, navigate]);
 
   const update = (k) => (e) =>
     setForm((prev) => ({ ...prev, [k]: e.target.value }));

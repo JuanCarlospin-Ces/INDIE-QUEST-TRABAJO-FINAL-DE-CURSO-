@@ -6,7 +6,6 @@ import UserProfilePage from './pages/UserProfilePage.jsx';
 import EditUserPage from './pages/EditUserPage.jsx';
 import PostDetailPage from './pages/PostDetailPage.jsx';
 import ComposePostPage from './pages/ComposePostPage.jsx';
-import RegisterUserPage from './pages/RegisterUserPage.jsx';
 import EditPostPage from './pages/EditPostPage.jsx';
 import SearchPage from './pages/SearchPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
@@ -24,7 +23,6 @@ export default function App() {
         <Route path="/posts/:id" element={<PostDetailPage />} />
         <Route path="/posts/:id/edit" element={<EditPostPage />} />
         <Route path="/compose" element={<ComposePostPage />} />
-        <Route path="/register" element={<RegisterUserPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

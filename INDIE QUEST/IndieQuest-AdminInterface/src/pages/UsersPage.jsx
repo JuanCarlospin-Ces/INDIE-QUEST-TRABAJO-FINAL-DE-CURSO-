@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getUsersPaged, deleteUser } from '../api/client.js';
 import Avatar from '../components/Avatar.jsx';
 import Spinner from '../components/Spinner.jsx';
@@ -16,13 +16,19 @@ export default function UsersPage() {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
+  const [showAvailableOnly, setShowAvailableOnly] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
   const sentinelRef = useRef(null);
+  const navigate = useNavigate();
 
-  // Initial load: first page
+  // Initial load: first page (resets when filter changes)
   useEffect(() => {
     (async () => {
       try {
-        const paged = await getUsersPaged(1, PAGE_SIZE);
+        setLoading(true);
+        setUsers([]);
+        setPage(1);
+        const paged = await getUsersPaged(1, PAGE_SIZE, showAvailableOnly ? true : null);
         setUsers(paged?.data ?? []);
         setTotalPages(paged?.totalPages ?? 1);
       } catch (e) {
@@ -31,7 +37,7 @@ export default function UsersPage() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [showAvailableOnly]);
 
   // Fetch the next page and append
   const loadMore = useCallback(async () => {
@@ -39,7 +45,7 @@ export default function UsersPage() {
     const nextPage = page + 1;
     setLoadingMore(true);
     try {
-      const paged = await getUsersPaged(nextPage, PAGE_SIZE);
+      const paged = await getUsersPaged(nextPage, PAGE_SIZE, showAvailableOnly ? true : null);
       setUsers((prev) => [...prev, ...(paged?.data ?? [])]);
       setTotalPages(paged?.totalPages ?? totalPages);
       setPage(nextPage);
@@ -48,7 +54,7 @@ export default function UsersPage() {
     } finally {
       setLoadingMore(false);
     }
-  }, [loadingMore, page, totalPages]);
+  }, [loadingMore, page, totalPages, showAvailableOnly]);
 
   // IntersectionObserver: loads next page 300px before hitting the bottom
   useEffect(() => {
@@ -63,14 +69,16 @@ export default function UsersPage() {
   }, [loadMore]);
 
   const handleDelete = async (id) => {
-    if (!confirm('Delete user?')) return;
-    try {
-      await deleteUser(id);
-      setUsers((prev) =>
-        prev.filter((u) => String(pickField(u, 'userId', 'UserId')) !== String(id))
-      );
-    } catch (e) {
-      alert(e.message);
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      setDeletingId(id);
+      try {
+        await deleteUser(id);
+        setUsers((prev) => prev.filter((u) => pickField(u, 'userId', 'UserId') !== id));
+      } catch (e) {
+        setError(e);
+      } finally {
+        setDeletingId(null);
+      }
     }
   };
 
@@ -79,16 +87,22 @@ export default function UsersPage() {
   return (
     <section>
       <PageHeader
-        title="Users"
-        subtitle="People in the IndieQuest community"
-        right={
-          <Link to="/register" className="btn btn-primary">
-            + Register
-          </Link>
-        }
+        title="Admin Users Management"
+        subtitle="Manage all users in the IndieQuest community"
       />
       {loading && <Spinner />}
       <ErrorBox error={error} />
+
+      <div className="filter-bar">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={showAvailableOnly}
+            onChange={(e) => setShowAvailableOnly(e.target.checked)}
+          />
+          <span>Available for work only</span>
+        </label>
+      </div>
 
       <div className="users-grid">
         {users.map((u) => {
@@ -98,7 +112,7 @@ export default function UsersPage() {
           const available = pickField(u, 'availableForWork', 'AvailableForWork');
           const profilePicture = pickField(u, 'userProfilePicture', 'UserProfilePicture');
           return (
-            <div key={id} className="user-card">
+            <div key={id} className="user-card admin-user-card">
               <Avatar username={username} size={56} profilePicture={profilePicture} />
               <div className="user-card-body">
                 <Link to={`/users/${id}`} className="user-name">
@@ -107,12 +121,23 @@ export default function UsersPage() {
                 {available && <span className="badge">Available</span>}
                 {bio && <p className="muted">{bio}</p>}
               </div>
-              <button
-                className="btn btn-danger btn-sm"
-                onClick={() => handleDelete(id)}
-              >
-                Delete
-              </button>
+              <div className="admin-card-actions">
+                <button 
+                  onClick={() => navigate(`/users/${id}/edit`)}
+                  className="btn btn-sm"
+                  title="Edit user"
+                >
+                  ✏️ Edit
+                </button>
+                <button 
+                  onClick={() => handleDelete(id)}
+                  disabled={deletingId === id}
+                  className="btn btn-sm btn-danger"
+                  title="Delete user"
+                >
+                  {deletingId === id ? '...' : '🗑️ Delete'}
+                </button>
+              </div>
             </div>
           );
         })}

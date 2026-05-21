@@ -1,39 +1,43 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createPost, getAllUsers, uploadPostMedia, deletePost } from '../api/client.js';
+import { createPost, uploadPostMedia, deletePost, getAllUsers } from '../api/client.js';
 import PageHeader from '../components/PageHeader.jsx';
 import ErrorBox from '../components/ErrorBox.jsx';
 import FileDropzone from '../components/FileDropzone.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import { pickField } from '../utils/format.js';
 
 export default function ComposePostPage() {
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
+  const { user: currentUser } = useAuth();
   const [form, setForm] = useState({
-    postUserId: '',
     title: '',
     description: '',
     mediaContent: '',
     tags: '',
   });
+  const [selectedUserId, setSelectedUserId] = useState(currentUser?.id ?? 0);
+  const [users, setUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(true);
   const [mediaFile, setMediaFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
+  // Load all users for selection (admin feature)
   useEffect(() => {
     (async () => {
       try {
-        const u = await getAllUsers();
-        const arr = Array.isArray(u) ? u : [];
-        setUsers(arr);
-        if (arr.length > 0) {
-          setForm((f) => ({
-            ...f,
-            postUserId: String(pickField(arr[0], 'userId', 'UserId') || ''),
-          }));
+        setLoadingUsers(true);
+        const allUsers = await getAllUsers();
+        setUsers(Array.isArray(allUsers) ? allUsers : []);
+        // Set default to current user if available
+        if (Array.isArray(allUsers) && allUsers.length > 0) {
+          setSelectedUserId(pickField(allUsers[0], 'userId', 'UserId'));
         }
-      } catch (e) {
-        setError(e);
+      } catch (err) {
+        console.error('Failed to load users:', err);
+      } finally {
+        setLoadingUsers(false);
       }
     })();
   }, []);
@@ -48,12 +52,17 @@ export default function ComposePostPage() {
     let createdPostId = null;
 
     try {
-      // Create post with placeholder media if file exists
+      const tagNames = form.tags
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean);
+
       const { postId } = await createPost({
-        userId:       parseInt(form.postUserId, 10),
+        userId:       selectedUserId,
         title:        form.title,
         description:  form.description || null,
         mediaContent: mediaFile ? 'uploading...' : form.mediaContent || '',
+        tagNames:     tagNames.length > 0 ? tagNames : null,
       });
       createdPostId = postId;
 
@@ -83,24 +92,32 @@ export default function ComposePostPage() {
 
   return (
     <section>
-      <PageHeader title="New Post" subtitle="Share something with the community" />
+      <PageHeader title="Create Content (Admin)" subtitle="Create a post as any user" />
       <ErrorBox error={error} />
       <form onSubmit={handleSubmit} className="form">
         <label>
-          <span>Author</span>
-          <select value={form.postUserId} onChange={update('postUserId')} required>
-            <option value="" disabled>
-              Select a user...
-            </option>
-            {users.map((u) => {
-              const id = pickField(u, 'userId', 'UserId');
-              const name = pickField(u, 'username', 'Username');
-              return (
-                <option key={id} value={id}>
-                  @{name}
-                </option>
-              );
-            })}
+          <span>Create as User</span>
+          <select
+            value={selectedUserId}
+            onChange={(e) => setSelectedUserId(Number(e.target.value))}
+            disabled={loadingUsers}
+            required
+          >
+            {loadingUsers ? (
+              <option>Loading users...</option>
+            ) : users.length === 0 ? (
+              <option>No users available</option>
+            ) : (
+              users.map((u) => {
+                const id = pickField(u, 'userId', 'UserId');
+                const username = pickField(u, 'username', 'Username');
+                return (
+                  <option key={id} value={id}>
+                    {username}
+                  </option>
+                );
+              })
+            )}
           </select>
         </label>
 
@@ -141,7 +158,7 @@ export default function ComposePostPage() {
         </label>
 
         <div className="form-actions">
-          <button type="submit" className="btn btn-primary" disabled={submitting}>
+          <button type="submit" className="btn btn-primary" disabled={submitting || loadingUsers}>
             {submitting ? 'Posting...' : 'Post'}
           </button>
         </div>

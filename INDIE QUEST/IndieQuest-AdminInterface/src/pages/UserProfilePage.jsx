@@ -6,9 +6,12 @@ import PostCard from '../components/PostCard.jsx';
 import Spinner from '../components/Spinner.jsx';
 import ErrorBox from '../components/ErrorBox.jsx';
 import { pickField } from '../utils/format.js';
+import { useAuth } from '../context/AuthContext.jsx';
 
 export default function UserProfilePage() {
   const { id } = useParams();
+  const { user: currentUser } = useAuth();
+  const isOwnProfile = currentUser && String(currentUser.userId) === String(id);
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -91,33 +94,36 @@ export default function UserProfilePage() {
           <h1 className="profile-name">@{username}</h1>
           {available && <span className="badge">Available for work</span>}
           {bio && <p>{bio}</p>}
-          {email && <p className="muted">{email}</p>}
           <div className="profile-actions">
             <Link to="/users" className="btn">← Back to users</Link>
-            <Link to={`/users/${id}/edit`} className="btn btn-primary">
-              ✎ Edit profile
-            </Link>
-            <button
-              className={`btn ${available ? 'btn-danger' : 'btn-primary'}`}
-              onClick={handleToggleAvailability}
-              disabled={toggling}
-            >
-              {toggling
-                ? 'Updating...'
-                : available
-                  ? 'Set unavailable'
-                  : 'Set available for work'}
-            </button>
-            <label className="btn" style={{ cursor: 'pointer' }}>
-              {uploadingPic ? 'Uploading...' : '📷 Change photo'}
-              <input
-                type="file"
-                accept="image/*"
-                style={{ display: 'none' }}
-                onChange={handlePictureUpload}
-                disabled={uploadingPic}
-              />
-            </label>
+            {isOwnProfile && (
+              <>
+                <Link to={`/users/${id}/edit`} className="btn btn-primary">
+                  ✎ Edit profile
+                </Link>
+                <button
+                  className={`btn ${available ? 'btn-danger' : 'btn-primary'}`}
+                  onClick={handleToggleAvailability}
+                  disabled={toggling}
+                >
+                  {toggling
+                    ? 'Updating...'
+                    : available
+                      ? 'Set unavailable'
+                      : 'Set available for work'}
+                </button>
+                <label className="btn" style={{ cursor: 'pointer' }}>
+                  {uploadingPic ? 'Uploading...' : '📷 Change photo'}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={handlePictureUpload}
+                    disabled={uploadingPic}
+                  />
+                </label>
+              </>
+            )}
           </div>
         </div>
       </div>

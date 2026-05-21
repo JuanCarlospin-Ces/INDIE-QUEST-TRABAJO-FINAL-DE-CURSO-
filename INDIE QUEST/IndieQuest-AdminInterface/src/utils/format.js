@@ -1,6 +1,11 @@
 export function formatDate(value) {
   if (!value) return '';
-  const d = new Date(value);
+  // Treat dates from the API as UTC if no timezone info is present
+  let raw = String(value);
+  if (!raw.endsWith('Z') && !raw.includes('+') && !/\d{2}:\d{2}$/.test(raw)) {
+    raw += 'Z';
+  }
+  const d = new Date(raw);
   if (Number.isNaN(d.getTime())) return '';
   const now = new Date();
   const diffMs = now - d;

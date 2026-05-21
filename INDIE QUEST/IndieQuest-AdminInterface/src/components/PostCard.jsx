@@ -3,8 +3,10 @@ import Avatar from './Avatar.jsx';
 import MediaPreview from './MediaPreview.jsx';
 import { formatDate, pickField } from '../utils/format.js';
 import { deletePost } from '../api/client.js';
+import { useAuth } from '../context/AuthContext.jsx';
 
-export default function PostCard({ post, author, onDeleted }) {
+export default function PostCard({ post, author, onDeleted, adminMode = true }) {
+  const { user: currentUser } = useAuth();
   const navigate = useNavigate();
 
   const postId = pickField(post, 'postId', 'PostId');
@@ -13,7 +15,12 @@ export default function PostCard({ post, author, onDeleted }) {
   const description = pickField(post, 'description', 'Description');
   const media = pickField(post, 'mediaContent', 'MediaContent');
   const date = pickField(post, 'creationDate', 'CreationDate');
-  const tags = pickField(post, 'tags', 'Tags') || [];
+  const rawTags = pickField(post, 'postTags', 'PostTags') || pickField(post, 'tags', 'Tags') || [];
+  const tags = rawTags.map((t) => {
+    // postTags from API: { tag: { tagName } } or direct { tagName }
+    const tag = t.tag || t.Tag || t;
+    return pickField(tag, 'tagName', 'TagName') || pickField(tag, 'tagId', 'TagId');
+  }).filter(Boolean);
 
   const username =
     pickField(author || {}, 'username', 'Username') || `user-${userId || ''}`;
@@ -43,6 +50,9 @@ export default function PostCard({ post, author, onDeleted }) {
     if (userId) navigate(`/users/${userId}`);
   };
 
+  // In admin mode, always show edit/delete buttons for all posts
+  const showActions = adminMode || (currentUser && String(currentUser.id) === String(userId));
+
   return (
     <article className="post" onClick={goPost} role="link" tabIndex={0}>
       <div
@@ -63,33 +73,42 @@ export default function PostCard({ post, author, onDeleted }) {
           </Link>
           <span className="post-dot">·</span>
           <span className="post-date">{formatDate(date)}</span>
-          <div className="post-actions">
-            <button
-              type="button"
-              className="post-action"
-              onClick={handleEdit}
-              title="Edit post"
-            >
-              ✎
-            </button>
-            <button
-              type="button"
-              className="post-action post-action--danger"
-              onClick={handleDelete}
-              title="Delete post"
-            >
-              ✕
-            </button>
-          </div>
+          {showActions && (
+            <div className="post-actions">
+              <button
+                type="button"
+                className="post-action"
+                onClick={handleEdit}
+                title="Edit post"
+              >
+                ✎
+              </button>
+              <button
+                type="button"
+                className="post-action post-action--danger"
+                onClick={handleDelete}
+                title="Delete post"
+              >
+                ✕
+              </button>
+            </div>
+          )}
         </header>
         {title && <h3 className="post-title">{title}</h3>}
         {description && <p className="post-desc">{description}</p>}
         <MediaPreview mediaContent={media} />
         {tags && tags.length > 0 && (
           <div className="tags">
-            {tags.map((t, i) => (
-              <span key={i} className="tag">
-                #{pickField(t, 'tagName', 'TagName') || pickField(t, 'tagId', 'TagId')}
+            {tags.map((name, i) => (
+              <span
+                key={i}
+                className="tag tag--link"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/search?q=${encodeURIComponent(name)}&tab=tags`);
+                }}
+              >
+                #{name}
               </span>
             ))}
           </div>

@@ -1,5 +1,4 @@
 import { useEffect, useState, useMemo, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
 import { getPostsPaged, getAllUsers } from '../api/client.js';
 import PostCard from '../components/PostCard.jsx';
 import Spinner from '../components/Spinner.jsx';
@@ -84,13 +83,8 @@ export default function FeedPage() {
   return (
     <section>
       <PageHeader
-        title="Home"
-        subtitle="Latest posts from the community"
-        right={
-          <Link to="/compose" className="btn btn-primary">
-            + New Post
-          </Link>
-        }
+        title="Admin Feed Management"
+        subtitle="Review and manage all posts in the community"
       />
 
       {loading && <Spinner />}
