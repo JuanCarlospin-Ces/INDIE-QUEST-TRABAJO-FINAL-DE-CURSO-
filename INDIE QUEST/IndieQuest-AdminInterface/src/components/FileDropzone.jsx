@@ -73,9 +73,6 @@ export default function FileDropzone({
             <span className="muted">
               {value.type || 'unknown type'} · {formatSize(value.size)}
             </span>
-            <span className="dropzone-note">
-              Mockup only — uploads not implemented yet.
-            </span>
           </div>
           <button
             type="button"
@@ -93,7 +90,7 @@ export default function FileDropzone({
             <div className="muted">or click to browse</div>
           </div>
           <div className="dropzone-note">
-            Images / video. Mockup only — uploads not implemented yet.
+            Images / video
           </div>
         </div>
       )}

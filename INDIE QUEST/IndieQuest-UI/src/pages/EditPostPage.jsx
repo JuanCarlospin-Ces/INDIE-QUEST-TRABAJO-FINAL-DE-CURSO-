@@ -129,16 +129,6 @@ export default function EditPostPage() {
         </label>
 
         <label>
-          <span>Media (URL)</span>
-          <input
-            type="text"
-            value={form.mediaContent}
-            onChange={update('mediaContent')}
-            placeholder="https://..."
-          />
-        </label>
-
-        <label>
           <span>Tags (comma separated)</span>
           <input
             type="text"

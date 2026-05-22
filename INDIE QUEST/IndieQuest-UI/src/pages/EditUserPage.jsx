@@ -174,7 +174,8 @@ export default function EditUserPage() {
       </form>
 
       {/* Danger Zone */}
-         <h3>Delete account</h3>
+      <section className="danger-zone">
+        <h3>Delete account</h3>
         <p>Once you delete your account, there is no going back. Please be certain.</p>
         <button 
           type="button" 
