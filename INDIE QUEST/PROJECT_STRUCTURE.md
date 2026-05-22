@@ -9,12 +9,13 @@
 1. [Visión general de la solución](#1-visión-general-de-la-solución)
 2. [Tipo de API — REST](#2-tipo-de-api--rest)
 3. [Arquitectura Hexagonal](#3-arquitectura-hexagonal)
-4. [IndieQuest-Api](#4-indiequest-api--implementación-en-memoria)
-5. [IndieQuest-Api\_with\_PosGre](#5-indiequest-api_with_posgre--implementación-postgresql)
-6. [IndieQuest-Test](#6-indiequest-test--suite-de-pruebas)
-7. [IndieQuest-DataBase](#7-indiequest-database--base-de-datos)
-8. [Markdowns](#8-markdowns--documentación-técnica)
-9. [Diagrama de relaciones de datos](#9-diagrama-de-relaciones-de-datos)
+4. [IndieQuest-Api](#4-indiequest-api--implementación-net-10)
+5. [IndieQuest-Tests](#5-indiequest-tests--suite-de-pruebas)
+6. [IndieQuest-DataBase](#6-indiequest-database--base-de-datos)
+7. [IndieQuest-UI](#7-indiequest-ui--frontend-principal)
+8. [IndieQuest-AdminInterface](#8-indiequest-admininterface--panel-de-administración)
+9. [IndieQuest-LocalData](#9-indiequest-localdata--almacenamiento-multimedia)
+10. [Diagrama de relaciones de datos](#10-diagrama-de-relaciones-de-datos)
 
 ---
 
@@ -22,15 +23,16 @@
 
 ```
 INDIE QUEST.sln
-├── IndieQuest-Api/                  → API con persistencia en memoria (In-Memory)
-├── IndieQuest-Api_with_PosGre/      → API con persistencia en PostgreSQL (EF Core)
-├── IndieQuest-Test/                 → Suite de pruebas (Unit, Integration, Acceptance, E2E)
+├── IndieQuest-Api/                  → API REST con .NET 10.0 (persistencia PostgreSQL)
+├── IndieQuest-Tests/                → Suite de pruebas (Unit, Integration, Acceptance, E2E)
 ├── IndieQuest-DataBase/             → Scripts SQL de esquema y datos iniciales
-├── Markdowns/                       → Documentación técnica adicional
+├── IndieQuest-UI/                   → Frontend principal (React + Vite)
+├── IndieQuest-AdminInterface/       → Panel de administración (React + Vite)
+├── IndieQuest-LocalData/            → Almacenamiento local de contenido multimedia
 └── PROJECT_STRUCTURE.md             → Este archivo
 ```
 
-La solución contiene **dos variantes de la API** que comparten exactamente la misma arquitectura y contratos de dominio. La diferencia única es la capa de infraestructura: una usa colecciones en memoria y la otra usa PostgreSQL a través de Entity Framework Core. Esto demuestra cómo la Arquitectura Hexagonal permite **sustituir la tecnología de persistencia sin tocar el dominio ni la aplicación**.
+La solución implementa una arquitectura moderna de **microservicios frontend** con una **API REST centralizada**. La API utiliza **.NET 10.0** con **Entity Framework Core** y **PostgreSQL**, implementando la **Arquitectura Hexagonal** combinada con el patrón **CQRS** para garantizar escalabilidad, mantenibilidad y separación de responsabilidades.
 
 ---
 
@@ -131,10 +133,11 @@ La Arquitectura Hexagonal (también conocida como *Ports & Adapters*, propuesta 
 ┌─────────────────────────▼────────────────────────────────┐
 │           CAPA DE INFRAESTRUCTURA (Adaptadores)          │
 │                                                          │
-│  ┌─────────────────────┐   ┌──────────────────────────┐  │
-│  │  InMemoryRepository │   │  PostgreSqlRepository    │  │
-│  │  (colecciones C#)   │   │  (EF Core + Npgsql)      │  │
-│  └─────────────────────┘   └──────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │  PostgreSqlRepository (EF Core + Npgsql)         │   │
+│  │  ├── PostgreSqlUserRepository                    │   │
+│  │  └── PostgreSqlPostRepository                    │   │
+│  └──────────────────────────────────────────────────┘   │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -149,14 +152,12 @@ Los puertos son las **interfaces definidas en el dominio** que abstraen la persi
 
 ### Los Adaptadores (Adapters)
 
-Los adaptadores son las **implementaciones concretas** de esos puertos. Existen dos adaptadores de salida por repositorio:
+Los adaptadores son las **implementaciones concretas** de esos puertos utilizados en el proyecto:
 
-| Adaptador                     | Proyecto                    | Tecnología          |
-|-------------------------------|-----------------------------|---------------------|
-| `InMemoryUserRepository`      | `IndieQuest-Api`            | `List<User>` en RAM |
-| `InMemoryPostRepository`      | `IndieQuest-Api`            | `List<Post>` en RAM |
-| `PostgreSqlUserRepository`    | `IndieQuest-Api_with_PosGre`| EF Core + PostgreSQL|
-| `PostgreSqlPostRepository`    | `IndieQuest-Api_with_PosGre`| EF Core + PostgreSQL|
+| Adaptador                     | Ubicación                  | Tecnología          |
+|-------------------------------|----------------------------|---------------------|
+| `PostgreSqlUserRepository`    | `Infrastructure/Repository/PostgreSQL/` | EF Core + PostgreSQL|
+| `PostgreSqlPostRepository`    | `Infrastructure/Repository/PostgreSQL/` | EF Core + PostgreSQL|
 
 ### El patrón CQRS en la capa de aplicación
 
@@ -216,47 +217,60 @@ public class CreateUserCommandHandler
 En `Program.cs` se registra **qué adaptador** se conecta a cada puerto:
 
 ```csharp
-// IndieQuest-Api → adaptador In-Memory
-builder.Services.AddSingleton<IUserRepository, InMemoryUserRepository>();
-builder.Services.AddSingleton<IPostRepository, InMemoryPostRepository>();
-
-// IndieQuest-Api_with_PosGre → adaptador PostgreSQL
+// IndieQuest-Api → Adaptador PostgreSQL
 builder.Services.AddScoped<IUserRepository, PostgreSqlUserRepository>();
 builder.Services.AddScoped<IPostRepository, PostgreSqlPostRepository>();
 ```
 
-Cambiar de una tecnología de persistencia a otra **no requiere modificar** ningún handler, ningún modelo de dominio ni ningún controlador. Solo se cambia el registro en `Program.cs`.
+Cambiar la implementación del repositorio (ej: a otra BD) **no requiere modificar** ningún handler, modelo o controlador. Solo se cambia el registro en `Program.cs`.
 
 ---
 
-## 4. IndieQuest-Api — Implementación en Memoria
+## 4. IndieQuest-Api — Implementación .NET 10
 
-Implementación completa de la API con almacenamiento en memoria. Ideal para desarrollo, pruebas locales y demostración sin dependencias externas.
+API REST con persistencia real en PostgreSQL mediante **Entity Framework Core 10.0.0**. Implementa **Arquitectura Hexagonal** con patrón **CQRS** para máxima escalabilidad y mantenibilidad.
 
 ### Estructura de archivos
 
 ```
 IndieQuest-Api/
-├── Program.cs                          → Punto de entrada, DI, Swagger, CORS
-├── IQ-Api.csproj                       → .NET 10.0 | Swashbuckle.AspNetCore 10.1.7
-├── appsettings.json                    → Configuración de logging
+├── Program.cs                          → Punto de entrada, DI, Swagger, CORS, middleware
+├── IQ-Api.csproj                       → .NET 10.0 | EF Core 10.0.0 | Npgsql 10.0.0 | Swashbuckle 10.1.7
+├── appsettings.json                    → Configuración (connection string PostgreSQL, logging)
 ├── appsettings.Development.json        → Configuración de desarrollo
+├── Dockerfile                          → Imagen Docker multi-stage para producción
 ├── Properties/
 │   └── launchSettings.json             → HTTP :5063 / HTTPS :7058
 │
 ├── Controllers/
-│   ├── UserController.cs               → Endpoints REST para usuarios  (api/user)
-│   └── PostController.cs               → Endpoints REST para posts     (api/post)
+│   ├── UserController.cs               → Endpoints REST para usuarios  (api/users)
+│   │   ├── GET    /api/users           → GetAllUsers (paginado, filtro availableForWork)
+│   │   ├── GET    /api/users/{id}      → GetUserById
+│   │   ├── POST   /api/users           → CreateUser
+│   │   ├── PUT    /api/users/{id}      → UpdateUser
+│   │   ├── DELETE /api/users/{id}      → DeleteUser
+│   │   ├── POST   /api/users/{id}/picture → UploadProfilePicture (multipart/form-data)
+│   │   └── POST   /api/users/login     → Login (validación credenciales)
+│   └── PostController.cs               → Endpoints REST para posts     (api/posts)
+│       ├── GET    /api/posts           → GetAllPosts (paginado)
+│       ├── GET    /api/posts/{id}      → GetPostById
+│       ├── GET    /api/posts/user/{userId} → GetPostsByUserId
+│       ├── POST   /api/posts           → CreatePost
+│       ├── PUT    /api/posts/{id}      → UpdatePost
+│       ├── DELETE /api/posts/{id}      → DeletePost
+│       └── POST   /api/posts/{id}/media → UploadPostMedia (multipart/form-data)
 │
 ├── Domain/
 │   ├── Model/
-│   │   ├── User.cs                     → Entidad de usuario
-│   │   └── Post.cs                     → Entidad de post
+│   │   ├── User.cs                     → Entidad de usuario (int UserId autoincremental)
+│   │   └── Post.cs                     → Entidad de post (int PostId autoincremental)
 │   ├── ValueObject/
-│   │   └── Tag.cs                      → Objeto de valor Tag
+│   │   ├── Tag.cs                      → Objeto de valor Tag (int tagId)
+│   │   ├── UserPost.cs                 → Tabla intermedia User ↔ Post (relación N:M)
+│   │   └── PostTag.cs                  → Tabla intermedia Post ↔ Tag (relación N:M)
 │   └── Repository/
-│       ├── IUserRepository.cs          → Puerto de persistencia de usuarios
-│       └── IPostRepository.cs          → Puerto de persistencia de posts
+│       ├── IUserRepository.cs          → Puerto: interfaz de persistencia de usuarios
+│       └── IPostRepository.cs          → Puerto: interfaz de persistencia de posts
 │
 ├── Application/
 │   ├── Command/
@@ -277,399 +291,262 @@ IndieQuest-Api/
 │       ├── GetUserById/GetUserByIdQueryHandler.cs
 │       ├── GetAllPosts/GetAllPostsQueryHandler.cs
 │       ├── GetPostById/GetPostByIdQueryHandler.cs
-│       └── GetPostsByUserId/GetPostsByUserIdQueryHandler.cs
+│       ├── GetPostsByUserId/GetPostsByUserIdQueryHandler.cs
+│       └── PagedResult.cs              → DTO para respuestas paginadas
 │
 └── Infrastructure/
+    ├── IndieQuestDbContext.cs           → DbContext EF Core (mapeo entidades → tablas PostgreSQL)
     └── Repository/
-        └── InMemory/
-            ├── InMemoryUserRepository.cs   → Adaptador: List<User> con 3 usuarios precargados
-            └── InMemoryPostRepository.cs   → Adaptador: List<Post> con 3 posts precargados
+        └── PostgreSQL/
+            ├── PostgreSqlUserRepository.cs  → Adaptador: CRUD usuarios vía EF Core
+            └── PostgreSqlPostRepository.cs  → Adaptador: CRUD posts vía EF Core
 ```
 
-### Modelos de dominio
+### Características principales
+
+- **Upload de archivos multimedia** (500MB máx):
+  - Fotos de perfil → `IndieQuest-LocalData/user/{id}/`
+  - Contenido de posts → `IndieQuest-LocalData/postdata/{id}/`
+  
+- **Almacenamiento estático**: Configurado en `Program.cs` para servir `/IndieQuest-LocalData` como recurso público
+
+- **CORS habilitado**: Permite solicitudes desde cualquier origen (`AllowAll` policy)
+
+- **Swagger disponible** en `/swagger` (desarrollo)
+
+- **Autenticación básica**: Endpoint de login que valida credenciales y devuelve datos del usuario
+
+### Modelos de dominio (PostgreSQL)
 
 #### `User`
 | Propiedad              | Tipo       | Descripción                          |
 |------------------------|------------|--------------------------------------|
-| `UserId`               | `string`   | Identificador único (GUID string)    |
-| `Username`             | `string`   | Nombre de usuario                    |
-| `Password`             | `string`   | Contraseña                           |
-| `Email`                | `string`   | Correo electrónico                   |
-| `AvailableForWork`     | `bool?`    | Disponibilidad para colaborar        |
+| `UserId`               | `int`      | Autoincremental (SERIAL)             |
+| `Username`             | `string`   | Nombre de usuario (único)            |
+| `Password`             | `string`   | Contraseña (sin encriptación actual) |
+| `Email`                | `string`   | Correo electrónico (único)           |
+| `UserProfilePicture`   | `string?`  | Ruta al archivo de foto de perfil    |
 | `UserBio`              | `string?`  | Biografía del usuario                |
-| `UserProfilePicture`   | `string?`  | Ruta o URL de la foto de perfil      |
-| `dateOfRegistration`   | `DateTime` | Fecha de alta (UTC)                  |
+| `AvailableForWork`     | `bool?`    | Disponibilidad para colaboraciones   |
+| `dateOfRegistration`   | `DateTime` | Fecha UTC de alta                    |
+| `UserPosts`            | `ICollection<UserPost>` | Navegación: posts del usuario |
 
 #### `Post`
 | Propiedad        | Tipo       | Descripción                          |
 |------------------|------------|--------------------------------------|
-| `PostId`         | `string`   | Identificador único (GUID string)    |
-| `PostUserId`     | `string`   | ID del usuario autor                 |
+| `PostId`         | `int`      | Autoincremental (SERIAL)             |
+| `PostUserId`     | `int`      | FK a `User.UserId`                   |
 | `Title`          | `string`   | Título del post                      |
-| `MediaContent`   | `string`   | Ruta o URL del contenido multimedia  |
-| `Description`    | `string?`  | Descripción del post                 |
-| `CreationDate`   | `DateTime` | Fecha de creación (UTC)              |
-| `Tags`           | `Tag[]?`   | Etiquetas asociadas                  |
+| `MediaContent`   | `string?`  | Ruta al archivo multimedia           |
+| `Description`    | `string?`  | Descripción/contenido del post       |
+| `CreationDate`   | `DateTime` | Fecha UTC de creación                |
+| `Tags`           | `ICollection<PostTag>` | Navegación: etiquetas |
+| `UserPost`       | `UserPost` | Navegación inversa: autor           |
 
 #### `Tag` (Value Object)
-| Propiedad   | Tipo     | Descripción         |
-|-------------|----------|---------------------|
-| `tagId`     | `string` | Identificador       |
-| `tagName`   | `string` | Nombre de la etiqueta|
+| Propiedad   | Tipo     | Descripción                       |
+|-------------|----------|-----------------------------------|
+| `tagId`     | `int`    | Autoincremental (SERIAL)          |
+| `tagName`   | `string` | Nombre de la etiqueta (único)     |
 
-### Endpoints expuestos
-
-#### Usuarios — `api/user`
-
-| Método   | Ruta             | Handler                        | Descripción              |
-|----------|------------------|--------------------------------|--------------------------|
-| `GET`    | `/api/user`      | `GetAllUsersQueryHandler`      | Obtener todos los usuarios|
-| `GET`    | `/api/user/{id}` | `GetUserByIdQueryHandler`      | Obtener usuario por ID   |
-| `POST`   | `/api/user`      | `CreateUserCommandHandler`     | Crear usuario            |
-| `PUT`    | `/api/user/{id}` | `UpdateUserCommandHandler`     | Actualizar usuario       |
-| `DELETE` | `/api/user/{id}` | `DeleteUserCommandHandler`     | Eliminar usuario         |
-
-#### Posts — `api/post`
-
-| Método   | Ruta                         | Handler                           | Descripción               |
-|----------|------------------------------|-----------------------------------|---------------------------|
-| `GET`    | `/api/post`                  | `GetAllPostsQueryHandler`         | Obtener todos los posts   |
-| `GET`    | `/api/post/{id}`             | `GetPostByIdQueryHandler`         | Obtener post por ID       |
-| `GET`    | `/api/post/user/{userId}`    | `GetPostsByUserIdQueryHandler`    | Posts de un usuario       |
-| `POST`   | `/api/post`                  | `CreatePostCommandHandler`        | Crear post                |
-| `PUT`    | `/api/post/{id}`             | `UpdatePostCommandHandler`        | Actualizar post           |
-| `DELETE` | `/api/post/{id}`             | `DeletePostCommandHandler`        | Eliminar post             |
+#### `UserPost` & `PostTag` (Tablas intermedias)
+Modelan relaciones N:M mediante PKs compuestas y FKs con cascade delete.
 
 ### Dependencias NuGet
 
-| Paquete                       | Versión   | Uso                  |
-|-------------------------------|-----------|----------------------|
-| `Swashbuckle.AspNetCore`      | 10.1.7    | Documentación Swagger|
+| Paquete                                    | Versión  |
+|--------------------------------------------|----------|
+| `Swashbuckle.AspNetCore`                   | 10.1.7   |
+| `Microsoft.EntityFrameworkCore`            | 10.0.0   |
+| `Npgsql.EntityFrameworkCore.PostgreSQL`    | 10.0.0   |
 
----
-
-## 5. IndieQuest-Api\_with\_PosGre — Implementación PostgreSQL
-
-Variante de la API con persistencia real en PostgreSQL mediante **Entity Framework Core**. Comparte la misma arquitectura y contratos que la versión en memoria; únicamente difiere la capa de infraestructura.
-
-### Cambios respecto a la versión en memoria
-
-| Aspecto               | `IndieQuest-Api`          | `IndieQuest-Api_with_PosGre`         |
-|-----------------------|---------------------------|--------------------------------------|
-| Tipo de ID            | `string` (GUID)           | `int` (autoincremental DB)           |
-| Persistencia          | `List<T>` en RAM          | PostgreSQL (tablas reales)           |
-| Repositorios          | `InMemory*Repository`     | `PostgreSql*Repository` (EF Core)    |
-| DbContext             | —                         | `IndieQuestDbContext`                |
-| Relaciones N:M        | Array embebido            | Tablas intermedias (`UserPost`, `PostTag`) |
-| Ciclo de vida DI      | `AddSingleton`            | `AddScoped`                          |
-
-### Estructura de archivos
-
-```
-IndieQuest-Api_with_PosGre/
-├── Program.cs                          → DI con PostgreSQL, DbContext, CORS, Swagger
-├── IQ-Api.csproj                       → EF Core 10.0.0 + Npgsql 10.0.0
-├── appsettings.json                    → ConnectionString PostgreSQL
-├── appsettings.Development.json        → Configuración de desarrollo
-├── Properties/
-│   └── launchSettings.json
-│
-├── Controllers/
-│   ├── UserController.cs               → Mismo contrato REST (parámetros int)
-│   └── PostController.cs               → Mismo contrato REST (parámetros int)
-│
-├── Domain/
-│   ├── Model/
-│   │   ├── User.cs                     → Entidad con int UserId + navegación UserPosts
-│   │   └── Post.cs                     → Entidad con int PostId + navegación UserPosts/PostTags
-│   ├── ValueObject/
-│   │   ├── Tag.cs                      → int tagId + navegación PostTags
-│   │   ├── UserPost.cs                 → Tabla intermedia User ↔ Post
-│   │   └── PostTag.cs                  → Tabla intermedia Post ↔ Tag
-│   └── Repository/
-│       ├── IUserRepository.cs          → Puerto (int userId)
-│       └── IPostRepository.cs          → Puerto (int postId)
-│
-├── Application/
-│   ├── Command/                        → Misma estructura que IndieQuest-Api (ids: int)
-│   └── Queries/                        → Misma estructura que IndieQuest-Api (ids: int)
-│
-└── Infrastructure/
-    ├── IndieQuestDbContext.cs           → Configuración EF Core (mapeo a tablas SQL)
-    └── Repository/
-        └── PostgreSQL/
-            ├── PostgreSqlUserRepository.cs  → Adaptador EF Core para usuarios
-            └── PostgreSqlPostRepository.cs  → Adaptador EF Core para posts
-```
-
-### Modelos de dominio (diferencias con la versión en memoria)
-
-#### `User` (PostgreSQL)
-```csharp
-public class User {
-    public int UserId { get; set; }                          // int autoincremental
-    public required string Username { get; set; }
-    public required string Password { get; set; }
-    public bool? AvailableForWork { get; set; }
-    public string? UserBio { get; set; }
-    public string? UserProfilePicture { get; set; }
-    public required string Email { get; set; }
-    public DateTime dateOfRegistration { get; set; }
-    public ICollection<UserPost> UserPosts { get; set; }     // Navegación N:M
-}
-```
-
-#### `UserPost` (tabla intermedia `Makes_MadeBy`)
-```csharp
-public class UserPost {
-    public int UserId { get; set; }
-    public User User { get; set; }
-    public int PostId { get; set; }
-    public Post Post { get; set; }
-}
-```
-
-#### `PostTag` (tabla intermedia `Has_Tag`)
-```csharp
-public class PostTag {
-    public int PostId { get; set; }
-    public Post Post { get; set; }
-    public int TagId { get; set; }
-    public Tag Tag { get; set; }
-}
-```
-
-### `IndieQuestDbContext`
-
-El DbContext centraliza la configuración del mapeo entre entidades C# y tablas PostgreSQL:
-
-| Entidad    | Tabla SQL         | Clave primaria     | Relaciones configuradas              |
-|------------|-------------------|--------------------|--------------------------------------|
-| `User`     | `"User"`          | `idUser`           | 1:N con `UserPost` (Cascade delete)  |
-| `Post`     | `Post`            | `idPost`           | 1:N con `UserPost`, 1:N con `PostTag`|
-| `Tag`      | `Tag`             | `idTag`            | 1:N con `PostTag`                    |
-| `UserPost` | `Makes_MadeBy`    | `(idUser, idPost)` | FK a User y Post                     |
-| `PostTag`  | `Has_Tag`         | `(idPost, idTag)`  | FK a Post y Tag                      |
-
-### Cadena de conexión
+### Configuración de base de datos
 
 ```json
 // appsettings.json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Port=5432;Database=Indie_Quest_DB;User Id=postgres;Password=jc123;"
+    "DefaultConnection": "Server=localhost;Port=5432;Database=Indie_Quest_DB;User Id=postgres;Password=..."
   }
 }
 ```
 
-### Dependencias NuGet adicionales
+## 5. IndieQuest-Tests — Suite de Pruebas
 
-| Paquete                                    | Versión  | Uso                          |
-|--------------------------------------------|----------|------------------------------|
-| `Microsoft.EntityFrameworkCore`            | 10.0.0   | ORM base                     |
-| `Npgsql.EntityFrameworkCore.PostgreSQL`    | 10.0.0   | Proveedor PostgreSQL para EF |
-| `Swashbuckle.AspNetCore`                   | 10.1.7   | Documentación Swagger        |
-
----
-
-## 6. IndieQuest-Test — Suite de Pruebas
-
-Proyecto de pruebas que cubre la API en memoria (`IndieQuest-Api`) en cuatro niveles de la pirámide de testing.
+Proyecto de pruebas que cubre la API en cuatro niveles de la pirámide de testing.
 
 ### Estructura de archivos
 
 ```
-IndieQuest-Test/
-├── IndieQuest.Test.csproj              → NUnit 4.2.2 + Moq 4.20.72 + MVC.Testing
+IndieQuest-Tests/
+├── IndieQuest.Test.PosGre.csproj       → NUnit 4.2.2 + Moq 4.20.72 + MVC.Testing
 │
 ├── UnitTest/                           → Pruebas de Query Handlers en aislamiento
-│   ├── GetUserByIdQueryHandlerTests.cs        ✅ Existente
-│   ├── GetAllUsersQueryHandlerTests.cs        ✅ Existente
-│   ├── GetPostByIdQueryHandlerTests.cs        ✅ Existente
-│   ├── GetAllPostsQueryHandlerTests.cs        ✅ Existente
-│   └── GetPostsByUserIdQueryHandlerTests.cs   ✅ Existente
-│
-├── IntegrationTest/                    → Pruebas de repositorios en memoria
-│   ├── InMemoryUserRepositoryCreateUserTests.cs     ✅ Existente
-│   ├── InMemoryUserRepositoryGetAllUsersTests.cs    ✅ Existente
-│   ├── InMemoryUserRepositoryGetUserByIdTests.cs    ✅ Nuevo
-│   ├── InMemoryUserRepositoryUpdateUserTests.cs     ✅ Existente
-│   ├── InMemoryUserRepositoryDeleteUserTests.cs     ✅ Existente
-│   ├── InMemoryPostRepositoryCreatePostTests.cs     ✅ Existente
-│   ├── InMemoryPostRepositoryGetAllPostsTests.cs    ✅ Existente
-│   ├── InMemoryPostRepositoryGetPostByIdTests.cs    ✅ Nuevo
-│   ├── InMemoryPostRepositoryGetPostsByUserIdTests.cs ✅ Nuevo
-│   ├── InMemoryPostRepositoryUpdatePostTests.cs     ✅ Existente
-│   └── InMemoryPostRepositoryDeletePostTests.cs     ✅ Existente
-│
+├── IntegrationTest/                    → Pruebas de repositorios PostgreSQL
 ├── AcceptanceTest/                     → Pruebas de Command/Query Handlers con mocks
-│   ├── CreateUserCommandHandlerTests.cs        ✅ Existente
-│   ├── UpdateUserCommandHandlerTests.cs        ✅ Existente
-│   ├── DeleteUserCommandHandlerTests.cs        ✅ Existente
-│   ├── GetAllUsersQueryHandlerTests.cs         ✅ Existente
-│   ├── GetUserByIdQueryHandlerTests.cs         ✅ Nuevo
-│   ├── CreatePostCommandHandlerTests.cs        ✅ Existente
-│   ├── UpdatePostCommandHandlerTests.cs        ✅ Existente
-│   ├── DeletePostCommandHandlerTests.cs        ✅ Existente
-│   ├── GetAllPostsQueryHandlerTests.cs         ✅ Existente
-│   ├── GetPostByIdQueryHandlerTests.cs         ✅ Nuevo
-│   └── GetPostsByUserIdQueryHandlerTests.cs    ✅ Nuevo
-│
 └── EndToEndTest/                       → Pruebas de Controllers vía HTTP
-    ├── UserControllerCreateUserTests.cs        ✅ Existente
-    ├── UserControllerGetAllUsersTests.cs       ✅ Existente
-    ├── UserControllerGetUserByIdTests.cs       ✅ Existente
-    ├── UserControllerUpdateUserTests.cs        ✅ Existente
-    ├── UserControllerDeleteUserTests.cs        ✅ Existente
-    ├── PostControllerCreatePostTests.cs        ✅ Existente
-    ├── PostControllerGetAllPostsTests.cs       ✅ Existente
-    ├── PostControllerGetPostByIdTests.cs       ✅ Existente
-    ├── PostControllerGetPostsByUserIdTests.cs  ✅ Existente
-    ├── PostControllerUpdatePostTests.cs        ✅ Existente
-    └── PostControllerDeletePostTests.cs        ✅ Existente
 ```
 
 ### Niveles de prueba
 
-#### Unit Tests — Aislamiento total
+#### Unit Tests
+Prueban Query Handlers inyectando mocks del repositorio. Validación de lógica pura sin dependencias externas.
 
-Prueban handlers de query inyectando un mock del repositorio. No hay dependencias externas. Validan la lógica pura del handler sin acceder a datos reales.
+#### Integration Tests
+Prueban repositorios PostgreSQL directamente, verificando operaciones CRUD sin mocks.
 
-- Tecnología: **NUnit** + **Moq**
-- Alcance: 5 Query Handlers (`GetUserByIdQueryHandler`, `GetAllUsersQueryHandler`, `GetPostByIdQueryHandler`, `GetAllPostsQueryHandler`, `GetPostsByUserIdQueryHandler`)
-- Patrón: Arrange (mock) → Act (handler.Handle) → Assert (resultado)
-- Casos cubiertos: resultado válido, resultado nulo, colecciones vacías
+#### Acceptance Tests
+Prueban Command/Query Handlers con mocks, validando la lógica de orquestación de la capa de aplicación.
 
-#### Integration Tests — Repositorio real en memoria
-
-Prueban las implementaciones `InMemoryRepository` directamente, sin mocks. Verifican que la lógica de acceso a datos en memoria funciona correctamente, incluyendo operaciones CRUD y búsquedas especializadas.
-
-- Tecnología: **NUnit**
-- Alcance: `InMemoryUserRepository` (5 test files) y `InMemoryPostRepository` (6 test files)
-- Cobertura: Create, GetAll, GetById, GetPostsByUserId, Update, Delete para usuarios y posts
-- Casos cubiertos: operaciones exitosas, ID no existente, actualización parcial, eliminación en cascada
-
-#### Acceptance Tests — Handlers con mocks de repositorio
-
-Prueban todos los Command Handlers y Query Handlers de forma aislada, usando Moq para simular el repositorio. Validan la lógica de orquestación de la capa de aplicación sin acceder a HTTP.
-
-- Tecnología: **NUnit** + **Moq**
-- Alcance: 11 test files cubriendo todos los handlers (Commands y Queries)
-- Handlers probados:
-  - **Users**: CreateUserCommandHandler, UpdateUserCommandHandler, DeleteUserCommandHandler, GetAllUsersQueryHandler, GetUserByIdQueryHandler
-  - **Posts**: CreatePostCommandHandler, UpdatePostCommandHandler, DeletePostCommandHandler, GetAllPostsQueryHandler, GetPostByIdQueryHandler, GetPostsByUserIdQueryHandler
-- Cobertura: operaciones exitosas, datos inválidos, repositorio vacío, manejo de excepciones
-
-#### End-to-End Tests — Pila HTTP completa
-
-Prueban los controladores REST usando `WebApplicationFactory`, enviando peticiones HTTP reales y verificando respuestas (status code, cuerpo JSON). Representan la prueba más cercana al comportamiento real del usuario.
-
-- Tecnología: **NUnit** + **Microsoft.AspNetCore.Mvc.Testing**
-- Alcance: `UserController` (5 test files) y `PostController` (6 test files)
-- Endpoints cubiertos: todos los 11 endpoints REST (5 para usuarios, 6 para posts)
-- Cobertura: peticiones válidas, códigos de estado HTTP, formato de respuesta JSON, manejo de errores HTTP
-- Casos: operaciones exitosas (200 OK), recurso no encontrado (404), validación de datos en respuesta
+#### End-to-End Tests
+Prueban controladores REST usando `WebApplicationFactory`, verificando respuestas HTTP reales.
 
 ### Dependencias NuGet
 
-| Paquete                                   | Versión   | Uso                              |
-|-------------------------------------------|-----------|----------------------------------|
-| `NUnit`                                   | 4.2.2     | Framework de testing             |
-| `NUnit3TestAdapter`                       | 4.6.0     | Integración con test runner      |
-| `Microsoft.NET.Test.Sdk`                  | 17.12.0   | SDK de pruebas .NET              |
-| `Moq`                                     | 4.20.72   | Mocking de dependencias          |
-| `Microsoft.AspNetCore.Mvc.Testing`        | 10.0.0    | Testing de controladores HTTP    |
+| Paquete                                   | Versión   |
+|-------------------------------------------|-----------|
+| `NUnit`                                   | 4.2.2     |
+| `NUnit3TestAdapter`                       | 4.6.0     |
+| `Microsoft.NET.Test.Sdk`                  | 17.12.0   |
+| `Moq`                                     | 4.20.72   |
+| `Microsoft.AspNetCore.Mvc.Testing`        | 10.0.0    |
 
----
+## 6. IndieQuest-DataBase — Base de Datos
 
-## 7. IndieQuest-DataBase — Base de Datos
+Scripts SQL para creación del esquema PostgreSQL y carga de datos iniciales.
 
-Scripts SQL para la creación del esquema y la carga de datos iniciales en PostgreSQL.
-
-### Estructura de archivos
+### Estructura
 
 ```
 IndieQuest-DataBase/
-├── IQ-DB.sql                   → Creación del esquema (tablas, PKs, FKs)
-└── IQ-StartingEntities.sql     → Inserción de datos de ejemplo
+├── IQ-DB.sql                   → Creación de tablas, PKs, FKs, índices
+└── IQ-StartingEntities.sql     → Datos de ejemplo (usuarios, posts, tags)
 ```
 
-### Esquema de la base de datos (`IQ-DB.sql`)
+### Esquema
 
-```sql
--- Tabla principal de usuarios
-"User" (idUser SERIAL PK, userName, email, password,
-        ProfilePicture, userBio, availableForWork, dateOfRegistration)
-
--- Tabla de publicaciones
-Post (idPost SERIAL PK, postTitle, mediaContent,
-      Description, CreationDate)
-
--- Catálogo de etiquetas
-Tag (idTag SERIAL PK, tagName)
-
--- Relación N:M entre User y Post
-Makes_MadeBy (idUser FK → "User".idUser,
-              idPost FK → Post.idPost,
-              PK compuesta)
-
--- Relación N:M entre Post y Tag
-Has_Tag (idPost FK → Post.idPost,
-         idTag  FK → Tag.idTag,
-         PK compuesta)
-```
-
-### Datos de ejemplo (`IQ-StartingEntities.sql`)
-
-| Entidad | Registros insertados                                         |
-|---------|--------------------------------------------------------------|
-| Usuarios| `john_doe`, `jane_smith`, `alice_wonder`                     |
-| Posts   | "First Post", "Second Post", "Third Post" (1 por usuario)    |
-| Tags    | `Software`, `Design`, `Content`                              |
-| Relaciones| Cada post vinculado a su usuario y a su tag correspondiente|
+| Tabla       | Descrición                        | Relaciones                              |
+|-------------|-----------------------------------|----------------------------------------|
+| `"User"`    | Usuarios (3 ejemplos precargados) | 1:N → UserPost, 1:N → Post             |
+| `Post`      | Posts (3 ejemplos precargados)    | N:1 → UserPost, N:M → Tag              |
+| `Tag`       | Etiquetas (~3 ejemplos)           | N:M → PostTag                          |
+| `Makes_MadeBy` | Relación User ↔ Post (N:M)   | FK a User + FK a Post (cascade delete) |
+| `Has_Tag`   | Relación Post ↔ Tag (N:M)        | FK a Post + FK a Tag (cascade delete)  |
 
 ---
 
-## 8. Markdowns — Documentación Técnica
+## 7. IndieQuest-UI — Frontend Principal
+
+Aplicación React con Vite para usuarios finales. Interfaz responsive para gestionar perfil, ver posts y colaborar con otros desarrolladores.
+
+### Estructura
 
 ```
-Markdowns/
-├── LOCAL_MEDIA_STORAGE_SETUP.md        → Guía de almacenamiento local de media
-└── POSTGRESQL_MIGRATION_GUIDE.md       → Guía de migración In-Memory → PostgreSQL
+IndieQuest-UI/
+├── index.html                          → Punto de entrada HTML
+├── package.json                        → Dependencias (React, React Router, Vite)
+├── vite.config.js                      → Configuración Vite
+├── README.md                           → Documentación del proyecto
+├── public/                             → Recursos estáticos
+├── src/
+│   ├── main.jsx                        → Punto de entrada React
+│   ├── App.jsx                         → Componente raíz
+│   ├── api/
+│   │   └── client.js                   → Cliente HTTP (llamadas a la API)
+│   ├── context/
+│   │   └── AuthContext.jsx             → Contexto de autenticación
+│   ├── pages/
+│   │   ├── HomePage.jsx
+│   │   ├── LoginPage.jsx
+│   │   ├── EditUserPage.jsx
+│   │   └── ...otros
+│   ├── components/
+│   │   ├── PageHeader.jsx
+│   │   ├── ErrorBox.jsx
+│   │   ├── Spinner.jsx
+│   │   └── ...otros
+│   ├── styles/                         → Estilos CSS/SCSS
+│   └── utils/
+│       ├── format.js                   → Utilidades de formateo
+│       └── ...otros
 ```
 
-### `LOCAL_MEDIA_STORAGE_SETUP.md`
+### Tecnologías
 
-Documenta la estrategia de almacenamiento local para ficheros multimedia (fotos de perfil y contenido de posts). Define la estructura de directorios:
+- **React 18**: Framework UI
+- **React Router**: Navegación SPA
+- **Vite**: Build tool (desarrollo rápido)
+- **CSS/SCSS**: Estilos
+
+---
+
+## 8. IndieQuest-AdminInterface — Panel de Administración
+
+Aplicación React con Vite para administradores. Interfaz para moderar contenido, gestionar usuarios y monitorear la plataforma.
+
+### Estructura
+
+```
+IndieQuest-AdminInterface/
+├── index.html
+├── package.json                        → Dependencias React + Vite
+├── vite.config.js                      → Configuración Vite
+├── QUICK_START.md                      → Guía rápida de inicio
+├── README.md                           → Documentación
+├── ADMIN_PANEL_README.md               → Especificaciones del panel
+├── ADMIN_TESTING_GUIDE.md              → Guía de testing
+├── CHANGELOG.md                        → Historial de cambios
+├── public/                             → Recursos estáticos
+└── src/                                → Estructura similar a IndieQuest-UI
+    ├── main.jsx
+    ├── App.jsx
+    ├── api/
+    ├── context/
+    ├── pages/
+    ├── components/
+    ├── styles/
+    └── utils/
+```
+
+### Tecnologías
+
+Mismas que IndieQuest-UI: **React 18**, **React Router**, **Vite**
+
+---
+
+## 9. IndieQuest-LocalData — Almacenamiento Multimedia
+
+Carpeta de almacenamiento local para contenido multimedia (fotos de perfil y media de posts). **No se versionan archivos** en Git.
+
+### Estructura
 
 ```
 IndieQuest-LocalData/
+├── .gitkeep                            → Marca la carpeta para Git (sin archivos)
 ├── user/
-│   ├── 1/    → Archivos de perfil de john_doe
-│   ├── 2/    → Archivos de perfil de jane_smith
-│   └── 3/    → Archivos de perfil de alice_wonder
+│   ├── 1/                              → Fotos de perfil del usuario 1
+│   ├── 2/                              → Fotos de perfil del usuario 2
+│   └── 3/                              → Fotos de perfil del usuario 3
 └── postdata/
-    ├── 1/    → Media del "First Post"
-    ├── 2/    → Media del "Second Post"
-    └── 3/    → Media del "Third Post"
+    ├── 1/                              → Media del post 1
+    ├── 2/                              → Media del post 2
+    └── 3/                              → Media del post 3
 ```
 
-Incluye el flujo de subida de archivos, configuración de archivos estáticos en ASP.NET Core y consideraciones de seguridad.
+### Cómo funciona
 
-### `POSTGRESQL_MIGRATION_GUIDE.md`
+1. **Upload**: Usuario sube archivo mediante `POST /api/users/{id}/picture` o `POST /api/posts/{id}/media`
+2. **Almacenamiento**: API guarda el archivo en `IndieQuest-LocalData/{tipo}/{id}/`
+3. **Ruta BD**: Se almacena la ruta relativa en PostgreSQL (ej: `IndieQuest-LocalData/user/1/avatar.jpg`)
+4. **Servicio estático**: La API sirve estos archivos en `/IndieQuest-LocalData` como recurso público
 
-Guía paso a paso para migrar la implementación en memoria a PostgreSQL. Cubre:
-- Actualización de modelos (de `string` a `int` como tipo de ID)
-- Implementación del patrón repositorio con EF Core
-- Configuración del `DbContext` con mapeo de entidades
-- Modelado de relaciones N:M mediante tablas intermedias
-- Cambios en Commands, Handlers y Controllers
-- Instalación de paquetes NuGet necesarios
-- Ejemplos de implementación de repositorios PostgreSQL
+### Límite de upload
+
+Máximo **500 MB** por archivo (configurado en [Program.cs](IndieQuest-Api/Program.cs))
 
 ---
 
-## 9. Diagrama de relaciones de datos
+## 10. Diagrama de relaciones de datos
 
 ```
                     ┌───────────┐
@@ -712,16 +589,15 @@ Guía paso a paso para migrar la implementación en memoria a PostgreSQL. Cubre:
 
 ---
 
-## Resumen de tecnologías
+## Stack Tecnológico
 
-| Categoría            | Tecnología / Herramienta                        |
-|----------------------|-------------------------------------------------|
-| Framework            | ASP.NET Core 10.0 (Web API)                     |
-| ORM                  | Entity Framework Core 10.0 (versión PostgreSQL) |
-| Base de datos        | PostgreSQL 16+ con Npgsql                       |
-| Documentación API    | Swagger / Swashbuckle 10.1.7                    |
-| Testing              | NUnit 4.2.2 + Moq 4.20.72                       |
-| Testing HTTP         | Microsoft.AspNetCore.Mvc.Testing 10.0.0         |
-| Estilo de API        | REST (Richardson Maturity Level 2)              |
-| Arquitectura         | Hexagonal (Ports & Adapters) + CQRS             |
-| Lenguaje             | C# 13 / .NET 10.0                               |
+| Capa                | Tecnología                                      |
+|---------------------|-------------------------------------------------|
+| **Backend API**     | ASP.NET Core 10.0 + EF Core 10.0 + Npgsql      |
+| **Base de datos**   | PostgreSQL 16+                                  |
+| **Frontend**        | React 18 + React Router + Vite                  |
+| **Testing**         | NUnit 4.2.2 + Moq 4.20.72 + AspNetCore.Mvc.Testing |
+| **Documentación**   | Swagger / Swashbuckle 10.1.7                    |
+| **Arquitectura**    | Hexagonal (Ports & Adapters) + CQRS             |
+| **API Style**       | REST (Richardson Level 2)                       |
+| **Lenguaje**        | C# 13 / JavaScript (ES6+)                       |
