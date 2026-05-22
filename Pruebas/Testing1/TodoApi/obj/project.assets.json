@@ -673,23 +673,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\JPINAR\\.nuget\\packages\\": {},
+    "C:\\Users\\juanc\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\JPINAR\\OneDrive - Unit4\\Desktop\\Pruebas\\Testing1\\TodoApi\\TodoApi.csproj",
+      "projectUniqueName": "C:\\Users\\juanc\\Desktop\\INDIE QUEST\\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\\Pruebas\\Testing1\\TodoApi\\TodoApi.csproj",
       "projectName": "TodoApi",
-      "projectPath": "C:\\Users\\JPINAR\\OneDrive - Unit4\\Desktop\\Pruebas\\Testing1\\TodoApi\\TodoApi.csproj",
-      "packagesPath": "C:\\Users\\JPINAR\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JPINAR\\OneDrive - Unit4\\Desktop\\Pruebas\\Testing1\\TodoApi\\obj\\",
+      "projectPath": "C:\\Users\\juanc\\Desktop\\INDIE QUEST\\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\\Pruebas\\Testing1\\TodoApi\\TodoApi.csproj",
+      "packagesPath": "C:\\Users\\juanc\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\juanc\\Desktop\\INDIE QUEST\\INDIE-QUEST-TRABAJO-FINAL-DE-CURSO-\\Pruebas\\Testing1\\TodoApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\JPINAR\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\juanc\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -716,7 +716,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net10.0": {
@@ -754,7 +754,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

@@ -1,79 +1,93 @@
--- 1. Inserción de Usuarios (15 usuarios para probar paginación con pageSize=10)
-INSERT INTO "User" (userName, email, password, ProfilePicture, userBio, availableForWork)
+-- 1. Inserción de Usuarios (18 usuarios con datos reales)
+INSERT INTO "User" (username, email, password, profilepicture, userbio, availableforwork)
 VALUES 
-('john_doe',     'john.doe@example.com',     'password123',    'IndieQuest-LocalData/user/1/profile.jpg',  'Software developer with a passion for open-source projects.',           TRUE),
-('jane_smith',   'jane.smith@example.com',   'securepassword', 'IndieQuest-LocalData/user/2/profile.jpg',  'Graphic designer specializing in digital art and branding.',            FALSE),
-('alice_wonder', 'alice.wonder@example.com', 'alicepassword',  'IndieQuest-LocalData/user/3/profile.jpg',  'Content creator and social media manager with a love for storytelling.', TRUE),
-('carlos_dev',   'carlos.dev@example.com',   'carlos123',      'IndieQuest-LocalData/user/4/profile.jpg',  'Indie game developer focused on pixel art and retro games.',            TRUE),
-('mia_pixel',    'mia.pixel@example.com',    'mia456',         'IndieQuest-LocalData/user/5/profile.jpg',  'Digital artist and game jam enthusiast.',                               FALSE),
-('luke_coder',   'luke.coder@example.com',   'luke789',        'IndieQuest-LocalData/user/6/profile.jpg',  'Full-stack developer exploring game mechanics and procedural generation.',TRUE),
-('sara_art',     'sara.art@example.com',     'sara321',        'IndieQuest-LocalData/user/7/profile.jpg',  'Concept artist creating environments for indie RPGs.',                  FALSE),
-('tom_design',   'tom.design@example.com',   'tom654',         'IndieQuest-LocalData/user/8/profile.jpg',  'UX/UI designer bringing usability to indie game interfaces.',           TRUE),
-('nina_dev',     'nina.dev@example.com',     'nina987',        'IndieQuest-LocalData/user/9/profile.jpg',  'Backend developer building game server infrastructure.',                FALSE),
-('max_indie',    'max.indie@example.com',    'max111',         'IndieQuest-LocalData/user/10/profile.jpg', 'Solo indie developer working on a roguelike adventure.',               TRUE),
-('ella_craft',   'ella.craft@example.com',   'ella222',        'IndieQuest-LocalData/user/11/profile.jpg', 'Voxel artist and 3D modeler specializing in low-poly aesthetics.',      TRUE),
-('sam_build',    'sam.build@example.com',    'sam333',         'IndieQuest-LocalData/user/12/profile.jpg', 'Systems programmer interested in engine development.',                  FALSE),
-('iris_pixel',   'iris.pixel@example.com',   'iris444',        'IndieQuest-LocalData/user/13/profile.jpg', 'Pixel animator creating frame-by-frame sprite sheets.',                TRUE),
-('kai_studio',   'kai.studio@example.com',   'kai555',         'IndieQuest-LocalData/user/14/profile.jpg', 'Sound designer and composer for indie games.',                         FALSE),
-('rex_gamejam',  'rex.gamejam@example.com',  'rex666',         'IndieQuest-LocalData/user/15/profile.jpg', 'Veteran game jammer with 30+ jam entries under his belt.',             TRUE);
+('Manu-PixelArt', 'Martiel@gmail.com', 'heho', 'IndieQuest-LocalData/user/1/Absolute_Cinema_Hee_hoo.jpeg', 'Estudiante de DAM y artista de Pixel Art\n\nPuedes contactar conmigo por: ManuPixel@gmail.com', TRUE),
+('juanca', 'juancarlospin@gmail.com', '123123', 'IndieQuest-LocalData/user/2/71pcOzMoXAL._AC_UF1000,1000_QL80_.jpg', 'Esta es mi bio :)\n\nCorreo personal: juancarlospin@gmail.com', TRUE),
+('PablitoElMalito', 'sam.build@hotmail.com', 'sam33', 'IndieQuest-LocalData/user/3/images (1).jpg', 'Systems programmer interested in engine development.\n\nContact: pablo3@hotmail.com', FALSE),
+('carlos_dev', 'carlosdev@gmail.com', 'carloscarlos', 'IndieQuest-LocalData/user/4/193ff2ca8a4e1a844a2616fa30791ca8.webp', 'Desarrollador indie de videojuegos retro, experto en interfaces graficas\n\nCorreo personal: carlosdev@gmail.com', TRUE),
+('NachoIA', 'NachoAI@outlook.com', 'nacho123', 'IndieQuest-LocalData/user/5/gta-6-leonida-keys-screenshots_ehwt.jpg', 'Experto en workflows con agentes de Inteligencia Artificial en videojuegos.\n\nContacto: NachoAI@outlook.com', FALSE),
+('SolanaChess', 'SunPiece@correo.com', '123123', 'IndieQuest-LocalData/user/6/pngtree-chess-clipart-isometric-chess-pieces-isolated-on-a-white-background-cartoon-vector-png-image_6809262.png', 'Aficionado del ajedrez\n\nPuedes contactar conmigo en SunPiece@correo.com', TRUE),
+('Prueba', 'prueba@gmail.com', '123123', 'IndieQuest-LocalData/user/8/e5612c808168df5e4e680c04d5b05a49.jpg', 'Hola! Soy un usuario de prueba', TRUE),
+('AriGameplays', 'Ari@gmail.com', '123123', 'IndieQuest-LocalData/user/9/aripnh.png', 'Existiendo', FALSE),
+('GutiFit', 'pgut@hotmail.com', '123123', 'IndieQuest-LocalData/user/10/siluetas-vectoriales-de-logotipos-gimnasio-418465242.webp', 'Especialista en modelado de personajes\n\nPuedes contactar conmigo en: pgut@hotmail.com', TRUE),
+('LunaCruzcampo', 'lunaluna@gmail.com', 'cruzcampoforever', 'IndieQuest-LocalData/user/11/cruzcampo_logo_portada.jpg', 'lunaluna@gmail.com', FALSE),
+('Pablohoc', 'Pablohoc@gmail.com', 'tuno123', 'IndieQuest-LocalData/user/12/sin-titulo-1_npes.1280.webp', 'Musico profesional\n\nPablohoc@gmail.com', TRUE),
+('Rafa', 'rafamalagon@gmail.com', 'rafarafa', 'IndieQuest-LocalData/user/13/Captura de pantalla 2026-05-22 232400.png', 'Diseñador de UIs y especialista en color\n\nrafamalagon@gmail.com', FALSE),
+('SergieDev', 'sergio@gmail.com', 'sergio', 'IndieQuest-LocalData/user/14/encrypted-tbn2_gstatic_com-shopping.jpg', 'Especialista en GODOT y desarollo de videojuegos', FALSE),
+('GonzaloDev', 'gonzalo@gmail.com', 'gonzalo', NULL, NULL, FALSE),
+('Llluc_el_Gran_Borracho', 'lluccolls@gmail.com', 'llucelcopas', 'IndieQuest-LocalData/user/16/copa-de-vino-de-cristal-con-el-vino-rojo-un-realista-transparente-vector-65715620.webp', 'Puedes contactar conmigo tanto para trabajo como para una copita en \n\nlluccolls@gmail.com', TRUE),
+('AlvaroTranslate', 'alvarotransalte@gmail.com', '123123', NULL, 'Traductor oficial, si quieres tu proyecto en mas idiomas contacta a \n\nalvarotransalte@gmail.com', TRUE),
+('Munioz', 'pabloM@outlook.com', 'pablo', NULL, NULL, FALSE);
 
--- 2. Inserción de Publicaciones (25 posts para probar paginación con pageSize=10: 3 páginas)
-INSERT INTO "Post" (postTitle, mediaContent, Description)
+-- 2. Inserción de Publicaciones (13 posts con datos reales)
+INSERT INTO "Post" (posttitle, mediacontent, description)
 VALUES 
-('First Post',          'IndieQuest-LocalData/postdata/1/media.jpg',  'This is the first post.'),
-('Second Post',         'IndieQuest-LocalData/postdata/2/media.jpg',  'This is the second post.'),
-('Third Post',          'IndieQuest-LocalData/postdata/3/media.jpg',  'This is the third post.'),
-('Pixel Art Basics',    'IndieQuest-LocalData/postdata/4/media.jpg',  'Introduction to pixel art techniques for beginners.'),
-('Game Jam Entry',      'IndieQuest-LocalData/postdata/5/media.jpg',  'My submission for the 48-hour game jam.'),
-('Unity Tips & Tricks', 'IndieQuest-LocalData/postdata/6/media.jpg',  'Top 5 Unity tips every indie developer should know.'),
-('Retro Sound Design',  'IndieQuest-LocalData/postdata/7/media.jpg',  'How to create authentic 8-bit sound effects.'),
-('UI Mockups Vol. 1',   'IndieQuest-LocalData/postdata/8/media.jpg',  'Early UI mockups for the new project HUD.'),
-('Character Sprites',   'IndieQuest-LocalData/postdata/9/media.jpg',  'Animated character sprite sheet showcase.'),
-('Level Design 101',    'IndieQuest-LocalData/postdata/10/media.jpg', 'Core principles of engaging level design.'),
-('Devlog #1',           'IndieQuest-LocalData/postdata/11/media.jpg', 'First weekly development log entry.'),
-('Devlog #2',           'IndieQuest-LocalData/postdata/12/media.jpg', 'Progress update on the main game mechanic.'),
-('Color Palette Guide', 'IndieQuest-LocalData/postdata/13/media.jpg', 'How to choose a harmonious color palette for your game.'),
-('Forest Tileset WIP',  'IndieQuest-LocalData/postdata/14/media.jpg', 'Work-in-progress tileset for the forest biome.'),
-('Boss Fight Design',   'IndieQuest-LocalData/postdata/15/media.jpg', 'Designing challenging but fair boss encounters.'),
-('Main Menu Music',     'IndieQuest-LocalData/postdata/16/media.jpg', 'Background music loop created for the main menu.'),
-('Trailer First Cut',   'IndieQuest-LocalData/postdata/17/media.jpg', 'First rough cut of the official game trailer.'),
-('Open Source Tools',   'IndieQuest-LocalData/postdata/18/media.jpg', 'Essential free tools every indie developer should know.'),
-('Game Feel Tips',      'IndieQuest-LocalData/postdata/19/media.jpg', 'Small tweaks that drastically improve game feel.'),
-('Particle Systems',    'IndieQuest-LocalData/postdata/20/media.jpg', 'Adding juice and polish with particle effects.'),
-('Isometric Renderer',  'IndieQuest-LocalData/postdata/21/media.jpg', 'Building an isometric map renderer from scratch.'),
-('AI Pathfinding',      'IndieQuest-LocalData/postdata/22/media.jpg', 'Implementing A* algorithm for enemy navigation.'),
-('Save System Design',  'IndieQuest-LocalData/postdata/23/media.jpg', 'Simple and robust save/load system for 2D games.'),
-('Monetization Ideas',  'IndieQuest-LocalData/postdata/24/media.jpg', 'Ethical monetization models for indie games.'),
-('Beta Release Notes',  'IndieQuest-LocalData/postdata/25/media.jpg', 'Public beta is now available — patch notes and known issues.');
+('Mi primera sprite sheet', 'IndieQuest-LocalData/postdata/1/Movement - Sheet.png', 'Animaciones diseñadas para mi primer videojuego'),
+('Gameplay Cyclops adventure', 'IndieQuest-LocalData/postdata/2/Video Cyclops Adventure.mp4', 'Un juego estilo dinosauro de google chrome'),
+('Mi proyecto de ciudad', 'IndieQuest-LocalData/postdata/3/castle_showcase.webp', 'Modelo 3D de ciudad para mi videojuego personal en desarollo'),
+('Ajedrez', '', ':)'),
+('Motor de ajedrez en ejecución', 'IndieQuest-LocalData/postdata/7/Ajedrez.mp4', 'Demo basica\n'),
+('Asset de audio gratuito', 'IndieQuest-LocalData/postdata/8/DANIO_SOUND.mp3', 'Efecto sonoro de daño'),
+('Compartiendo assets gratuitos cada dia #1', 'IndieQuest-LocalData/postdata/9/juego.mp3', 'Musica generica de ambientación'),
+('WORK IN PROGRESS Modelo 3D', 'IndieQuest-LocalData/postdata/10/4uzxksb0.jpg', 'Estoy trabando en el modelo del protagonista de mi juego en Unity'),
+('Diseñando escenarios', 'IndieQuest-LocalData/postdata/11/0528620861b544eeb4af8216053845e3.jpeg', 'Modelado de assets para escenarios'),
+('Musica ambientación de aventura', 'IndieQuest-LocalData/postdata/12/musica_aventura.mp3', 'Pa usarla como querais'),
+('Objeto para mi videojuego', 'IndieQuest-LocalData/postdata/13/pixelated-mug-of-beer-large-mug-of-beer-drink-icon-pixelated-for-the-pixel-art-game-and-icon-for-website-and-game-old-school-retro-free-vector.jpg', 'Estoy desarrollando los equipamentos de mi juego roguelike, que os parece?');
 
--- 3. Inserción de Etiquetas
-INSERT INTO "Tag" (tagName)
+-- 3. Inserción de Etiquetas (14 tags con datos reales)
+INSERT INTO "Tag" (tagname)
 VALUES 
-('Software'),
-('Design'),
-('Content'),
-('GameDev'),
-('PixelArt'),
-('Audio'),
-('UI'),
-('Devlog'),
-('Unity'),
-('OpenSource');
+('pixelart'),
+('gamedev'),
+('runner'),
+('3dmodeling'),
+('blender'),
+('godot'),
+('api'),
+('AI'),
+('audio'),
+('music'),
+('ambience'),
+('freeasset'),
+('3Dmodels'),
+('3DBackgrounds');
 
--- 4. Relación Makes_MadeBy (distribuidos entre los 15 usuarios)
-INSERT INTO "Makes_MadeBy" (idUser, idPost)
+-- 4. Relación Makes_MadeBy (usuarios que crean posts)
+INSERT INTO "Makes_MadeBy" (iduser, idpost)
 VALUES 
-(1, 1),  (2, 2),  (3, 3),  (4, 4),  (5, 5),
-(6, 6),  (7, 7),  (8, 8),  (9, 9),  (10, 10),
-(11, 11),(12, 12),(13, 13),(14, 14),(15, 15),
-(1, 16), (2, 17), (3, 18), (4, 19), (5, 20),
-(6, 21), (7, 22), (8, 23), (9, 24), (10, 25);
+(2, 1),
+(2, 2),
+(3, 3),
+(6, 4),
+(6, 5),
+(8, 6),
+(5, 7),
+(10, 8),
+(11, 9),
+(12, 10),
+(16, 11);
 
--- 5. Relación Has_Tag (cada post tiene al menos una etiqueta)
-INSERT INTO "Has_Tag" (idPost, idTag)
+-- 5. Relación Has_Tag (posts con etiquetas)
+INSERT INTO "Has_Tag" (idpost, idtag)
 VALUES 
-(1, 1),  (2, 2),  (3, 3),  (4, 5),  (5, 4),
-(6, 9),  (7, 6),  (8, 7),  (9, 5),  (10, 4),
-(11, 8), (12, 8), (13, 2), (14, 5), (15, 4),
-(16, 6), (17, 4), (18, 10),(19, 4), (20, 4),
-(21, 4), (22, 1), (23, 1), (24, 4), (25, 4);
+(1, 1),
+(2, 2),
+(2, 3),
+(3, 4),
+(3, 5),
+(4, 7),
+(5, 7),
+(5, 8),
+(6, 2),
+(6, 9),
+(7, 10),
+(7, 11),
+(7, 12),
+(8, 5),
+(8, 13),
+(9, 5),
+(9, 14),
+(10, 10),
+(10, 11),
+(11, 1),
+(11, 6);

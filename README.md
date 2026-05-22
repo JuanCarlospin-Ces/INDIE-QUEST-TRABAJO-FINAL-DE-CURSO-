@@ -54,8 +54,74 @@ En el repositorio hay pruebas organizadas en `IndieQuest-Test/` con las siguient
 - `IntegrationTest`
 - `UnitTest`
 
+---
+
+### IndieQuest-UI
+Frontend principal de INDIE QUEST. Interfaz de usuario para la plataforma social de desarrolladores de videojuegos independientes.
+- **Stack tecnológico**: React + Vite
+- **Características principales**: 
+  - Interfaz responsiva
+  - Navegación con React Router
+  - Consumo de API REST
+  - Gestión de usuarios y publicaciones
+- **EJECUCIÓN:**
+  - Instalar dependencias: `npm install`
+  - Ejecutar en desarrollo: `npm run dev`
+  - La API debe estar disponible en `http://localhost:5063` (configurable via `.env`)
+
+---
+
+### IndieQuest-AdminInterface
+Panel de administración para gestión de la plataforma INDIE QUEST.
+- **Stack tecnológico**: React + Vite
+- **Características principales**:
+  - Gestión de usuarios (ver, editar, eliminar)
+  - Gestión de publicaciones
+  - Filtrado avanzado
+  - Acceso administrativo completo
+  - Badge de "ADMIN MODE"
+- **EJECUCIÓN:**
+  - Instalar dependencias: `npm install`
+  - Configurar API (opcional): crear `.env.local` con `VITE_API_URL=http://your-api-server:port/api`
+  - Ejecutar en desarrollo: `npm run dev`
+  - Acceder en: `http://localhost:5173`
+- **Notas**: No requiere login - acceso directo como "AdminPanel"
+
+---
+
+### IndieQuest-DataBase
+Scripts SQL para configuración y gestión de la base de datos PostgreSQL.
+- **Archivos principales**:
+  - `IQ-DB.sql`: Script de creación y reset de la base de datos
+  - `IQ-StartingEntities.sql`: Datos iniciales de prueba
+- **Esquema**:
+  - Tabla `User`: gestión de usuarios (id, nombre, email, foto perfil, bio, disponibilidad)
+  - Tabla `Post`: publicaciones de contenido (id, título, media, descripción, fecha)
+  - Tabla `Tag`: etiquetas para clasificar posts
+  - Relación `Makes_MadeBy` (1:N): usuario crea post
+  - Relación `Has_Tag` (N:M): post tiene múltiples tags
+- **Base de datos**: PostgreSQL
+- **EJECUCIÓN**: Ejecutar scripts en PostgreSQL, preferentemente a través de Docker Compose
+
+---
+
+### IndieQuest-LocalData
+Almacenamiento local de archivos multimedia (imágenes de perfil y contenido de posts).
+- **Estructura**:
+  - `user/{id}/profile.jpg`: Fotos de perfil de usuarios
+  - `postdata/{id}/media.jpg`: Contenido multimedia de posts
+- **Acceso vía API**:
+  - `http://localhost:5000/IndieQuest-LocalData/user/{id}/profile.jpg`
+  - `http://localhost:5000/IndieQuest-LocalData/postdata/{id}/media.jpg`
+
+
+---
 
 ## PRUEBA
+* **Markdowns_PlanesDeApoyo**
+    * Colección de guías y documentación de apoyo que han sido utilizados para el proyecto INDIE QUEST
+   
+
 * **OpenLibrary**
     * Proyecto inicial realizado durante las prácticas, sirviendo de introducción a C#, APIs en .NET y REACT, junto a la arquitectura Hexagonal. También se ha aplicado base64 para gestión de imagenes.
     * En este proyecto, también se ha trabajado el desarollo de tests de Aceptación, End to End y Unitarios.
@@ -63,7 +129,12 @@ En el repositorio hay pruebas organizadas en `IndieQuest-Test/` con las siguient
         * 1- Inicializar la API. Abrir proyecto open library y ejecutar **donet run**
         * 2- Inicializar la interfaz grafica, ejecutar **npm run dev** dentro del proyecto.
     * **IMPORTANTE:** recordar ejecutar el comando **npm ci** dentro de la interfaz para instalar los paquetes necesarios de REACT. Puede ser posible que también se tenga que cambiar la url de los endpoints en las llamadas a la API.
+
+* **PruebaDatosLocales-IndieQuest**
+    * Proyectos locales de prueba para validar la funcionalidad de almacenamiento de datos en el contexto de INDIE QUEST
+    * Estructura:
+        - `IndieQuest-ApiLocal/`: API local para pruebas
+        - `IndieQuest-TestLocal/`: Suite de pruebas local
+
 * **Testing1** 
     * Pequeña práctica de Implementación de SWAGGER y desarollo de API en .net básica.
-* **Testeando_MiProyecto**
-    * Pruebas generelas a respecto de la aplicación. Un proyecto dedicado únicamente a probar cosas que puedan ser implementadas en el proyecto final o no.
